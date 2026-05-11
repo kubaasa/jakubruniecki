@@ -292,7 +292,7 @@ const jetbrains = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Jakub Runiecki — Senior QA Engineer",
+  title: "Jakub Bruniecki — Senior QA Engineer",
   description:
     "Senior QA Engineer · Manual leadership + Playwright automation · 5 years · Open to international remote roles.",
 };
@@ -441,7 +441,7 @@ git commit -m "feat: add shared TypeScript types for portfolio data"
 import type { Profile } from "@/types";
 
 export const profile: Profile = {
-  name: "Jakub Runiecki",
+  name: "Jakub Bruniecki",
   role: "Senior QA Engineer",
   tagline: "Manual leadership + Playwright automation",
   bio: [
@@ -1315,7 +1315,7 @@ import { Avatar } from "@/components/ui/Avatar";
 function buildBioLines(): ReadonlyArray<CodeLine> {
   // Hand-tokenized representation of:
   //   const me = {
-  //     name: 'Jakub Runiecki',
+  //     name: 'Jakub Bruniecki',
   //     role: 'Senior QA Engineer',
   //     focus: 'Manual leadership + Playwright automation',
   //     years: 5,
@@ -1659,7 +1659,7 @@ export function Contact() {
       </ul>
 
       <footer className="mt-16 border-t border-border-subtle pt-6 text-sm text-fg-subtle">
-        <p>© 2026 {`${"Jakub Runiecki"}`} · Built with Next.js</p>
+        <p>© 2026 {`${"Jakub Bruniecki"}`} · Built with Next.js</p>
       </footer>
     </section>
   );
@@ -1754,13 +1754,13 @@ Replace the existing `metadata` export with:
 export const metadata: Metadata = {
   metadataBase: new URL("https://jakubruniecki.vercel.app"),
   title: {
-    default: "Jakub Runiecki — Senior QA Engineer",
-    template: "%s · Jakub Runiecki",
+    default: "Jakub Bruniecki — Senior QA Engineer",
+    template: "%s · Jakub Bruniecki",
   },
   description:
     "Senior QA Engineer · Manual leadership + Playwright automation · 5 years · Open to international remote roles.",
   openGraph: {
-    title: "Jakub Runiecki — Senior QA Engineer",
+    title: "Jakub Bruniecki — Senior QA Engineer",
     description:
       "Senior QA Engineer · Manual leadership + Playwright automation · 5 years · Open to international remote roles.",
     url: "/",
@@ -1769,7 +1769,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Jakub Runiecki — Senior QA Engineer",
+    title: "Jakub Bruniecki — Senior QA Engineer",
     description:
       "Senior QA Engineer · Manual leadership + Playwright automation · 5 years.",
   },
@@ -1805,7 +1805,7 @@ git commit -m "feat: expand metadata with OpenGraph and Twitter cards"
 import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
-export const alt = "Jakub Runiecki — Senior QA Engineer";
+export const alt = "Jakub Bruniecki — Senior QA Engineer";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -1846,7 +1846,7 @@ export default async function OGImage() {
           AVAILABLE FOR REMOTE ROLES
         </div>
         <div style={{ fontSize: 72, fontWeight: 700, lineHeight: 1.05 }}>
-          Jakub Runiecki
+          Jakub Bruniecki
         </div>
         <div style={{ fontSize: 36, color: "#7d8590", marginTop: 16 }}>
           Senior QA Engineer · Manual + Playwright automation
@@ -2085,7 +2085,7 @@ git commit -m "ci: add GitHub Actions workflow for lint, typecheck, build"
 - [ ] **Step 1: Write `README.md`**
 
 ```markdown
-# Jakub Runiecki — Portfolio
+# Jakub Bruniecki — Portfolio
 
 Personal portfolio website at https://jakubruniecki.vercel.app.
 
@@ -2112,7 +2112,7 @@ npm run build        # outputs to ./out
 
 ## License
 
-All content (text, photo) © Jakub Runiecki. Code structure is for personal reference and not licensed for reuse.
+All content (text, photo) © Jakub Bruniecki. Code structure is for personal reference and not licensed for reuse.
 ```
 
 - [ ] **Step 2: Commit**

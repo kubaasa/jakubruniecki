@@ -1,6 +1,6 @@
 # Portfolio Website — Design Specification
 
-**Author:** Jakub Runiecki
+**Author:** Jakub Bruniecki
 **Date:** 2026-05-11
 **Status:** Approved (pending user final review)
 
@@ -8,7 +8,7 @@
 
 ## 1. Overview
 
-A single-page personal portfolio website positioning Jakub Runiecki for international remote roles as a **Senior QA Engineer** with hybrid manual + automation profile. Built as a learning project in Next.js + React + TypeScript.
+A single-page personal portfolio website positioning Jakub Bruniecki for international remote roles as a **Senior QA Engineer** with hybrid manual + automation profile. Built as a learning project in Next.js + React + TypeScript.
 
 Live URL (MVP): `https://jakubruniecki.vercel.app`
 Custom domain (post-MVP): TBD — `jakubruniecki.dev` recommended.
@@ -333,7 +333,7 @@ export type ContactLink = {
   - **LinkedIn** — `https://linkedin.com/in/...` with `target="_blank" rel="noopener noreferrer"`
   - 📍 **Location** — text-only: `Warsaw, Poland · CET`
   - 📞 **Phone** — `tel:+48...`
-- Footer line in same section: `© 2026 Jakub Runiecki · Built with Next.js`.
+- Footer line in same section: `© 2026 Jakub Bruniecki · Built with Next.js`.
 - **Open content TODO:** confirm exact LinkedIn URL, phone number, decision on phone visibility (recommended: keep in CV PDF only, not on public site).
 
 ---
