@@ -25,6 +25,9 @@ dist/
 # Brainstorm / Superpowers artifacts (local-only)
 .superpowers/
 
+# Claude Code local settings
+.claude/
+
 # Editors / OS
 .vscode/
 .idea/
