@@ -16,9 +16,28 @@ const jetbrains = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Jakub Bruniecki — Senior QA Engineer",
+  metadataBase: new URL("https://jakubruniecki.vercel.app"),
+  title: {
+    default: "Jakub Bruniecki — Senior QA Engineer",
+    template: "%s · Jakub Bruniecki",
+  },
   description:
     "Senior QA Engineer · Manual leadership + Playwright automation · 5 years · Open to international remote roles.",
+  openGraph: {
+    title: "Jakub Bruniecki — Senior QA Engineer",
+    description:
+      "Senior QA Engineer · Manual leadership + Playwright automation · 5 years · Open to international remote roles.",
+    url: "/",
+    type: "profile",
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Jakub Bruniecki — Senior QA Engineer",
+    description:
+      "Senior QA Engineer · Manual leadership + Playwright automation · 5 years.",
+  },
+  robots: { index: true, follow: true },
 };
 
 export default function RootLayout({
