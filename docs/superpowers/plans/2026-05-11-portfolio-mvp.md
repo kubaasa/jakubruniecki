@@ -19,10 +19,9 @@
 | Path | Responsibility |
 |---|---|
 | `package.json` | Next.js + Tailwind + TS deps; scripts (`dev`, `build`, `lint`, `typecheck`) |
-| `next.config.mjs` | `output: 'export'`, image config, strict mode |
+| `next.config.ts` | `output: 'export'`, image config, strict mode |
 | `tsconfig.json` | Strict TS config with `noUncheckedIndexedAccess` |
-| `tailwind.config.ts` | Custom palette (zinc dark + emerald accent), font families |
-| `app/globals.css` | Tailwind directives + CSS variables for theme tokens |
+| `app/globals.css` | Tailwind v4 CSS-first config: `@import "tailwindcss"` + `@theme` tokens (palette + font families) |
 | `app/layout.tsx` | `<html lang="en">`, fonts, global metadata, NavBar |
 | `app/page.tsx` | Composes 5 sections in order |
 | `app/opengraph-image.tsx` | Build-time OG image generator (1200×630) |
@@ -56,13 +55,15 @@
 ### Task 1: Scaffold Next.js project in current directory
 
 **Files:**
-- Create (via tool): `package.json`, `tsconfig.json`, `next.config.mjs`, `tailwind.config.ts`, `postcss.config.mjs`, `app/`, `public/`, `next-env.d.ts`, etc.
+- Create (via tool): `package.json`, `tsconfig.json`, `next.config.ts`, `postcss.config.mjs`, `eslint.config.mjs`, `app/`, `public/`, `next-env.d.ts`, etc.
 - Modify: `.gitignore` (merge with Next.js defaults)
+
+**Version note:** create-next-app at time of writing installs **Next.js 16 + Tailwind v4**. Tailwind v4 uses CSS-first configuration — there is no `tailwind.config.ts` file. Theme tokens are declared inside `app/globals.css` via the `@theme` directive. This plan reflects that.
 
 - [ ] **Step 1: Verify current directory state**
 
 Run: `git status`
-Expected: clean tree on `main` with `docs/superpowers/...` already committed.
+Expected: clean tree on `feat/mvp-implementation` with `docs/superpowers/...` already committed.
 
 - [ ] **Step 2: Run create-next-app in the current directory**
 
@@ -114,18 +115,19 @@ git commit -m "chore: scaffold Next.js project with TypeScript and Tailwind"
 
 ---
 
-### Task 2: Configure `next.config.mjs` for static export
+### Task 2: Configure `next.config.ts` for static export
 
 **Files:**
-- Modify: `next.config.mjs`
+- Modify: `next.config.ts`
 
-- [ ] **Step 1: Replace `next.config.mjs` content**
+- [ ] **Step 1: Replace `next.config.ts` content**
 
-Write the following to `next.config.mjs`:
+Write the following to `next.config.ts`:
 
-```js
-/** @type {import('next').NextConfig} */
-const nextConfig = {
+```ts
+import type { NextConfig } from "next";
+
+const nextConfig: NextConfig = {
   output: "export",
   images: { unoptimized: true },
   trailingSlash: true,
@@ -149,7 +151,7 @@ Expected: build succeeds, `out/` directory appears with `index.html`.
 - [ ] **Step 3: Commit**
 
 ```bash
-git add next.config.mjs
+git add next.config.ts
 git commit -m "chore: configure Next.js for static export"
 ```
 
@@ -203,66 +205,68 @@ git commit -m "chore: enable strict TypeScript options and typecheck script"
 
 ---
 
-### Task 4: Configure Tailwind theme
+### Task 4: Configure Tailwind v4 theme + base styles in `app/globals.css`
 
 **Files:**
-- Modify: `tailwind.config.ts`
+- Modify: `app/globals.css` (replace the scaffold's default content)
 
-- [ ] **Step 1: Replace `tailwind.config.ts` content**
+**Tailwind v4 note:** Tailwind 4 ships with CSS-first config — there is no `tailwind.config.ts`. Theme tokens (colors, fonts, spacing) are declared inside CSS via the `@theme` directive. Tailwind auto-detects content (no `content` array needed in most cases). Utility classes like `bg-bg-base`, `text-fg-muted`, `font-mono` are generated from the tokens we declare.
 
-```ts
-import type { Config } from "tailwindcss";
+- [ ] **Step 1: Replace `app/globals.css` content**
 
-const config: Config = {
-  content: [
-    "./app/**/*.{ts,tsx}",
-    "./components/**/*.{ts,tsx}",
-  ],
-  theme: {
-    extend: {
-      colors: {
-        bg: {
-          base: "#0d1117",
-          surface: "#161b22",
-          subtle: "#21262d",
-        },
-        border: {
-          DEFAULT: "#30363d",
-          subtle: "#21262d",
-        },
-        fg: {
-          DEFAULT: "#e6edf3",
-          muted: "#7d8590",
-          subtle: "#484f58",
-        },
-        accent: {
-          green: "#3fb950",
-          blue: "#79c0ff",
-          string: "#a5d6ff",
-          keyword: "#ff7b72",
-          number: "#d2a8ff",
-        },
-      },
-      fontFamily: {
-        sans: ["var(--font-inter)", "system-ui", "sans-serif"],
-        mono: ["var(--font-jetbrains)", "ui-monospace", "monospace"],
-      },
-    },
-  },
-  plugins: [],
-};
+```css
+@import "tailwindcss";
 
-export default config;
+@theme {
+  /* Color tokens — referenced as bg-bg-base, text-fg-muted, etc. */
+  --color-bg-base: #0d1117;
+  --color-bg-surface: #161b22;
+  --color-bg-subtle: #21262d;
+
+  --color-border: #30363d;
+  --color-border-subtle: #21262d;
+
+  --color-fg: #e6edf3;
+  --color-fg-muted: #7d8590;
+  --color-fg-subtle: #484f58;
+
+  --color-accent-green: #3fb950;
+  --color-accent-blue: #79c0ff;
+  --color-accent-string: #a5d6ff;
+  --color-accent-keyword: #ff7b72;
+  --color-accent-number: #d2a8ff;
+
+  /* Font tokens — variables filled in by next/font in layout.tsx (Task 5) */
+  --font-sans: var(--font-inter), system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, monospace;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    text-rendering: optimizeLegibility;
+  }
+}
 ```
 
-**Why semantic color names (`bg.base`, `fg.muted`) instead of `zinc-900`:**
+**Why semantic token names (`bg-base`, `fg-muted`) instead of `zinc-900`:**
 Using semantic tokens means swapping the palette later (e.g. adding light mode in v2) means editing one place, not 200 class names across files.
 
-- [ ] **Step 2: Commit**
+**How Tailwind v4 generates utilities:** every `--color-<name>` token becomes a utility — `bg-<name>`, `text-<name>`, `border-<name>`. So `--color-bg-base` produces `bg-bg-base` / `text-bg-base` / `border-bg-base`. The naming `bg-bg-base` looks redundant but is conventional once you read it as "set background to the `bg-base` token."
+
+- [ ] **Step 2: Verify dev server still compiles**
+
+Run: `npm run dev`
+Open `http://localhost:3000`. Expected: page renders (still the create-next-app placeholder), no Tailwind compile errors in the terminal. Stop the server with `Ctrl+C`.
+
+- [ ] **Step 3: Commit**
 
 ```bash
-git add tailwind.config.ts
-git commit -m "chore: configure Tailwind theme with terminal-style palette"
+git add app/globals.css
+git commit -m "chore: configure Tailwind v4 theme tokens and base styles"
 ```
 
 ---
@@ -270,7 +274,7 @@ git commit -m "chore: configure Tailwind theme with terminal-style palette"
 ### Task 5: Configure fonts and root layout
 
 **Files:**
-- Modify: `app/layout.tsx`, `app/globals.css`
+- Modify: `app/layout.tsx` (replace the scaffold's default content)
 
 - [ ] **Step 1: Replace `app/layout.tsx` content**
 
@@ -313,36 +317,18 @@ export default function RootLayout({
 ```
 
 **Why `next/font/google` with `variable`:**
-Self-hosts the font files at build time (no external request, zero CLS), and exposes a CSS variable so Tailwind can reference it via `font-sans` / `font-mono`.
+Self-hosts the font files at build time (no external request, zero CLS), and exposes the font as a CSS variable. The `@theme` block in `globals.css` (Task 4) references `var(--font-inter)` and `var(--font-jetbrains)`, so Tailwind's `font-sans` / `font-mono` utilities pick up the right font automatically.
 
-- [ ] **Step 2: Replace `app/globals.css` content**
-
-```css
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-@layer base {
-  html {
-    scroll-behavior: smooth;
-  }
-
-  body {
-    text-rendering: optimizeLegibility;
-  }
-}
-```
-
-- [ ] **Step 3: Run dev server, verify fonts load**
+- [ ] **Step 2: Run dev server, verify fonts load**
 
 Run: `npm run dev`
-Open `http://localhost:3000`. Expected: dark background, Inter font in body text. Default Next.js placeholder is still visible (will replace in Task 18).
+Open `http://localhost:3000`. Expected: dark background (`bg-bg-base`), Inter font in body text. The default create-next-app placeholder text is still visible — that's fine; we replace it in Task 24.
 
-- [ ] **Step 4: Commit**
+- [ ] **Step 3: Commit**
 
 ```bash
-git add app/layout.tsx app/globals.css
-git commit -m "feat: configure fonts and base body styles"
+git add app/layout.tsx
+git commit -m "feat: configure fonts and root layout with theme colors"
 ```
 
 ---
