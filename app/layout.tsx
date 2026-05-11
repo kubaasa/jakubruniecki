@@ -30,12 +30,22 @@ export const metadata: Metadata = {
     url: "/",
     type: "profile",
     locale: "en_US",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        type: "image/png",
+        alt: "Jakub Bruniecki — Senior QA Engineer",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Jakub Bruniecki — Senior QA Engineer",
     description:
       "Senior QA Engineer · Manual leadership + Playwright automation · 5 years.",
+    images: ["/og-image.png"],
   },
   robots: { index: true, follow: true },
 };
