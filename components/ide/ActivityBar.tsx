@@ -6,7 +6,7 @@ import {
   ExplorerIcon,
   SearchIcon,
   GitIcon,
-  PlayIcon,
+  RunActivityIcon,
   ExtensionsIcon,
   SettingsIcon,
 } from "@/components/ui/Icon";
@@ -17,56 +17,71 @@ type Entry = {
   Icon: typeof ExplorerIcon;
 };
 
-const ENTRIES: Entry[] = [
+const TOP_ENTRIES: Entry[] = [
   { action: "explorer", label: "Explorer", Icon: ExplorerIcon },
   { action: "search", label: "Search", Icon: SearchIcon },
   { action: "git", label: "Source control", Icon: GitIcon },
-  { action: "run", label: "Run tests", Icon: PlayIcon },
+  { action: "run", label: "Run tests", Icon: RunActivityIcon },
   { action: "ext", label: "Extensions", Icon: ExtensionsIcon },
+];
+
+const BOTTOM_ENTRIES: Entry[] = [
   { action: "settings", label: "Settings", Icon: SettingsIcon },
 ];
 
-export function ActivityBar() {
+function ActivityButton({ entry }: { entry: Entry }) {
   const { state, dispatch } = useIDE();
+  const { action, label, Icon } = entry;
+  const active = state.activeActivityAction === action;
+  return (
+    <button
+      type="button"
+      title={label}
+      aria-label={label}
+      aria-pressed={active}
+      data-action={action}
+      onClick={() => {
+        dispatch({ type: "SET_ACTIVITY", action });
+        if (action === "search") {
+          dispatch({ type: "TOGGLE_PALETTE", open: true });
+        } else if (action === "run") {
+          if (typeof window !== "undefined") {
+            window.dispatchEvent(new CustomEvent("ide:run-all-tests"));
+          }
+        }
+      }}
+      className={`relative flex h-10 w-10 items-center justify-center text-fg-muted transition-colors hover:text-fg focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent-blue ${
+        active ? "text-fg" : ""
+      }`}
+    >
+      {active ? (
+        <span
+          aria-hidden
+          className="pointer-events-none absolute left-0 top-0 h-full w-[3px] bg-accent-green"
+        />
+      ) : null}
+      <Icon className="h-5 w-5" width={20} height={20} />
+    </button>
+  );
+}
+
+export function ActivityBar() {
   return (
     <nav
       aria-label="Activity bar"
-      className="flex w-[var(--ide-activitybar-w)] flex-col items-center gap-1 border-r border-border bg-bg-deeper py-2"
+      className="flex w-[var(--ide-activitybar-w)] flex-col items-center border-r border-border bg-bg-deeper py-2"
     >
-      {ENTRIES.map(({ action, label, Icon }) => {
-        const active = state.activeActivityAction === action;
-        return (
-          <button
-            key={action}
-            type="button"
-            title={label}
-            aria-label={label}
-            aria-pressed={active}
-            data-action={action}
-            onClick={() => {
-              dispatch({ type: "SET_ACTIVITY", action });
-              if (action === "search") {
-                dispatch({ type: "TOGGLE_PALETTE", open: true });
-              } else if (action === "run") {
-                if (typeof window !== "undefined") {
-                  window.dispatchEvent(new CustomEvent("ide:run-all-tests"));
-                }
-              }
-            }}
-            className={`relative flex h-10 w-10 items-center justify-center text-fg-muted transition-colors hover:text-fg focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent-blue ${
-              active ? "text-fg" : ""
-            }`}
-          >
-            {active ? (
-              <span
-                aria-hidden
-                className="pointer-events-none absolute left-0 top-0 h-full w-[3px] bg-accent-green"
-              />
-            ) : null}
-            <Icon className="h-5 w-5" width={20} height={20} />
-          </button>
-        );
-      })}
+      <div className="flex flex-col items-center gap-1">
+        {TOP_ENTRIES.map((entry) => (
+          <ActivityButton key={entry.action} entry={entry} />
+        ))}
+      </div>
+      <div className="flex-1" aria-hidden />
+      <div className="flex flex-col items-center gap-1">
+        {BOTTOM_ENTRIES.map((entry) => (
+          <ActivityButton key={entry.action} entry={entry} />
+        ))}
+      </div>
     </nav>
   );
 }

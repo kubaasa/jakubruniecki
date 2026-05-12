@@ -14,7 +14,6 @@ export function TestRunner() {
   const [running, setRunning] = useState(false);
   const abortRef = useRef(false);
   const timeoutsRef = useRef<number[]>([]);
-  const startedRef = useRef(false);
 
   function clearTimeouts() {
     for (const id of timeoutsRef.current) clearTimeout(id);
@@ -57,6 +56,7 @@ export function TestRunner() {
     state.testSuites.forEach((suite, sIdx) => {
       suite.cases.forEach((c, cIdx) => {
         // Fake duration matching inspiration's order of magnitude (~40-80× base).
+        // Animation actually waits this long, so the displayed ms == real elapsed.
         const fakeMs = Math.round(c.durMs * (40 + Math.random() * 40));
         const startId = window.setTimeout(() => {
           if (abortRef.current) return;
@@ -85,9 +85,9 @@ export function TestRunner() {
           });
           passCount += 1;
           totalFakeMs += fakeMs;
-        }, cumulative + c.durMs * 12);
+        }, cumulative + fakeMs);
         timeoutsRef.current.push(startId, passId);
-        cumulative += c.durMs * 12 + 80;
+        cumulative += fakeMs + 40;
       });
     });
 
@@ -141,12 +141,7 @@ export function TestRunner() {
   }
 
   useEffect(() => {
-    if (startedRef.current) return;
-    startedRef.current = true;
-    const bootId = window.setTimeout(() => runCycle(), 800);
-    timeoutsRef.current.push(bootId);
     return () => clearTimeouts();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -161,10 +156,11 @@ export function TestRunner() {
   const totals = state.testSuites.flatMap((s) => s.cases);
   const passed = totals.filter((c) => c.status === "pass").length;
   const total = totals.length;
+  const allPassed = !running && passed === total && passed > 0;
   const summary = running
     ? `Running ${passed}/${total}`
-    : passed === total
-      ? `${passed} passed`
+    : allPassed
+      ? `✓ ${passed} passed`
       : passed > 0
         ? `${passed}/${total} ready`
         : "ready";
@@ -209,9 +205,18 @@ export function TestRunner() {
             type="button"
             onClick={stopCycle}
             disabled={!running}
-            className={`flex items-center gap-1 rounded border px-2 py-0.5 font-mono text-[11px] disabled:opacity-40 ${
+            style={
               running
-                ? "border-accent-red/50 bg-accent-red/15 text-accent-red hover:bg-accent-red/25"
+                ? {
+                    backgroundColor: "rgba(248, 81, 73, 0.12)",
+                    borderColor: "rgba(248, 81, 73, 0.5)",
+                    color: "#f85149",
+                  }
+                : undefined
+            }
+            className={`flex items-center gap-1 rounded border px-2 py-0.5 font-mono text-[11px] uppercase tracking-wide disabled:opacity-40 ${
+              running
+                ? "hover:shadow-[0_0_12px_rgba(248,81,73,0.35)]"
                 : "border-border bg-bg-subtle text-fg-muted hover:text-fg"
             }`}
           >
@@ -219,7 +224,13 @@ export function TestRunner() {
             STOP
           </button>
         </div>
-        <div className="font-mono text-[11px] text-fg-muted">{summary}</div>
+        <div
+          className={`font-mono text-[11px] ${
+            allPassed ? "text-accent-green" : "text-fg-muted"
+          }`}
+        >
+          {summary}
+        </div>
       </div>
       <div className="flex-1 overflow-y-auto px-3 py-2 font-mono text-[12px]">
         {state.testSuites.map((suite) => {
@@ -231,7 +242,9 @@ export function TestRunner() {
                   {allPass ? "✓" : "○"}
                 </span>
                 <span>{suite.name}</span>
-                <span className="text-fg-subtle">— {suite.file}</span>
+                <span className="ml-auto text-[11px] text-fg-muted">
+                  {suite.file}
+                </span>
               </div>
               <ul className="ml-5">
                 {suite.cases.map((c) => (
@@ -268,7 +281,9 @@ export function TestRunner() {
                       {c.name}
                     </button>
                     <span className="text-fg-subtle">
-                      ({c.displayDurMs ?? c.durMs}ms)
+                      {c.status === "pass" && c.displayDurMs !== undefined
+                        ? `(${c.displayDurMs}ms)`
+                        : ""}
                     </span>
                   </li>
                 ))}

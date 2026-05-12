@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { useIDE } from "@/app/ide/IDEContext";
 import { getFileByPath } from "@/data/files";
 import { SyntaxHighlight } from "@/components/ui/SyntaxHighlight";
+import { ReadmePreview } from "./ReadmePreview";
 
 function prefersReducedMotion(): boolean {
   if (typeof window === "undefined") return false;
@@ -65,6 +66,9 @@ export function EditorBody() {
       </div>
     );
   }
+  if (file.path === "README.md") {
+    return <ReadmePreview />;
+  }
   const lineCount = Math.max(1, typed.split("\n").length);
   return (
     <div className="flex h-full overflow-auto bg-bg-base">
@@ -78,13 +82,15 @@ export function EditorBody() {
       </div>
       <pre className="flex-1 px-4 py-3">
         <SyntaxHighlight content={typed} language={file.language} />
-        {typed.length < file.content.length ? (
-          <span
-            aria-hidden
-            className="ml-0.5 inline-block w-2 bg-fg"
-            style={{ animation: "caret-blink 1s steps(1) infinite", height: "1em", verticalAlign: "-2px" }}
-          />
-        ) : null}
+        <span
+          aria-hidden
+          className="ml-0.5 inline-block w-2 bg-fg"
+          style={{
+            animation: "caret-blink 1s steps(1) infinite",
+            height: "1em",
+            verticalAlign: "-2px",
+          }}
+        />
       </pre>
     </div>
   );

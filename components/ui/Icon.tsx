@@ -205,9 +205,38 @@ export function ExtensionsIcon(props: IconProps) {
 
 export function SettingsIcon(props: IconProps) {
   return (
-    <svg {...base(props)}>
-      <circle cx="8" cy="8" r="2" />
-      <path d="M8 1.5v2M8 12.5v2M1.5 8h2M12.5 8h2M3.5 3.5l1.4 1.4M11.1 11.1l1.4 1.4M3.5 12.5l1.4-1.4M11.1 4.9l1.4-1.4" />
+    <svg
+      viewBox="0 0 24 24"
+      width={16}
+      height={16}
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={1.6}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden
+      {...props}
+    >
+      <circle cx="12" cy="12" r="3" />
+      <path d="M19.4 13.5a7 7 0 0 0 0-3l2-1.5-2-3.5-2.4 1a7 7 0 0 0-2.6-1.5L14 2.5h-4l-.4 2.5a7 7 0 0 0-2.6 1.5l-2.4-1-2 3.5 2 1.5a7 7 0 0 0 0 3l-2 1.5 2 3.5 2.4-1a7 7 0 0 0 2.6 1.5l.4 2.5h4l.4-2.5a7 7 0 0 0 2.6-1.5l2.4 1 2-3.5z" />
+    </svg>
+  );
+}
+
+export function RunActivityIcon(props: IconProps) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      width={20}
+      height={20}
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={1.6}
+      aria-hidden
+      {...props}
+    >
+      <polygon points="6,4 20,12 6,20" fill="currentColor" />
+      <circle cx="18" cy="18" r="3" fill="#0d1117" />
     </svg>
   );
 }
@@ -233,7 +262,7 @@ export function RefreshIcon(props: IconProps) {
 export function CollapseIcon(props: IconProps) {
   return (
     <svg {...base(props)}>
-      <path d="M3 6l3-3 3 3M3 10l3 3 3-3M11 5h2M11 11h2" />
+      <path d="M2 8h12M4 5l-2 3 2 3M12 5l2 3-2 3" />
     </svg>
   );
 }
