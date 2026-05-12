@@ -94,6 +94,15 @@ export function TestRunner() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    function onRun() {
+      runCycle();
+    }
+    window.addEventListener("ide:run-all-tests", onRun);
+    return () => window.removeEventListener("ide:run-all-tests", onRun);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const totals = state.testSuites.flatMap((s) => s.cases);
   const passed = totals.filter((c) => c.status === "pass").length;
   const total = totals.length;

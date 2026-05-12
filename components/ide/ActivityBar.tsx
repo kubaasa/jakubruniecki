@@ -44,6 +44,13 @@ export function ActivityBar() {
             data-action={action}
             onClick={() => {
               dispatch({ type: "SET_ACTIVITY", action });
+              if (action === "search") {
+                dispatch({ type: "TOGGLE_PALETTE", open: true });
+              } else if (action === "run") {
+                if (typeof window !== "undefined") {
+                  window.dispatchEvent(new CustomEvent("ide:run-all-tests"));
+                }
+              }
             }}
             className={`flex h-10 w-10 items-center justify-center rounded text-fg-muted transition-colors hover:text-fg focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent-blue ${
               active ? "border-l-2 border-fg text-fg" : ""

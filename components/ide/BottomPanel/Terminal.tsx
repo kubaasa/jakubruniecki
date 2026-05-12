@@ -19,6 +19,14 @@ export function Terminal() {
     }
   }, [state.terminalLines]);
 
+  useEffect(() => {
+    function onFocus() {
+      inputRef.current?.focus();
+    }
+    window.addEventListener("ide:focus-terminal", onFocus);
+    return () => window.removeEventListener("ide:focus-terminal", onFocus);
+  }, []);
+
   function submit(raw: string) {
     const value = raw.trim();
     dispatch({ type: "TERMINAL_APPEND", line: { kind: "input", text: value } });
