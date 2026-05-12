@@ -51,17 +51,21 @@ export const commands: Record<string, Command> = {
     run: () => {
       const rows: Array<[string, string]> = [
         ["help", "list commands"],
-        ["cv", "open CV request mailto"],
-        ["contact", "print email / linkedin / location / phone"],
-        ["projects", "list projects"],
-        ["skills", "list skills by category"],
+        ["whoami", "short bio"],
         ["open <file>", "open a file in the editor"],
+        ["projects", "list public projects"],
+        ["skills", "list skills by category"],
+        ["contact", "print email / linkedin / location / phone"],
+        ["cv", "open CV request mailto"],
         ["clear", "clear the terminal"],
-        ["whoami", "short bio line"],
       ];
       return [
-        out("Available commands:"),
-        ...rows.map(([c, d]) => out(`  ${c.padEnd(14)} ${d}`)),
+        sys("Available commands:"),
+        ...rows.map(([cmd, desc]): TerminalLine => ({
+          kind: "helpRow",
+          cmd,
+          desc,
+        })),
       ];
     },
   },

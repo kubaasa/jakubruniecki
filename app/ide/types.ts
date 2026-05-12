@@ -25,7 +25,8 @@ export type TerminalLine =
   | { kind: "system"; text: string; href?: string }
   | { kind: "cmd"; text: string }
   | { kind: "success"; text: string }
-  | { kind: "warn"; text: string };
+  | { kind: "warn"; text: string }
+  | { kind: "helpRow"; cmd: string; desc: string };
 
 export type TestStatus = "idle" | "running" | "pass" | "fail";
 

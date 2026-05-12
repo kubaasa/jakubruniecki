@@ -116,6 +116,16 @@ export function Terminal() {
               </div>
             );
           }
+          if (line.kind === "helpRow") {
+            return (
+              <div key={i} className="flex gap-4 pl-2">
+                <span className="min-w-[110px] text-accent-green">
+                  {line.cmd}
+                </span>
+                <span className="text-fg-muted">{line.desc}</span>
+              </div>
+            );
+          }
           if (line.kind === "system") {
             if (line.href) {
               return (
