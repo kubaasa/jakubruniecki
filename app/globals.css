@@ -76,20 +76,20 @@
 
   /* IDE-themed scrollbars — applied globally so every scroll surface matches. */
   *::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
+    width: 8px;
+    height: 8px;
   }
   *::-webkit-scrollbar-track {
     background: transparent;
   }
   *::-webkit-scrollbar-thumb {
-    background-color: var(--color-bg-subtle);
+    background-color: rgba(110, 118, 129, 0.18);
     border: 2px solid transparent;
     background-clip: padding-box;
     border-radius: 8px;
   }
   *::-webkit-scrollbar-thumb:hover {
-    background-color: var(--color-border-strong);
+    background-color: rgba(110, 118, 129, 0.35);
     background-clip: padding-box;
   }
   *::-webkit-scrollbar-corner {
@@ -97,7 +97,7 @@
   }
   * {
     scrollbar-width: thin;
-    scrollbar-color: var(--color-bg-subtle) transparent;
+    scrollbar-color: rgba(110, 118, 129, 0.25) transparent;
   }
 }
 
