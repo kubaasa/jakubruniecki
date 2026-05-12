@@ -80,7 +80,10 @@ export function Terminal() {
           if (line.kind === "input") {
             return (
               <div key={i} className="flex gap-2">
-                <span className="text-accent-green">jakub@portfolio</span>
+                <span>
+                  <span className="text-accent-green">jakub</span>
+                  <span className="text-fg-muted">@portfolio</span>
+                </span>
                 <span className="text-accent-blue">~/portfolio</span>
                 <span className="text-accent-green">❯</span>
                 <span className="text-fg">{line.text}</span>
@@ -155,7 +158,10 @@ export function Terminal() {
         })}
       </div>
       <div className="flex items-center gap-2 border-t border-border-subtle px-3 py-1.5">
-        <span className="text-accent-green">jakub@portfolio</span>
+        <span>
+          <span className="text-accent-green">jakub</span>
+          <span className="text-fg-muted">@portfolio</span>
+        </span>
         <span className="text-accent-blue">~/portfolio</span>
         <span className="text-accent-green">❯</span>
         <input
