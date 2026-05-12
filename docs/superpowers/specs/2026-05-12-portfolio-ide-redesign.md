@@ -537,31 +537,40 @@ All effects are cleaned up on unmount.
 
 ## 11. Implementation phases (commits)
 
-Each phase ends in one commit (Kuba's stated preference). All phases pass `lint` + `typecheck` + `build` before commit.
+Four phases, each ending in one commit. Each phase delivers visible, working value on its own. All phases pass `lint` + `typecheck` + `build` before commit.
 
-1. **Phase 1 — Shell, tokens, cleanup**
-   Expand `globals.css` tokens. Build layout grid `<IDE />` skeleton with empty regions (title bar dots, empty sidebar/editor/panel/statusbar). Delete old `components/sections` + `components/ui` (except icons). Build `<MobileFallback />` and `<SEOContent />`. `app/page.tsx` wires them. Site loads to an empty-but-correct IDE frame on desktop and stacked content on mobile.
+1. **Phase 1 — IDE shell + sidebar + tabs + editor body**
+   *Goal: user can browse the file tree and read syntax-highlighted content. No bottom panel yet, no palette, no live status.*
+   - Expand `globals.css` tokens; build layout grid `<IDE />` skeleton (title bar, activity bar, sidebar, editor area, bottom panel placeholder, status bar — static).
+   - Delete old `components/sections` + `components/ui` (keep `components/icons`).
+   - Build `<MobileFallback />` + `<SEOContent />`; wire them in `app/page.tsx`.
+   - Implement `IDEContext` + reducer (with all future actions defined, even if some are not yet dispatched).
+   - Render `Sidebar` (`OpenEditors`, `FileTree`, `Timeline`) and `EditorArea` (`TabBar`, `Breadcrumb`, `EditorBody` with gutter + `SyntaxHighlight` for TS/MD/ENV).
+   - Click opens tabs; close/active works. Drag-and-drop tab reorder. Folder chevron collapse. File-type icons. Open Editors list synced.
+   - Virtual files exist in `data/files/` but with **stub content** (placeholders + a one-line "content pending review" comment) so the wiring is end-to-end.
 
-2. **Phase 2 — Sidebar, file tree, IDEContext, tabs, editor body**
-   Implement `IDEContext` + reducer. Render `Sidebar` (with `OpenEditors`, `FileTree`, `Timeline`) and `EditorArea` (`TabBar`, `Breadcrumb`, `EditorBody` with line numbers + `SyntaxHighlight`). Clicking files opens tabs; close/active works. Drag-and-drop tab reorder. Folder collapse. File-type icons. Open Editors list stays in sync.
+2. **Phase 2 — Content (data/files/\*)**
+   *Goal: every file has its real content. Drafts presented to Kuba for approval before commit (gated phase).*
+   - Generate `about.ts`, `skills.ts`, `projects.ts`, `contact.ts` from existing `data/*.ts`.
+   - Author `README.md`, all four `tests/*.spec.ts`, both `case-studies/*.md`, `.env` content.
+   - Kuba reviews and approves drafts. Iterate as needed.
+   - Replace stubs from Phase 1. Single commit once all content is approved.
 
-3. **Phase 3 — Content (data/files/*)**
-   Populate every virtual file with real content. Drafts for `README.md`, all four `tests/*.spec.ts`, both `case-studies/*.md`, `.env` presented to Kuba for approval before commit.
+3. **Phase 3 — Bottom panel: terminal + test runner + splitter**
+   *Goal: full bottom panel works. Type commands, watch tests auto-run, resize the panel.*
+   - Implement `BottomPanel`, `PanelTabs`, `Terminal` with welcome message.
+   - All 8 commands functional (`help`, `cv`, `contact`, `projects`, `skills`, `open <file>`, `clear`, `whoami`). History (↑/↓). Auto-scroll. Clipboard write.
+   - Implement `TestRunner`. Auto-run on mount. `RUN ALL` / `STOP`. Reduced-motion fast path. Click test → open spec + scroll-to-line + tick flash.
+   - Implement `Splitter` (mouse drag, clamped between `--ide-panel-h-min` and `--ide-panel-h-max`).
 
-4. **Phase 4 — Bottom panel, terminal, command map**
-   Implement `BottomPanel`, `PanelTabs`, `Terminal`. Welcome message. All 8 commands functional. History (↑/↓). Auto-scroll. Clipboard write for email.
-
-5. **Phase 5 — Test runner + animation + STOP + reduced motion**
-   Implement `TestRunner`. Auto-run on mount. `RUN ALL` / `STOP`. Reduced-motion fast path. Click test → open spec + scroll-to-line + tick flash.
-
-6. **Phase 6 — Splitter (panel resize) + boot typewriter**
-   Implement `Splitter` (mouse drag, clamped between min/max). Implement boot typewriter in `EditorBody` (one-time, on first `README.md` open after mount, respects reduced motion).
-
-7. **Phase 7 — Command palette + activity bar handlers**
-   Implement `CommandPalette`. Cmd/Ctrl+K global listener. Fuzzy match. Keyboard nav. Activity bar wired: Search → palette, Run → tests, others → cosmetic toggle.
-
-8. **Phase 8 — Status bar live elements + console easter egg + polish**
-   Live clock (Warsaw TZ). CV pill mailto. Build-passing live dot animation. Language/Ln/Col from active tab. Console easter egg. A11y polish (focus rings, ARIA labels, skip link to SEO content).
+4. **Phase 4 — Palette + activity bar + live status + boot typewriter + polish**
+   *Goal: the "wow" finishing touches.*
+   - `CommandPalette` with Cmd/Ctrl+K global listener, fuzzy match, keyboard nav, all 6 commands wired.
+   - Activity bar handlers: Search → palette, Run → tests, others → cosmetic toggle.
+   - Status bar live elements: clock (Warsaw TZ, hydration-safe), CV pill mailto, build-passing pulse, language/Ln/Col from active tab.
+   - Boot typewriter in `EditorBody` (one-time, ~700ms after mount, respects reduced motion).
+   - Console easter egg.
+   - A11y polish: focus rings, ARIA labels, skip link to SEO content.
 
 ## 12. Risks and trade-offs
 
