@@ -1,17 +1,13 @@
-import { Hero } from "@/components/sections/Hero";
-import { About } from "@/components/sections/About";
-import { Skills } from "@/components/sections/Skills";
-import { Projects } from "@/components/sections/Projects";
-import { Contact } from "@/components/sections/Contact";
+import { SEOContent } from "@/app/seo/SEOContent";
+import { IDE } from "@/app/ide/IDE";
+import { MobileFallback } from "@/components/ide/MobileFallback";
 
 export default function HomePage() {
   return (
-    <main>
-      <Hero />
-      <About />
-      <Skills />
-      <Projects />
-      <Contact />
-    </main>
+    <>
+      <SEOContent />
+      <IDE />
+      <MobileFallback />
+    </>
   );
 }
