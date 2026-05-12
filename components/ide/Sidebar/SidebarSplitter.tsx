@@ -45,7 +45,7 @@ export function SidebarSplitter({
       onPointerMove={onPointerMove}
       onPointerUp={onPointerUp}
       onPointerCancel={onPointerUp}
-      className="h-1.5 flex-shrink-0 cursor-row-resize touch-none bg-border hover:bg-accent-blue-dim active:bg-accent-blue"
+      className="h-1.5 flex-shrink-0 cursor-row-resize touch-none border-t border-border-subtle hover:border-accent-blue-dim/60 active:border-accent-blue"
     />
   );
 }
