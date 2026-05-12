@@ -1,5 +1,6 @@
 "use client";
 
+import { useRef } from "react";
 import { NewFileIcon, RefreshIcon, CollapseIcon } from "@/components/ui/Icon";
 import { OpenEditors } from "./OpenEditors";
 import { FileTree } from "./FileTree";
@@ -7,8 +8,10 @@ import { Timeline } from "./Timeline";
 import { SidebarSplitter } from "./SidebarSplitter";
 
 export function Sidebar() {
+  const sidebarRef = useRef<HTMLElement | null>(null);
   return (
     <aside
+      ref={sidebarRef}
       aria-label="Explorer"
       className="flex w-[var(--ide-sidebar-w)] flex-col border-r border-border bg-bg-surface"
     >
@@ -32,7 +35,7 @@ export function Sidebar() {
         <OpenEditors />
         <FileTree />
       </div>
-      <SidebarSplitter />
+      <SidebarSplitter sidebarRef={sidebarRef} />
       <Timeline />
     </aside>
   );

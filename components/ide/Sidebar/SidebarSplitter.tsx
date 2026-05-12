@@ -1,32 +1,39 @@
 "use client";
 
+import type { RefObject } from "react";
 import { useIDE } from "@/app/ide/IDEContext";
 
-export function SidebarSplitter() {
+export function SidebarSplitter({
+  sidebarRef,
+}: {
+  sidebarRef: RefObject<HTMLElement | null>;
+}) {
   const { dispatch } = useIDE();
 
-  function onMouseDown(e: React.MouseEvent<HTMLDivElement>) {
+  function onPointerDown(e: React.PointerEvent<HTMLDivElement>) {
     e.preventDefault();
+    e.currentTarget.setPointerCapture(e.pointerId);
     document.body.style.cursor = "row-resize";
     document.body.style.userSelect = "none";
+  }
 
-    function onMove(ev: MouseEvent) {
-      const sidebar = document.querySelector('[aria-label="Explorer"]');
-      if (!sidebar) return;
-      const rect = sidebar.getBoundingClientRect();
-      dispatch({
-        type: "SET_SIDEBAR_TIMELINE_HEIGHT",
-        px: rect.bottom - ev.clientY,
-      });
+  function onPointerMove(e: React.PointerEvent<HTMLDivElement>) {
+    if (!e.currentTarget.hasPointerCapture(e.pointerId)) return;
+    const sidebar = sidebarRef.current;
+    if (!sidebar) return;
+    const rect = sidebar.getBoundingClientRect();
+    dispatch({
+      type: "SET_SIDEBAR_TIMELINE_HEIGHT",
+      px: rect.bottom - e.clientY,
+    });
+  }
+
+  function onPointerUp(e: React.PointerEvent<HTMLDivElement>) {
+    if (e.currentTarget.hasPointerCapture(e.pointerId)) {
+      e.currentTarget.releasePointerCapture(e.pointerId);
     }
-    function onUp() {
-      document.removeEventListener("mousemove", onMove);
-      document.removeEventListener("mouseup", onUp);
-      document.body.style.cursor = "";
-      document.body.style.userSelect = "";
-    }
-    document.addEventListener("mousemove", onMove);
-    document.addEventListener("mouseup", onUp);
+    document.body.style.cursor = "";
+    document.body.style.userSelect = "";
   }
 
   return (
@@ -34,8 +41,11 @@ export function SidebarSplitter() {
       role="separator"
       aria-orientation="horizontal"
       aria-label="Resize timeline"
-      onMouseDown={onMouseDown}
-      className="h-1.5 flex-shrink-0 cursor-row-resize bg-border hover:bg-accent-blue-dim active:bg-accent-blue"
+      onPointerDown={onPointerDown}
+      onPointerMove={onPointerMove}
+      onPointerUp={onPointerUp}
+      onPointerCancel={onPointerUp}
+      className="h-1.5 flex-shrink-0 cursor-row-resize touch-none bg-border hover:bg-accent-blue-dim active:bg-accent-blue"
     />
   );
 }
