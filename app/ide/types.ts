@@ -34,6 +34,7 @@ export type TestCase = {
   name: string;
   durMs: number;
   status: TestStatus;
+  displayDurMs?: number;
 };
 
 export type TestSuite = {
@@ -83,6 +84,7 @@ export type IDEAction =
       suiteIdx: number;
       caseIdx: number;
       status: TestStatus;
+      displayDurMs?: number;
     }
   | { type: "TEST_RESET" }
   | { type: "TOGGLE_PALETTE"; open?: boolean }

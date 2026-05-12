@@ -128,7 +128,16 @@ export function ideReducer(state: IDEState, action: IDEAction): IDEState {
         return {
           ...suite,
           cases: suite.cases.map((c, cIdx) =>
-            cIdx === action.caseIdx ? { ...c, status: action.status } : c,
+            cIdx === action.caseIdx
+              ? {
+                  ...c,
+                  status: action.status,
+                  displayDurMs:
+                    action.displayDurMs !== undefined
+                      ? action.displayDurMs
+                      : c.displayDurMs,
+                }
+              : c,
           ),
         };
       });
@@ -137,7 +146,11 @@ export function ideReducer(state: IDEState, action: IDEAction): IDEState {
     case "TEST_RESET": {
       const testSuites = state.testSuites.map((suite) => ({
         ...suite,
-        cases: suite.cases.map((c) => ({ ...c, status: "idle" as const })),
+        cases: suite.cases.map((c) => ({
+          ...c,
+          status: "idle" as const,
+          displayDurMs: undefined,
+        })),
       }));
       return { ...state, testSuites };
     }

@@ -74,6 +74,7 @@ export function TestRunner() {
             suiteIdx: sIdx,
             caseIdx: cIdx,
             status: "pass",
+            displayDurMs: fakeMs,
           });
           dispatch({
             type: "TERMINAL_APPEND",
@@ -266,7 +267,9 @@ export function TestRunner() {
                     >
                       {c.name}
                     </button>
-                    <span className="text-fg-subtle">({c.durMs}ms)</span>
+                    <span className="text-fg-subtle">
+                      ({c.displayDurMs ?? c.durMs}ms)
+                    </span>
                   </li>
                 ))}
               </ul>
