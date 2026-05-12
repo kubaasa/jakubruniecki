@@ -94,6 +94,28 @@ export function Terminal() {
               </div>
             );
           }
+          if (line.kind === "cmd") {
+            return (
+              <div key={i} className="flex gap-2 text-accent-green">
+                <span>›</span>
+                <span>{line.text}</span>
+              </div>
+            );
+          }
+          if (line.kind === "success") {
+            return (
+              <div key={i} className="text-accent-green">
+                {line.text || " "}
+              </div>
+            );
+          }
+          if (line.kind === "warn") {
+            return (
+              <div key={i} className="text-accent-yellow">
+                {line.text || " "}
+              </div>
+            );
+          }
           if (line.kind === "system") {
             if (line.href) {
               return (

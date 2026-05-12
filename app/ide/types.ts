@@ -22,7 +22,10 @@ export type TerminalLine =
   | { kind: "input"; text: string }
   | { kind: "output"; text: string }
   | { kind: "error"; text: string }
-  | { kind: "system"; text: string; href?: string };
+  | { kind: "system"; text: string; href?: string }
+  | { kind: "cmd"; text: string }
+  | { kind: "success"; text: string }
+  | { kind: "warn"; text: string };
 
 export type TestStatus = "idle" | "running" | "pass" | "fail";
 

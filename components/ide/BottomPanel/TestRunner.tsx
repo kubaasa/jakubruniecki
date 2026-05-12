@@ -40,9 +40,24 @@ export function TestRunner() {
       return;
     }
 
+    // Header lines mimic a real Playwright run.
+    dispatch({
+      type: "TERMINAL_APPEND",
+      line: { kind: "cmd", text: "$ npx playwright test" },
+    });
+    dispatch({
+      type: "TERMINAL_APPEND",
+      line: { kind: "output", text: "Running tests using 4 workers..." },
+    });
+
     let cumulative = 600;
+    let totalFakeMs = 0;
+    let passCount = 0;
+    const totalCases = state.testSuites.flatMap((s) => s.cases).length;
     state.testSuites.forEach((suite, sIdx) => {
       suite.cases.forEach((c, cIdx) => {
+        // Fake duration matching inspiration's order of magnitude (~40-80× base).
+        const fakeMs = Math.round(c.durMs * (40 + Math.random() * 40));
         const startId = window.setTimeout(() => {
           if (abortRef.current) return;
           dispatch({
@@ -60,6 +75,15 @@ export function TestRunner() {
             caseIdx: cIdx,
             status: "pass",
           });
+          dispatch({
+            type: "TERMINAL_APPEND",
+            line: {
+              kind: "success",
+              text: `  ✓ ${suite.name} › ${c.name} (${fakeMs}ms)`,
+            },
+          });
+          passCount += 1;
+          totalFakeMs += fakeMs;
         }, cumulative + c.durMs * 12);
         timeoutsRef.current.push(startId, passId);
         cumulative += c.durMs * 12 + 80;
@@ -67,7 +91,24 @@ export function TestRunner() {
     });
 
     const doneId = window.setTimeout(() => {
+      if (abortRef.current) return;
       setRunning(false);
+      const totalSec = (totalFakeMs / 1000).toFixed(2);
+      dispatch({ type: "TERMINAL_APPEND", line: { kind: "output", text: "" } });
+      dispatch({
+        type: "TERMINAL_APPEND",
+        line: { kind: "success", text: `${passCount} passed (${totalSec}s)` },
+      });
+      if (passCount === totalCases) {
+        dispatch({
+          type: "TERMINAL_APPEND",
+          line: {
+            kind: "success",
+            text: "All tests passed. expect(decision).toBe('YES') ✓",
+          },
+        });
+      }
+      dispatch({ type: "TERMINAL_APPEND", line: { kind: "output", text: "" } });
     }, cumulative + 100);
     timeoutsRef.current.push(doneId);
   }
@@ -76,13 +117,29 @@ export function TestRunner() {
     abortRef.current = true;
     clearTimeouts();
     setRunning(false);
+    let passedSoFar = 0;
+    let durSoFar = 0;
     state.testSuites.forEach((suite, sIdx) => {
       suite.cases.forEach((c, cIdx) => {
+        if (c.status === "pass") {
+          passedSoFar += 1;
+          durSoFar += c.durMs * 12;
+        }
         if (c.status === "running") {
           dispatch({ type: "TEST_UPDATE", suiteIdx: sIdx, caseIdx: cIdx, status: "idle" });
         }
       });
     });
+    const sec = (durSoFar / 1000).toFixed(2);
+    dispatch({ type: "TERMINAL_APPEND", line: { kind: "output", text: "" } });
+    dispatch({
+      type: "TERMINAL_APPEND",
+      line: {
+        kind: "warn",
+        text: `Test run stopped (${passedSoFar} passed, ${sec}s)`,
+      },
+    });
+    dispatch({ type: "TERMINAL_APPEND", line: { kind: "output", text: "" } });
   }
 
   useEffect(() => {
