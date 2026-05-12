@@ -28,6 +28,8 @@ export function OpenEditors() {
             const file = getFileByPath(tab.path);
             if (!file) return null;
             const active = state.activeTabPath === tab.path;
+            const parts = tab.path.split("/");
+            const folder = parts.length > 1 ? parts[parts.length - 2] : "";
             return (
               <li key={tab.path}>
                 <div
@@ -48,16 +50,21 @@ export function OpenEditors() {
                     onClick={() =>
                       dispatch({ type: "SET_ACTIVE_TAB", path: tab.path })
                     }
-                    className="flex flex-1 items-center gap-1.5 text-left"
+                    className="flex flex-1 items-center gap-1.5 overflow-hidden text-left"
                   >
                     <FileIcon
                       language={file.language}
                       path={file.path}
-                      className="h-3.5 w-3.5"
+                      className="h-3.5 w-3.5 flex-shrink-0"
                       width={14}
                       height={14}
                     />
-                    {file.name}
+                    <span className="truncate">{file.name}</span>
+                    {folder ? (
+                      <span className="ml-1 truncate font-mono text-[10px] text-fg-subtle">
+                        {folder}
+                      </span>
+                    ) : null}
                   </button>
                   <button
                     type="button"

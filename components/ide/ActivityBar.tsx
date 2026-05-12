@@ -39,6 +39,7 @@ export function ActivityBar() {
           <button
             key={action}
             type="button"
+            title={label}
             aria-label={label}
             aria-pressed={active}
             data-action={action}
@@ -52,10 +53,16 @@ export function ActivityBar() {
                 }
               }
             }}
-            className={`flex h-10 w-10 items-center justify-center rounded text-fg-muted transition-colors hover:text-fg focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent-blue ${
-              active ? "border-l-2 border-fg text-fg" : ""
+            className={`relative flex h-10 w-10 items-center justify-center text-fg-muted transition-colors hover:text-fg focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent-blue ${
+              active ? "text-fg" : ""
             }`}
           >
+            {active ? (
+              <span
+                aria-hidden
+                className="pointer-events-none absolute left-0 top-0 h-full w-[3px] bg-accent-green"
+              />
+            ) : null}
             <Icon className="h-5 w-5" width={20} height={20} />
           </button>
         );

@@ -79,6 +79,12 @@ export function TabBar() {
                 : "bg-bg-surface text-fg-muted hover:text-fg"
             } ${isDragging ? "opacity-40" : ""}`}
           >
+            {active ? (
+              <span
+                aria-hidden
+                className="pointer-events-none absolute inset-x-0 top-0 h-px bg-accent-blue"
+              />
+            ) : null}
             {showBefore ? (
               <span
                 aria-hidden
