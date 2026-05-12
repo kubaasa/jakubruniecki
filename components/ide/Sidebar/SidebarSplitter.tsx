@@ -41,7 +41,12 @@ export function SidebarSplitter() {
         document.body.style.cursor = "row-resize";
         document.body.style.userSelect = "none";
       }}
-      className="h-[3px] flex-shrink-0 cursor-row-resize bg-border-subtle hover:bg-accent-blue-dim active:bg-accent-blue"
-    />
+      className="group relative h-2 flex-shrink-0 cursor-row-resize hover:bg-accent-blue-dim/30 active:bg-accent-blue-dim/50"
+    >
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 top-1/2 h-px -translate-y-1/2 bg-border group-hover:bg-accent-blue group-active:bg-accent-blue"
+      />
+    </div>
   );
 }

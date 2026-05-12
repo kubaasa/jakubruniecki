@@ -36,7 +36,7 @@ const initialState: IDEState = {
   openEditorsCollapsed: false,
   filesCollapsed: false,
   panelHeightPx: 336,
-  sidebarTimelineHeightPx: 100,
+  sidebarTimelineHeightPx: 130,
   terminalLines: welcomeLines,
   testSuites: initialTestSuites,
   isPaletteOpen: false,

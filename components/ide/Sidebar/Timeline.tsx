@@ -15,12 +15,12 @@ export function Timeline() {
     <section
       aria-label="Timeline"
       style={{ height: state.sidebarTimelineHeightPx }}
-      className="flex flex-shrink-0 flex-col overflow-y-auto border-t border-border-subtle px-3 py-1.5"
+      className="flex flex-shrink-0 flex-col overflow-hidden border-t border-border-subtle px-3 py-2"
     >
-      <div className="mb-1 font-mono text-[10px] uppercase tracking-wide text-fg-muted">
+      <div className="mb-1.5 font-mono text-[10px] uppercase tracking-wide text-fg-muted">
         Timeline
       </div>
-      <ul className="space-y-0.5 font-mono text-[11px] leading-tight text-fg-muted">
+      <ul className="space-y-1 font-mono text-[11px] leading-tight text-fg-muted">
         {ITEMS.map((text) => (
           <li key={text} className="flex items-center gap-2">
             <span
