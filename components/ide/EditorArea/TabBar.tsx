@@ -1,13 +1,22 @@
 "use client";
 
-import { useRef } from "react";
+import { useState } from "react";
 import { useIDE } from "@/app/ide/IDEContext";
 import { getFileByPath } from "@/data/files";
 import { CloseIcon, FileIcon } from "@/components/ui/Icon";
 
+type DropTarget = { idx: number; side: "before" | "after" };
+
 export function TabBar() {
   const { state, dispatch } = useIDE();
-  const dragFromIdx = useRef<number | null>(null);
+  const [draggingIdx, setDraggingIdx] = useState<number | null>(null);
+  const [dropTarget, setDropTarget] = useState<DropTarget | null>(null);
+
+  function reset() {
+    setDraggingIdx(null);
+    setDropTarget(null);
+  }
+
   return (
     <div
       role="tablist"
@@ -18,6 +27,11 @@ export function TabBar() {
         const file = getFileByPath(tab.path);
         if (!file) return null;
         const active = state.activeTabPath === tab.path;
+        const isDragging = draggingIdx === idx;
+        const showBefore =
+          dropTarget?.idx === idx && dropTarget.side === "before";
+        const showAfter =
+          dropTarget?.idx === idx && dropTarget.side === "after";
         return (
           <div
             key={tab.path}
@@ -25,30 +39,58 @@ export function TabBar() {
             aria-selected={active}
             draggable
             onDragStart={(e) => {
-              dragFromIdx.current = idx;
+              setDraggingIdx(idx);
               e.dataTransfer.effectAllowed = "move";
               e.dataTransfer.setData("text/plain", String(idx));
             }}
             onDragOver={(e) => {
+              if (draggingIdx === null || draggingIdx === idx) return;
               e.preventDefault();
               e.dataTransfer.dropEffect = "move";
+              const rect = e.currentTarget.getBoundingClientRect();
+              const side: "before" | "after" =
+                e.clientX < rect.left + rect.width / 2 ? "before" : "after";
+              setDropTarget((prev) =>
+                prev && prev.idx === idx && prev.side === side
+                  ? prev
+                  : { idx, side },
+              );
             }}
             onDrop={(e) => {
               e.preventDefault();
-              const from = dragFromIdx.current;
-              if (from === null || from === idx) return;
-              dispatch({ type: "REORDER_TABS", fromIdx: from, toIdx: idx });
-              dragFromIdx.current = null;
+              if (draggingIdx === null || draggingIdx === idx) {
+                reset();
+                return;
+              }
+              const rect = e.currentTarget.getBoundingClientRect();
+              const side =
+                e.clientX < rect.left + rect.width / 2 ? "before" : "after";
+              const from = draggingIdx;
+              const insertion = side === "before" ? idx : idx + 1;
+              // After removing `from`, indices to the right shift down by 1.
+              const toIdx = insertion > from ? insertion - 1 : insertion;
+              dispatch({ type: "REORDER_TABS", fromIdx: from, toIdx });
+              reset();
             }}
-            onDragEnd={() => {
-              dragFromIdx.current = null;
-            }}
-            className={`group flex cursor-pointer items-center gap-2 border-r border-border px-3 text-[13px] ${
+            onDragEnd={reset}
+            className={`group relative flex cursor-pointer items-center gap-2 border-r border-border px-3 text-[13px] transition-opacity ${
               active
                 ? "bg-bg-base text-fg"
                 : "bg-bg-surface text-fg-muted hover:text-fg"
-            }`}
+            } ${isDragging ? "opacity-40" : ""}`}
           >
+            {showBefore ? (
+              <span
+                aria-hidden
+                className="pointer-events-none absolute left-0 top-0 h-full w-0.5 bg-white shadow-[0_0_6px_rgba(255,255,255,0.6)]"
+              />
+            ) : null}
+            {showAfter ? (
+              <span
+                aria-hidden
+                className="pointer-events-none absolute right-0 top-0 h-full w-0.5 bg-white shadow-[0_0_6px_rgba(255,255,255,0.6)]"
+              />
+            ) : null}
             <button
               type="button"
               onClick={() =>
