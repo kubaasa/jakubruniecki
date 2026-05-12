@@ -100,6 +100,7 @@ export function TabBar() {
             >
               <FileIcon
                 language={file.language}
+                path={file.path}
                 className="h-3.5 w-3.5"
                 width={14}
                 height={14}

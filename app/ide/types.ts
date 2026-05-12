@@ -53,6 +53,7 @@ export type IDEState = {
   openEditorsCollapsed: boolean;
   filesCollapsed: boolean;
   panelHeightPx: number;
+  sidebarTimelineHeightPx: number;
   terminalLines: TerminalLine[];
   testSuites: TestSuite[];
   isPaletteOpen: boolean;
@@ -70,6 +71,7 @@ export type IDEAction =
   | { type: "TOGGLE_OPEN_EDITORS" }
   | { type: "TOGGLE_FILES_SECTION" }
   | { type: "SET_PANEL_HEIGHT"; px: number }
+  | { type: "SET_SIDEBAR_TIMELINE_HEIGHT"; px: number }
   | { type: "TERMINAL_APPEND"; line: TerminalLine }
   | { type: "TERMINAL_CLEAR" }
   | {

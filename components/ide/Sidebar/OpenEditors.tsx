@@ -31,10 +31,18 @@ export function OpenEditors() {
             return (
               <li key={tab.path}>
                 <div
-                  className={`group flex items-center gap-1 px-4 py-0.5 text-[13px] ${
-                    active ? "bg-bg-elevated text-fg" : "text-fg-muted hover:text-fg"
+                  className={`group relative flex items-center gap-1 px-4 py-0.5 text-[13px] ${
+                    active
+                      ? "bg-[rgba(56,139,253,0.15)] text-fg"
+                      : "text-fg-muted hover:bg-white/[0.04] hover:text-fg"
                   }`}
                 >
+                  {active ? (
+                    <span
+                      aria-hidden
+                      className="pointer-events-none absolute left-0 top-0 h-full w-0.5 bg-accent-blue"
+                    />
+                  ) : null}
                   <button
                     type="button"
                     onClick={() =>
@@ -44,6 +52,7 @@ export function OpenEditors() {
                   >
                     <FileIcon
                       language={file.language}
+                      path={file.path}
                       className="h-3.5 w-3.5"
                       width={14}
                       height={14}

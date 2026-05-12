@@ -93,10 +93,10 @@ export function CommandPalette() {
 
   useEffect(() => {
     if (!state.isPaletteOpen) return;
-    // eslint-disable-next-line react-hooks/set-state-in-effect
+    /* eslint-disable react-hooks/set-state-in-effect */
     setQuery("");
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     setSelectedIdx(0);
+    /* eslint-enable react-hooks/set-state-in-effect */
     const t = window.setTimeout(() => inputRef.current?.focus(), 0);
     return () => clearTimeout(t);
   }, [state.isPaletteOpen]);

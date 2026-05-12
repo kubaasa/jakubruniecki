@@ -34,7 +34,6 @@ export const fileTree: FileNode[] = [
     path: "jakubruniecki",
     defaultOpen: true,
     children: [
-      file(readme),
       {
         type: "folder",
         name: "portfolio",
@@ -66,6 +65,7 @@ export const fileTree: FileNode[] = [
         defaultOpen: true,
         children: [file(fintechRegression), file(ecommerceE2e)],
       },
+      file(readme),
       file(envFile),
     ],
   },

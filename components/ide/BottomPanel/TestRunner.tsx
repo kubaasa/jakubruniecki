@@ -154,7 +154,11 @@ export function TestRunner() {
             type="button"
             onClick={stopCycle}
             disabled={!running}
-            className="flex items-center gap-1 rounded border border-border bg-bg-subtle px-2 py-0.5 font-mono text-[11px] text-fg-muted hover:text-fg disabled:opacity-40"
+            className={`flex items-center gap-1 rounded border px-2 py-0.5 font-mono text-[11px] disabled:opacity-40 ${
+              running
+                ? "border-accent-red/50 bg-accent-red/15 text-accent-red hover:bg-accent-red/25"
+                : "border-border bg-bg-subtle text-fg-muted hover:text-fg"
+            }`}
           >
             <StopIcon className="h-3 w-3" width={12} height={12} />
             STOP

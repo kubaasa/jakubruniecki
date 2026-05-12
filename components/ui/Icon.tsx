@@ -33,22 +33,48 @@ export function CloseIcon(props: IconProps) {
   );
 }
 
-export function FolderIcon(props: IconProps) {
+const FOLDER_COLORS: Record<string, { body: string; tab: string }> = {
+  portfolio: { body: "#1f6feb", tab: "#388bfd" },
+  tests: { body: "#238636", tab: "#2ea043" },
+  "case-studies": { body: "#8957e5", tab: "#a371f7" },
+};
+
+const DEFAULT_FOLDER = { body: "#6e7681", tab: "#8b949e" };
+
+export function FolderIcon({
+  path,
+  open,
+  ...rest
+}: IconProps & { path?: string; open?: boolean }) {
+  const c = (path && FOLDER_COLORS[path]) || DEFAULT_FOLDER;
+  if (open) {
+    return (
+      <svg viewBox="0 0 22 18" width={16} height={16} aria-hidden {...rest}>
+        <path d="M2 3.5h6l1.6 1.7H20a1 1 0 0 1 1 1V8H2z" fill={c.tab} />
+        <path
+          d="M2 8h19l-1.6 7.5a1.2 1.2 0 0 1-1.2 1H3.5a1 1 0 0 1-1-1.1z"
+          fill={c.body}
+        />
+      </svg>
+    );
+  }
   return (
-    <svg {...base(props)} fill="currentColor" stroke="none">
-      <path d="M2 4a1 1 0 0 1 1-1h3l1.5 1.5H13a1 1 0 0 1 1 1V12a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V4z" />
+    <svg viewBox="0 0 22 18" width={16} height={16} aria-hidden {...rest}>
+      <path d="M2 3.5h6l1.6 1.7H20a1 1 0 0 1 1 1V6.5H2z" fill={c.tab} />
+      <rect x="2" y="6" width="19" height="10" rx="1" fill={c.body} />
+      <rect x="2" y="6" width="19" height="1.5" fill="white" fillOpacity="0.18" />
     </svg>
   );
 }
 
 export function TSIcon(props: IconProps) {
   return (
-    <svg {...base(props)} fill="currentColor" stroke="none">
-      <rect width="16" height="16" rx="2" fill="#1f6feb" />
+    <svg viewBox="0 0 16 16" width={16} height={16} aria-hidden {...props}>
+      <rect x="1" y="1" width="14" height="14" rx="2" fill="#3178c6" />
       <text
         x="8"
-        y="11"
-        fontSize="7"
+        y="11.5"
+        fontSize="7.5"
         fontFamily="ui-monospace, monospace"
         fontWeight="700"
         textAnchor="middle"
@@ -60,48 +86,68 @@ export function TSIcon(props: IconProps) {
   );
 }
 
+export function SpecIcon(props: IconProps) {
+  return (
+    <svg viewBox="0 0 16 16" width={16} height={16} aria-hidden {...props}>
+      <rect x="1" y="1" width="14" height="14" rx="2" fill="#2ea043" />
+      <path
+        d="M4 8.5l2 2 5-5"
+        stroke="#fff"
+        strokeWidth={1.6}
+        fill="none"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
 export function MDIcon(props: IconProps) {
   return (
-    <svg {...base(props)} fill="currentColor" stroke="none">
-      <rect width="16" height="16" rx="2" fill="#30363d" />
-      <text
-        x="8"
-        y="11"
-        fontSize="6"
-        fontFamily="ui-monospace, monospace"
-        fontWeight="700"
-        textAnchor="middle"
-        fill="#79c0ff"
-      >
-        MD
-      </text>
+    <svg viewBox="0 0 16 16" width={16} height={16} aria-hidden {...props}>
+      <rect x="1" y="2.5" width="14" height="11" rx="1.5" fill="#1f6feb" />
+      <path
+        d="M4 10.5V5.5l1.7 2.5L7.4 5.5v5M10 5.5v5M10 10.5l1.5-1.5L13 10.5"
+        stroke="#fff"
+        strokeWidth={1.2}
+        fill="none"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+export function ReadmeIcon(props: IconProps) {
+  return (
+    <svg viewBox="0 0 16 16" width={16} height={16} aria-hidden {...props}>
+      <circle cx="8" cy="8" r="6.5" fill="#388bfd" />
+      <circle cx="8" cy="4.8" r="0.9" fill="#fff" />
+      <rect x="7.1" y="6.6" width="1.8" height="5.6" rx="0.4" fill="#fff" />
     </svg>
   );
 }
 
 export function EnvIcon(props: IconProps) {
   return (
-    <svg {...base(props)} fill="currentColor" stroke="none">
-      <rect width="16" height="16" rx="2" fill="#1c2128" />
-      <text
-        x="8"
-        y="11"
-        fontSize="5.5"
-        fontFamily="ui-monospace, monospace"
-        fontWeight="700"
-        textAnchor="middle"
-        fill="#d29922"
-      >
-        ENV
-      </text>
+    <svg viewBox="0 0 16 16" width={16} height={16} aria-hidden {...props}>
+      <circle cx="8" cy="8" r="6.5" fill="#d29922" />
+      <path d="M5 7h6M5 9.5h4" stroke="#0d1117" strokeWidth={1.3} />
     </svg>
   );
 }
 
-export function FileIcon({ language, ...rest }: IconProps & { language: "ts" | "md" | "env" }) {
-  if (language === "ts") return <TSIcon {...rest} />;
+export function FileIcon({
+  language,
+  path,
+  ...rest
+}: IconProps & { language: "ts" | "md" | "env"; path?: string }) {
+  if (path === "README.md") return <ReadmeIcon {...rest} />;
+  if (path === ".env") return <EnvIcon {...rest} />;
+  if (language === "env") return <EnvIcon {...rest} />;
   if (language === "md") return <MDIcon {...rest} />;
-  return <EnvIcon {...rest} />;
+  if (path && path.endsWith(".spec.ts")) return <SpecIcon {...rest} />;
+  return <TSIcon {...rest} />;
 }
 
 export function ExplorerIcon(props: IconProps) {

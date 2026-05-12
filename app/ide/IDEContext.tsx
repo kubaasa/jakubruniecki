@@ -36,6 +36,7 @@ const initialState: IDEState = {
   openEditorsCollapsed: false,
   filesCollapsed: false,
   panelHeightPx: 336,
+  sidebarTimelineHeightPx: 100,
   terminalLines: welcomeLines,
   testSuites: initialTestSuites,
   isPaletteOpen: false,
@@ -47,6 +48,12 @@ const initialState: IDEState = {
 function clampPanel(px: number): number {
   if (px < 120) return 120;
   if (px > 600) return 600;
+  return px;
+}
+
+function clampTimeline(px: number): number {
+  if (px < 60) return 60;
+  if (px > 320) return 320;
   return px;
 }
 
@@ -103,6 +110,11 @@ export function ideReducer(state: IDEState, action: IDEAction): IDEState {
       return { ...state, filesCollapsed: !state.filesCollapsed };
     case "SET_PANEL_HEIGHT":
       return { ...state, panelHeightPx: clampPanel(action.px) };
+    case "SET_SIDEBAR_TIMELINE_HEIGHT":
+      return {
+        ...state,
+        sidebarTimelineHeightPx: clampTimeline(action.px),
+      };
     case "TERMINAL_APPEND":
       return {
         ...state,

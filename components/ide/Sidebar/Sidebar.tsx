@@ -4,6 +4,7 @@ import { NewFileIcon, RefreshIcon, CollapseIcon } from "@/components/ui/Icon";
 import { OpenEditors } from "./OpenEditors";
 import { FileTree } from "./FileTree";
 import { Timeline } from "./Timeline";
+import { SidebarSplitter } from "./SidebarSplitter";
 
 export function Sidebar() {
   return (
@@ -11,7 +12,7 @@ export function Sidebar() {
       aria-label="Explorer"
       className="flex w-[var(--ide-sidebar-w)] flex-col border-r border-border bg-bg-surface"
     >
-      <div className="flex h-8 items-center justify-between border-b border-border-subtle px-3">
+      <div className="flex h-8 flex-shrink-0 items-center justify-between border-b border-border-subtle px-3">
         <span className="font-mono text-[11px] uppercase tracking-wide text-fg-muted">
           Explorer
         </span>
@@ -27,11 +28,12 @@ export function Sidebar() {
           </button>
         </div>
       </div>
-      <div className="flex-1 overflow-y-auto">
+      <div className="min-h-0 flex-1 overflow-y-auto">
         <OpenEditors />
         <FileTree />
-        <Timeline />
       </div>
+      <SidebarSplitter />
+      <Timeline />
     </aside>
   );
 }
