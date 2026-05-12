@@ -118,25 +118,22 @@ export function TestRunner() {
     clearTimeouts();
     setRunning(false);
     let passedSoFar = 0;
-    let durSoFar = 0;
     state.testSuites.forEach((suite, sIdx) => {
       suite.cases.forEach((c, cIdx) => {
         if (c.status === "pass") {
           passedSoFar += 1;
-          durSoFar += c.durMs * 12;
         }
         if (c.status === "running") {
           dispatch({ type: "TEST_UPDATE", suiteIdx: sIdx, caseIdx: cIdx, status: "idle" });
         }
       });
     });
-    const sec = (durSoFar / 1000).toFixed(2);
     dispatch({ type: "TERMINAL_APPEND", line: { kind: "output", text: "" } });
     dispatch({
       type: "TERMINAL_APPEND",
       line: {
         kind: "warn",
-        text: `Test run stopped (${passedSoFar} passed, ${sec}s)`,
+        text: `Test run stopped (${passedSoFar} passed)`,
       },
     });
     dispatch({ type: "TERMINAL_APPEND", line: { kind: "output", text: "" } });
