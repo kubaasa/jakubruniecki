@@ -23,7 +23,9 @@ function file(stub: {
     name: stub.name,
     path: stub.path,
     language: stub.language,
-    content: stub.content,
+    get content() {
+      return stub.content;
+    },
   };
 }
 

@@ -1,37 +1,93 @@
 import type { Language } from "@/app/ide/types";
 
+const QA_START = new Date("2021-06-01");
+const AUTOMATION_START = new Date("2024-11-01");
+const YEAR_MS = 365.25 * 24 * 60 * 60 * 1000;
+
+const yearsBetween = (from: Date, to: number = Date.now()) =>
+  (to - from.getTime()) / YEAR_MS;
+
+const roundHalf = (y: number) => Math.round(y * 2) / 2;
+const halfYearSuffixed = (y: number) => `${roundHalf(y).toFixed(1)}y`;
+const formatYears = (y: number) => {
+  const r = roundHalf(y);
+  return Number.isInteger(r) ? `${r}` : r.toFixed(1);
+};
+const formatYearsPhrase = (y: number) => {
+  const num = formatYears(y);
+  return `${num} year${num === "1" ? "" : "s"}`;
+};
+
+function buildContent(): string {
+  const totalYears = formatYears(yearsBetween(QA_START));
+  const automationSplit = halfYearSuffixed(yearsBetween(AUTOMATION_START));
+  const automationPhrase = formatYearsPhrase(yearsBetween(AUTOMATION_START));
+  const manualSplit = halfYearSuffixed(
+    yearsBetween(QA_START, AUTOMATION_START.getTime()),
+  );
+
+  return `// about.ts — who I am, in code.
+
+type Profile = {
+  readonly name: string;
+  readonly role: string;
+  readonly location: string;
+  readonly status: "open-to-work" | "employed" | "freelance";
+  // ...
+};
+
+export const about = {
+  // ─── identity ────────────────────────────────────────────────
+  name: "Jakub Bruniecki",
+  role: "QA Automation Engineer",
+  tagline: "Manual senior. Automation builder. AI-augmented.",
+
+  // ─── experience ──────────────────────────────────────────────
+  yearsOfExperience: ${totalYears}, // auto-updated, rounded to 0.5y
+  split: { manual: "${manualSplit}", automation: "${automationSplit}" }, // manual frozen, automation auto-updated
+  domain: "Telecom",
+
+  // ─── location & availability ─────────────────────────────────
+  location: "Gdańsk, Poland", // sometimes Bangkok, Thailand
+  timezone: "Europe/Warsaw",
+  openTo: "remote, EU-friendly hours",
+  status: "open-to-work",
+
+  // ─── bio ─────────────────────────────────────────────────────
+  bio: [
+    "QA engineer who grew up inside complex telecom systems —",
+    "self-service portals, regulatory flows, digital signatures,",
+    "device management. 25+ delivered projects, 2500+ tickets",
+    "filed before they ever reached production.",
+    "",
+    "Last ${automationPhrase} I've been building Playwright + TypeScript",
+    "frameworks from scratch — POM, auth-state reuse, API mocks,",
+    "custom HTML reporting, CI on GitLab. AI is part of the stack:",
+    "Claude Code and Playwright MCP cut test-authoring time ~4–5×.",
+    "",
+    "What I focus on is catching defects before they cost time.",
+    "I show up at refinement, ask the awkward questions, and",
+    "write scenarios before the first line of code is pushed.",
+    "Coverage numbers don't interest me — the bugs I prevent do.",
+    "Regression suites are the floor, not the strategy.",
+    "",
+    "I work embedded with developers, not after them. Branches",
+    "land on dev environments first; I verify, the team merges.",
+    "Together we debug logs and surface edge cases mid-flight;",
+    "with PMs and analysts I keep acceptance criteria honest, so",
+    "by release day the call is calm.",
+  ],
+} as const satisfies Profile;
+
+export type About = typeof about;
+`;
+}
+
 export const aboutTs = {
   path: "portfolio/about.ts",
   name: "about.ts",
   language: "ts" as Language,
-  content: `// about.ts — who I am, in code.
-
-export const about = {
-  name: "Jakub Bruniecki",
-  role: "Senior QA Engineer",
-  tagline: "Manual leadership + Playwright automation",
-  yearsOfExperience: 5,
-  breakdown: {
-    manualTesting: "3.5y",
-    automation: "1.5y",
-    domains: ["Fintech", "E-commerce"],
+  get content() {
+    return buildContent();
   },
-  location: "Warsaw, Poland",
-  timezone: "Europe/Warsaw",
-  openTo: "international remote",
-  status: "open-to-work" as const,
-  bio: [
-    "I'm a QA engineer with 5 years of experience across fintech and e-commerce.",
-    "Most of that was hands-on manual testing; the last 1.5 years I've focused",
-    "on building Playwright automation suites that actually pay off — fewer",
-    "regressions, faster releases, predictable outcomes.",
-    "",
-    "I treat tests as a feature, not a tax. The goal isn't coverage numbers —",
-    "it's catching the issues that would have shipped, and giving the team",
-    "enough confidence to move faster.",
-  ],
-};
-
-export type About = typeof about;
-`,
 };
