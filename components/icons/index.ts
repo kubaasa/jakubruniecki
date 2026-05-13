@@ -3,3 +3,8 @@ export { LinkedInIcon } from "./LinkedInIcon";
 export { LocationIcon } from "./LocationIcon";
 export { PhoneIcon } from "./PhoneIcon";
 export { GitHubIcon } from "./GitHubIcon";
+export { PlaywrightIcon } from "./PlaywrightIcon";
+export { PostmanIcon } from "./PostmanIcon";
+export { GitLabIcon } from "./GitLabIcon";
+export { ClaudeIcon } from "./ClaudeIcon";
+export { CursorIcon } from "./CursorIcon";

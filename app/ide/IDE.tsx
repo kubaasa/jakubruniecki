@@ -29,11 +29,9 @@ function ConsoleEgg() {
     if (typeof window === "undefined" || !window.console) return;
     const green = "color:#3fb950;font-family:monospace;font-size:12px";
     const muted = "color:#7d8590;font-family:monospace";
-    console.log("%cJB — Senior QA Engineer", green);
-    console.log(
-      "%cIf you're reading this, you know how to read.\nemail: jakubruniecki@gmail.com",
-      muted,
-    );
+    console.log("%cJakub Bruniecki - QA Automation Engineer", green);
+    console.log("%cIf you're reading this, you have to hire me now.", muted);
+    console.log("%cjakubruniecki@gmail.com", muted);
   }, []);
   return null;
 }
