@@ -10,8 +10,15 @@ export type Profile = {
   cvDelivery: "on-request" | "public-pdf";
 };
 
-export type SkillCategory = "automation" | "manual" | "tools";
-export type SkillLevel = "advanced" | "intermediate" | "beginner";
+export type SkillCategory =
+  | "test-automation"
+  | "test-manual"
+  | "api-testing"
+  | "ci-cd"
+  | "test-management"
+  | "debugging"
+  | "ai-augmented";
+export type SkillLevel = "senior" | "advanced" | "intermediate" | "beginner";
 
 export type Skill = {
   name: string;

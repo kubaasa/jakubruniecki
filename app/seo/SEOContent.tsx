@@ -1,5 +1,5 @@
 import { profile } from "@/data/profile";
-import { skills } from "@/data/skills";
+import { skills, CATEGORY_LABEL } from "@/data/skills";
 import { projects } from "@/data/projects";
 import { contactLinks } from "@/data/contact";
 
@@ -28,7 +28,7 @@ export function SEOContent() {
         <ul>
           {skills.map((s) => (
             <li key={s.name}>
-              {s.name} — {s.level} ({s.category})
+              {s.name} — {s.level} ({CATEGORY_LABEL[s.category]})
             </li>
           ))}
         </ul>

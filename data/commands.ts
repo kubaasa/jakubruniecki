@@ -7,6 +7,11 @@ import type {
 import { allFiles } from "@/data/files";
 import { contactLinks, cvRequestHref } from "@/data/contact";
 import { projects } from "@/data/projects";
+import {
+  skills,
+  SKILL_CATEGORY_ORDER,
+  CATEGORY_LABEL,
+} from "@/data/skills";
 
 export type CommandCtx = {
   files: FileNode[];
@@ -122,14 +127,18 @@ export const commands: Record<string, Command> = {
   skills: {
     name: "skills",
     description: "list skills by category",
-    run: () => [
-      out("automation:"),
-      out("  Playwright · TypeScript · Postman · Newman · GitHub Actions"),
-      out("manual:"),
-      out("  Test design · Exploratory · JIRA · TestRail · Xray · Bug triage"),
-      out("tools:"),
-      out("  Git · REST APIs · SQL · Chrome DevTools"),
-    ],
+    run: () => {
+      const lines: TerminalLine[] = [];
+      for (const category of SKILL_CATEGORY_ORDER) {
+        const names = skills
+          .filter((s) => s.category === category)
+          .map((s) => s.name);
+        if (names.length === 0) continue;
+        lines.push(out(`${CATEGORY_LABEL[category]}:`));
+        lines.push(out(`  ${names.join(" · ")}`));
+      }
+      return lines;
+    },
   },
   open: {
     name: "open",
