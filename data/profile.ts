@@ -1,4 +1,5 @@
 import type { Profile } from "@/types";
+import { totalYearsExperience } from "@/lib/experience";
 
 export const profile: Profile = {
   name: "Jakub Bruniecki",
@@ -10,7 +11,9 @@ export const profile: Profile = {
   ],
   location: "Warsaw, Poland · Open to international remote",
   status: "open-to-work",
-  yearsOfExperience: 5,
+  get yearsOfExperience() {
+    return totalYearsExperience();
+  },
   experienceBreakdown: [
     "3.5y manual testing",
     "1.5y test automation",
