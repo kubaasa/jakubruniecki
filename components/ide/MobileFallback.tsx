@@ -1,14 +1,17 @@
 import { profile } from "@/data/profile";
 import { contactLinks, cvRequestHref } from "@/data/contact";
+import type { ContactIcon } from "@/types";
 import {
   EmailIcon,
+  GitHubIcon,
   LinkedInIcon,
   LocationIcon,
   PhoneIcon,
 } from "@/components/icons";
 
-const iconFor = {
+const iconFor: Record<ContactIcon, React.ComponentType<{ className?: string }>> = {
   email: EmailIcon,
+  github: GitHubIcon,
   linkedin: LinkedInIcon,
   location: LocationIcon,
   phone: PhoneIcon,

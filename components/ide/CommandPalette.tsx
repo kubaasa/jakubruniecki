@@ -12,8 +12,6 @@ type PaletteItem = {
   action: () => void;
 };
 
-const GITHUB_URL = "https://github.com/jakubruniecki";
-
 export function CommandPalette() {
   const { state, dispatch } = useIDE();
   const inputRef = useRef<HTMLInputElement>(null);
@@ -28,6 +26,7 @@ export function CommandPalette() {
     }));
     const email = contactLinks.find((c) => c.icon === "email");
     const linkedin = contactLinks.find((c) => c.icon === "linkedin");
+    const github = contactLinks.find((c) => c.icon === "github");
     const actionItems: PaletteItem[] = [
       {
         label: "Request CV",
@@ -53,7 +52,7 @@ export function CommandPalette() {
         label: "Open GitHub",
         kind: "ACTION",
         action: () => {
-          if (typeof window !== "undefined") window.open(GITHUB_URL, "_blank");
+          if (github && typeof window !== "undefined") window.open(github.href, "_blank");
         },
       },
       {

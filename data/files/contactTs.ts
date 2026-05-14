@@ -6,35 +6,40 @@ export const contactTs = {
   language: "ts" as Language,
   content: `// contact.ts — how to reach me.
 
-export const EMAIL = "jakubruniecki@gmail.com";
-export const LINKEDIN_URL = "https://www.linkedin.com/in/REPLACE_WITH_REAL_HANDLE/";
-export const LOCATION = "Warsaw, Poland · CET";
-export const PHONE = "+48000000000";
+type ContactEntry = {
+  readonly label: string;
+  readonly value: string;
+  readonly href?: string;
+  readonly note?: string;
+};
 
 export const contact = [
   {
-    label: "Email",
-    value: EMAIL,
-    href: \`mailto:\${EMAIL}?subject=Hello%20Jakub\`,
+    label:  "Email ✉️",
+    value:  "jakubruniecki@gmail.com",
+    href:   "mailto:jakubruniecki@gmail.com?subject=Hello%20Jakub",
   },
   {
-    label: "LinkedIn",
-    value: LINKEDIN_URL.replace(/^https?:\\/\\//, "").replace(/\\/$/, ""),
-    href: LINKEDIN_URL,
+    label:  "LinkedIn 💼",
+    value:  "linkedin.com/in/jakub-bruniecki",
+    href:   "https://www.linkedin.com/in/jakub-bruniecki/",
   },
   {
-    label: "Location",
-    value: LOCATION,
-    href: "https://maps.google.com/?q=Warsaw,Poland",
+    label:  "GitHub 🐙",
+    value:  "github.com/kubaasa",
+    href:   "https://github.com/kubaasa",
+    note:   "mostly private repos — ask if curious",
   },
   {
-    label: "Phone",
-    value: PHONE,
-    href: \`tel:\${PHONE}\`,
+    label:  "Location 🌊",
+    value:  "Gdańsk, Poland",
+    note:   "remote preferred 🌍",
   },
-] as const;
-
-export const cvRequestHref =
-  \`mailto:\${EMAIL}?subject=CV%20Request&body=Hi%20Jakub%2C%20...\`;
+  {
+    label:  "Phone 📱",
+    value:  "+48 798 909 998",
+    href:   "tel:+48798909998",
+  },
+] as const satisfies ReadonlyArray<ContactEntry>;
 `,
 };

@@ -51,7 +51,7 @@ export type CaseStudy = {
 
 export type Project = DemoRepo | CaseStudy;
 
-export type ContactIcon = "email" | "linkedin" | "location" | "phone";
+export type ContactIcon = "email" | "linkedin" | "github" | "location" | "phone";
 
 export type ContactLink = {
   label: string;

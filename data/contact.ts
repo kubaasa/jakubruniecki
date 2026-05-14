@@ -1,31 +1,38 @@
 import type { ContactLink } from "@/types";
 
 const EMAIL = "jakubruniecki@gmail.com";
-const LINKEDIN_URL = "https://www.linkedin.com/in/REPLACE_WITH_REAL_HANDLE/";
-const PHONE = "+48000000000";
+const LINKEDIN_URL = "https://www.linkedin.com/in/jakub-bruniecki/";
+const GITHUB_URL = "https://github.com/kubaasa";
+const PHONE = "+48798909998";
 
 export const contactLinks: ReadonlyArray<ContactLink> = [
   {
-    label: "Email",
+    label: "Email ✉️",
     value: EMAIL,
     href: `mailto:${EMAIL}?subject=${encodeURIComponent("Hello Jakub")}`,
     icon: "email",
   },
   {
-    label: "LinkedIn",
+    label: "LinkedIn 💼",
     value: LINKEDIN_URL.replace(/^https?:\/\//, "").replace(/\/$/, ""),
     href: LINKEDIN_URL,
     icon: "linkedin",
   },
   {
-    label: "Location",
-    value: "Warsaw, Poland · CET",
-    href: "https://maps.google.com/?q=Warsaw,Poland",
+    label: "GitHub 🐙",
+    value: GITHUB_URL.replace(/^https?:\/\//, ""),
+    href: GITHUB_URL,
+    icon: "github",
+  },
+  {
+    label: "Location 🌊",
+    value: "Gdańsk, Poland",
+    href: "https://maps.google.com/?q=Gdansk,Poland",
     icon: "location",
   },
   {
-    label: "Phone",
-    value: PHONE,
+    label: "Phone 📱",
+    value: "+48 798 909 998",
     href: `tel:${PHONE}`,
     icon: "phone",
   },
