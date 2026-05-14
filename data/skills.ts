@@ -8,6 +8,7 @@ export const skills: ReadonlyArray<Skill> = [
   // test-manual
   { name: "Test design", level: "senior", category: "test-manual", yearsUsed: 5 },
   { name: "Functional testing", level: "senior", category: "test-manual", yearsUsed: 5 },
+  { name: "Integration testing", level: "advanced", category: "test-manual", yearsUsed: 4 },
   { name: "Defect management", level: "senior", category: "test-manual", yearsUsed: 5 },
 
   // ai-augmented

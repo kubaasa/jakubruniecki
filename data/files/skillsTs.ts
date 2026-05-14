@@ -27,9 +27,9 @@ function buildContent(): string {
   }).join("\n\n");
 
   return `// skills.ts — grouped by category, levelled honestly.
-// legend:  🏆 senior   🔥 advanced   ⚡ intermediate   🌱 beginner
+// legend:  🏆 senior   🔥 advanced   ⚡ intermediate
 
-type Level = "🏆 senior" | "🔥 advanced" | "⚡ intermediate" | "🌱 beginner";
+type Level = "🏆 senior" | "🔥 advanced" | "⚡ intermediate";
 type Skill = { name: string; level: Level };
 
 export const skills: Record<string, Skill[]> = {

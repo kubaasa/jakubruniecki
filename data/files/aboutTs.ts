@@ -29,19 +29,19 @@ type Profile = {
 export const about = {
   // ─── identity ─────────────────────────────────────────────────
   name: "Jakub Bruniecki",
-  role: "QA Automation Engineer",
-  tagline: "Manual senior. Automation builder. AI-augmented.",
+  role: "QA Automation Engineer 🤖",
+  tagline: "Manual senior. Automation builder. AI-augmented. ⚡",
 
   // ─── experience ──────────────────────────────────────────────
   yearsOfExperience: ${totalYears}, // auto-updated, rounded to 0.5y
   split: { manual: "${manualSplit}", automation: "${automationSplit}" }, // manual frozen, automation auto-updated
-  domain: "Telecom",
+  domain: "Telecom 📡",
 
   // ─── location & availability ─────────────────────────────────────
-  location: "Gdańsk, Poland", // sometimes Bangkok, Thailand
+  location: "Gdańsk, Poland 🌊", // sometimes Bangkok, Thailand
   timezone: "Europe/Warsaw",
-  openTo: "remote, EU-friendly hours",
-  status: "open-to-work",
+  openTo: "remote, EU-friendly hours 🌍",
+  status: "open-to-work 🟢",
 
   // ─── bio ─────────────────────────────────────────────────
   bio: [
