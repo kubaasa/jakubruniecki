@@ -1,5 +1,6 @@
-import type { SVGProps } from "react";
+import type { ReactNode, SVGProps } from "react";
 import type { Language } from "@/app/ide/types";
+import { PlaywrightIcon } from "@/components/icons/PlaywrightIcon";
 
 type IconProps = SVGProps<SVGSVGElement> & { className?: string };
 
@@ -38,9 +39,99 @@ const FOLDER_COLORS: Record<string, { body: string; tab: string }> = {
   portfolio: { body: "#1f6feb", tab: "#388bfd" },
   tests: { body: "#238636", tab: "#2ea043" },
   "case-studies": { body: "#8957e5", tab: "#a371f7" },
+  "tests/.auth": { body: "#b78c1f", tab: "#d4a72c" },
+  "tests/fixtures": { body: "#bf4b8a", tab: "#db61a2" },
+  "tests/pages": { body: "#c9622f", tab: "#e07b3e" },
+  "tests/specs": { body: "#1f7a8c", tab: "#3aa3b8" },
+  "tests/test-data": { body: "#1a6dc7", tab: "#2f86dd" },
+  "tests/utils": { body: "#5a6470", tab: "#7a8593" },
+  "tests/visual-snapshots": { body: "#7a4dd1", tab: "#9670e0" },
 };
 
 const DEFAULT_FOLDER = { body: "#6e7681", tab: "#8b949e" };
+
+const OVERLAY_GLYPHS: Record<string, ReactNode> = {
+  "tests/.auth": (
+    <g
+      stroke="#fff"
+      strokeWidth={1}
+      fill="none"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <circle cx="9" cy="12" r="1.6" />
+      <path d="M10.4 11.4l3.4-3.4M12.6 9.2l1 1M13.6 8.2l1 1" />
+    </g>
+  ),
+  "tests/fixtures": (
+    <g
+      stroke="#fff"
+      strokeWidth={1}
+      fill="none"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M8 14l5.5-5.5M12 7l2.5 2.5M11 10l1.5 1.5M9.5 11.5L11 13" />
+      <path d="M14 6l1.5 1.5" />
+    </g>
+  ),
+  "tests/pages": (
+    <g
+      stroke="#fff"
+      strokeWidth={0.9}
+      fill="none"
+      strokeLinejoin="round"
+      strokeLinecap="round"
+    >
+      <path d="M9 9h3l1.5 1.5v4h-4.5z" />
+      <path d="M12 9v1.5h1.5" />
+      <path d="M10 12h2.5M10 13.2h2" />
+    </g>
+  ),
+  "tests/specs": (
+    <g
+      stroke="#fff"
+      strokeWidth={1.4}
+      fill="none"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M8.5 11.5l2 2 4-4.5" />
+    </g>
+  ),
+  "tests/test-data": (
+    <g fill="#fff">
+      <rect x="8.2" y="11.5" width="1.2" height="3" rx="0.2" />
+      <rect x="10.2" y="9.5" width="1.2" height="5" rx="0.2" />
+      <rect x="12.2" y="10.8" width="1.2" height="3.7" rx="0.2" />
+      <rect x="14.2" y="8.2" width="1.2" height="6.3" rx="0.2" />
+    </g>
+  ),
+  "tests/utils": (
+    <g
+      stroke="#fff"
+      strokeWidth={1}
+      fill="none"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M13.5 8.2a2 2 0 0 0-2.5 2.5l-2.7 2.7 1.3 1.3 2.7-2.7a2 2 0 0 0 2.5-2.5l-1.1 1.1-1-1z" />
+    </g>
+  ),
+  "tests/visual-snapshots": (
+    <g
+      stroke="#fff"
+      strokeWidth={0.9}
+      fill="none"
+      strokeLinejoin="round"
+      strokeLinecap="round"
+    >
+      <rect x="9" y="9.5" width="5" height="4.5" rx="0.5" />
+      <circle cx="10.4" cy="10.9" r="0.45" fill="#fff" stroke="none" />
+      <path d="M9.2 13.3l1.6-1.4 1.4 1.1 1.6-1.5" />
+    </g>
+  ),
+};
 
 export function FolderIcon({
   path,
@@ -48,6 +139,7 @@ export function FolderIcon({
   ...rest
 }: IconProps & { path?: string; open?: boolean }) {
   const c = (path && FOLDER_COLORS[path]) || DEFAULT_FOLDER;
+  const overlay = path ? OVERLAY_GLYPHS[path] : undefined;
   if (open) {
     return (
       <svg viewBox="0 0 22 18" width={16} height={16} aria-hidden {...rest}>
@@ -64,6 +156,7 @@ export function FolderIcon({
       <path d="M2 3.5h6l1.6 1.7H20a1 1 0 0 1 1 1V6.5H2z" fill={c.tab} />
       <rect x="2" y="6" width="19" height="10" rx="1" fill={c.body} />
       <rect x="2" y="6" width="19" height="1.5" fill="white" fillOpacity="0.18" />
+      {overlay}
     </svg>
   );
 }
@@ -199,6 +292,8 @@ export function FileIcon({
   if (language === "json") return <JsonIcon {...rest} />;
   if (language === "txt") return <TxtIcon {...rest} />;
   if (language === "png") return <PngIcon {...rest} />;
+  if (path && path.endsWith("playwright.config.ts"))
+    return <PlaywrightIcon className={rest.className} />;
   if (path && path.endsWith(".spec.ts")) return <SpecIcon {...rest} />;
   return <TSIcon {...rest} />;
 }
