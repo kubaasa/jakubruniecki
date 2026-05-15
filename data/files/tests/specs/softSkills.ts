@@ -11,13 +11,9 @@ import {
 test.describe("Soft skills", { tag: ["@regression"] }, () => {
   // Data-driven — every recruiter persona deserves the same hello.
   for (const persona of recruiterPersonas) {
-    test(\`TC01 - should communicate clearly with a \${persona.style} recruiter\`, async ({
-      page,
-      contactPage,
-    }) => {
+    test(\`TC01 - should communicate clearly with a \${persona.style} recruiter\`, async ({ page, contactPage }) => {
       await page.goto("/candidates/kuba-bruniecki/contact");
       await contactPage.messageInput.fill(persona.opener);
-
       await expect(page.getByRole("status")).toContainText(/typing indicator/i);
     });
   }

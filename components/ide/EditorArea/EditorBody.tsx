@@ -103,7 +103,7 @@ export function EditorBody() {
     <div className="relative flex h-full overflow-auto bg-bg-base">
       <div
         aria-hidden
-        className="select-none border-r border-border-subtle px-3 py-3 text-right font-mono text-[12px] leading-[1.6] text-fg-subtle"
+        className="select-none border-r border-border-subtle px-3 py-3 text-right font-mono text-[13px] leading-[1.6] text-fg-subtle"
       >
         {Array.from({ length: lineCount }, (_, i) => (
           <div key={i}>{i + 1}</div>
