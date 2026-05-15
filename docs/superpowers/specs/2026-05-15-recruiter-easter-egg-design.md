@@ -63,7 +63,7 @@ No backend, no API route — the site is `output: "export"` (SSG), so everything
   ],
 
   "preferences": {
-    "coffee": "z mlekiem, bez cukru ☕",
+    "coffee": "with milk, no sugar ☕",
     "os": "Windows",
     "theme": "dark-mode-only",
     "ide": "VSCode / Cursor"
@@ -98,7 +98,7 @@ No backend, no API route — the site is `output: "export"` (SSG), so everything
 - Algorithm: `HS256`
 - Secret: `the-cake-is-a-lie` (cosmetic — the token is not protecting anything)
 
-The token is generated **once**, offline, by Jakub via a one-shot script using `jose` (modern, zero-dep, ESM). The resulting compact-serialized string is hardcoded as a constant in the easter-egg component. No JWT library ships in the production bundle.
+The token is generated **once**, offline, by Jakub via a one-shot script using Node's built-in `node:crypto` (HMAC-SHA256 + base64url). No third-party JWT library is needed at all — neither in production nor in development. The resulting compact-serialized string is hardcoded as a constant in the easter-egg component.
 
 ## Implementation
 
@@ -135,12 +135,12 @@ Render `<RecruiterEasterEgg />` once inside `<body>`, before `{children}`. Side-
 ### Token generation script: `scripts/generate-recruiter-token.mjs`
 
 A one-off Node script that:
-- Imports `SignJWT` from `jose`.
+- Imports `createHmac` from `node:crypto`.
 - Builds the payload above.
-- Signs with HS256 + the secret.
-- Prints the resulting token to stdout.
+- Encodes header + payload as base64url JSON, computes HMAC-SHA256 over `<header>.<payload>` with the secret, base64url-encodes the signature.
+- Prints `<header>.<payload>.<signature>` to stdout.
 
-Run via `node scripts/generate-recruiter-token.mjs` whenever the payload changes. Output is copy-pasted into the component constant. `jose` is added as a `devDependency`.
+Run via `node scripts/generate-recruiter-token.mjs` whenever the payload changes. Output is copy-pasted into the component constant. **No third-party dependency** — Node's built-in modules only.
 
 ## What we deliberately skip (YAGNI)
 

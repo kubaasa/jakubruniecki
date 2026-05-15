@@ -6,7 +6,7 @@
 
 **Architecture:** SSG site (`output: "export"`), so everything is client-side. Token is generated **once** offline by a Node script using `jose`, then hardcoded as a constant in a React client component. The component runs a single `useEffect` on mount that writes the cookie and prints the greeting. Wired in `app/layout.tsx` so it loads on every route.
 
-**Tech Stack:** Next.js 16 (SSG), React 19, TypeScript, `jose` (devDependency only — token generator), npm.
+**Tech Stack:** Next.js 16 (SSG), React 19, TypeScript, Node's built-in `node:crypto` for the one-off token generator. No new dependencies.
 
 **Why no automated tests:** The repo has no test framework (Vitest/Jest absent). Adding one for a side-effect-only component with a hardcoded constant is overkill. Verification is manual: build → open in browser → check DevTools (Application → Cookies, Console) → paste token into jwt.io → verify payload + signature.
 
@@ -16,39 +16,29 @@
 
 | Path                                            | Status   | Responsibility                                                                 |
 |-------------------------------------------------|----------|--------------------------------------------------------------------------------|
-| `scripts/generate-recruiter-token.mjs`          | Create   | One-shot Node script. Builds payload, signs with HS256 via `jose`, prints JWT. |
-| `components/RecruiterEasterEgg.tsx`             | Create   | Client component. Sets the cookie + prints styled console greeting. No DOM.    |
-| `app/layout.tsx`                                | Modify   | Render `<RecruiterEasterEgg />` once inside `<body>`.                          |
-| `package.json`                                  | Modify   | Add `jose` to `devDependencies`.                                               |
+| `scripts/generate-recruiter-token.mjs`          | Create   | One-shot Node script. Builds payload, signs HS256 via `node:crypto`, prints JWT. |
+| `components/RecruiterEasterEgg.tsx`             | Create   | Client component. Sets the cookie + prints styled console greeting. No DOM.      |
+| `app/layout.tsx`                                | Modify   | Render `<RecruiterEasterEgg />` once inside `<body>`.                            |
 
-The token string lives only in the component file. The script lives in `scripts/` so it does not pollute `app/` or `components/`. `jose` never reaches production bundle (devDependency, only used by the script).
+The token string lives only in the component file. The script lives in `scripts/` so it does not pollute `app/` or `components/`. **No package.json change** — only Node built-ins are used.
 
 ---
 
-## Task 1: Add `jose` and create the token generator script
+## Task 1: Create the token generator script (no dependencies)
 
 **Files:**
-- Modify: `package.json` (add `jose` to `devDependencies`)
 - Create: `scripts/generate-recruiter-token.mjs`
 
-- [ ] **Step 1.1: Install `jose` as a devDependency**
+- [ ] **Step 1.1: Create the generator script**
 
-Run from the project root:
-
-```bash
-npm install --save-dev jose
-```
-
-Expected: `jose` appears in `package.json` under `devDependencies`. `package-lock.json` updates.
-
-- [ ] **Step 1.2: Create the generator script**
-
-Create `scripts/generate-recruiter-token.mjs` with the following content:
+Create `scripts/generate-recruiter-token.mjs` with the following content. Uses Node's built-in `node:crypto` — no third-party libs:
 
 ```js
-import { SignJWT } from "jose";
+import { createHmac } from "node:crypto";
 
-const SECRET = new TextEncoder().encode("the-cake-is-a-lie");
+const SECRET = "the-cake-is-a-lie";
+
+const header = { alg: "HS256", typ: "JWT" };
 
 const payload = {
   iss: "jakubruniecki.pl",
@@ -79,7 +69,7 @@ const payload = {
   ],
 
   preferences: {
-    coffee: "z mlekiem, bez cukru ☕",
+    coffee: "with milk, no sugar ☕",
     os: "Windows",
     theme: "dark-mode-only",
     ide: "VSCode / Cursor",
@@ -111,16 +101,25 @@ const payload = {
     "If you decoded this — you've got the curiosity I look for in teammates. Let's talk: jakubruniecki@gmail.com",
 };
 
-// Build manually so we control `iat` / `exp` exactly (SignJWT's helpers
-// would otherwise overwrite them with `Date.now()`-derived values).
-const token = await new SignJWT(payload)
-  .setProtectedHeader({ alg: "HS256", typ: "JWT" })
-  .sign(SECRET);
+// base64url: standard base64, then strip `=` padding and replace + / with - _.
+const b64url = (input) =>
+  Buffer.from(input).toString("base64").replace(/=+$/, "").replace(/\+/g, "-").replace(/\//g, "_");
 
-process.stdout.write(token + "\n");
+const headerSegment  = b64url(JSON.stringify(header));
+const payloadSegment = b64url(JSON.stringify(payload));
+const signingInput   = `${headerSegment}.${payloadSegment}`;
+
+const signatureSegment = createHmac("sha256", SECRET)
+  .update(signingInput)
+  .digest("base64")
+  .replace(/=+$/, "")
+  .replace(/\+/g, "-")
+  .replace(/\//g, "_");
+
+process.stdout.write(`${signingInput}.${signatureSegment}\n`);
 ```
 
-- [ ] **Step 1.3: Run the script and capture the token**
+- [ ] **Step 1.2: Run the script and capture the token**
 
 Run:
 
@@ -287,10 +286,12 @@ Do not proceed to Task 5 until Kuba confirms the easter egg works as intended in
 
 - [ ] **Step 5.1: Stage only the easter-egg files**
 
-There are unrelated modifications in the working tree. Stage **only** the new and modified files for this feature:
+Stage **only** the new and modified files for this feature plus the spec/plan updates done while implementing (we changed `jose` → `node:crypto`):
 
 ```bash
-git add package.json package-lock.json scripts/generate-recruiter-token.mjs components/RecruiterEasterEgg.tsx app/layout.tsx
+git add scripts/generate-recruiter-token.mjs components/RecruiterEasterEgg.tsx app/layout.tsx \
+  docs/superpowers/specs/2026-05-15-recruiter-easter-egg-design.md \
+  docs/superpowers/plans/2026-05-15-recruiter-easter-egg.md
 ```
 
 Then verify:
@@ -299,7 +300,7 @@ Then verify:
 git status --short
 ```
 
-Expected: the five paths above are staged (`A`/`M` in the left column). Other working-tree changes remain unstaged.
+Expected: the five paths above are staged (`A`/`M` in the left column). Nothing else staged.
 
 - [ ] **Step 5.2: Propose 3 commit message options**
 

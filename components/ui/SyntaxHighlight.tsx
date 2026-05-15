@@ -17,9 +17,11 @@ type Token = { type: TokenType; text: string };
 const tsKeywords =
   /\b(import|export|from|as|const|let|var|function|return|async|await|type|interface|class|extends|implements|new|if|else|for|while|do|switch|case|break|continue|true|false|null|undefined|void|typeof|in|of)\b/;
 
+// Optional closing quote (`"?` etc.) keeps in-progress strings classified
+// as `string` during the typing animation, so they wrap instead of overflowing.
 const tsPatterns: Array<{ type: TokenType; re: RegExp }> = [
   { type: "comment", re: /\/\/[^\n]*|\/\*[\s\S]*?\*\// },
-  { type: "string", re: /`(?:\\.|[^`\\])*`|"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'/ },
+  { type: "string", re: /`(?:\\.|[^`\\])*`?|"(?:\\.|[^"\\])*"?|'(?:\\.|[^'\\])*'?/ },
   { type: "keyword", re: tsKeywords },
   { type: "number", re: /\b\d+(?:\.\d+)?\b/ },
   { type: "const", re: /\b[A-Z][A-Z0-9_]{2,}\b/ },
@@ -35,7 +37,7 @@ const envPatterns: Array<{ type: TokenType; re: RegExp }> = [
 
 const jsonPatterns: Array<{ type: TokenType; re: RegExp }> = [
   { type: "prop", re: /"(?:\\.|[^"\\])*"(?=\s*:)/ },
-  { type: "string", re: /"(?:\\.|[^"\\])*"/ },
+  { type: "string", re: /"(?:\\.|[^"\\])*"?/ },
   { type: "keyword", re: /\b(?:true|false|null)\b/ },
   { type: "number", re: /-?\b\d+(?:\.\d+)?(?:[eE][+-]?\d+)?\b/ },
 ];
@@ -119,12 +121,27 @@ const classFor: Record<TokenType, string> = {
   plain: "text-fg",
 };
 
+const COPYABLE_STRING_THRESHOLD = 60;
+
+function unquote(literal: string): string {
+  if (literal.length >= 2) {
+    const first = literal[0];
+    const last = literal[literal.length - 1];
+    if ((first === '"' || first === "'" || first === "`") && first === last) {
+      return literal.slice(1, -1);
+    }
+  }
+  return literal;
+}
+
 export function SyntaxHighlight({
   content,
   language,
+  onCopy,
 }: {
   content: string;
   language: Language;
+  onCopy?: (value: string) => void;
 }) {
   const lines = content.split("\n");
   return (
@@ -139,11 +156,32 @@ export function SyntaxHighlight({
         return (
           <div key={lineIdx}>
             {tokens.length === 0 ? " " : null}
-            {tokens.map((t, i) => (
-              <span key={i} className={classFor[t.type]}>
-                {t.text}
-              </span>
-            ))}
+            {tokens.map((t, i) => {
+              const isCopyable =
+                t.type === "string" && t.text.length >= COPYABLE_STRING_THRESHOLD;
+              if (isCopyable) {
+                const value = unquote(t.text);
+                return (
+                  <button
+                    key={i}
+                    type="button"
+                    onClick={() => {
+                      void navigator.clipboard?.writeText(value);
+                      onCopy?.(value);
+                    }}
+                    className={`${classFor[t.type]} inline cursor-pointer whitespace-pre-wrap break-all rounded px-0.5 text-left hover:bg-bg-elevated focus:bg-bg-elevated focus:outline-none focus-visible:ring-1 focus-visible:ring-accent-blue`}
+                    title="Click to copy"
+                  >
+                    {t.text}
+                  </button>
+                );
+              }
+              return (
+                <span key={i} className={classFor[t.type]}>
+                  {t.text}
+                </span>
+              );
+            })}
           </div>
         );
       })}

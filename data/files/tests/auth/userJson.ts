@@ -1,10 +1,13 @@
 import type { Language } from "@/app/ide/types";
+import { RECRUITER_TOKEN } from "@/data/recruiterToken";
 
 const content = `{
+  // pssst — this token isn't fake.
+  // Paste it into jwt.io for a personal note from me. 👀
   "cookies": [
     {
-      "name": "rec_session",
-      "value": "kuba-is-hired-already",
+      "name": "recruiter_token",
+      "value": "${RECRUITER_TOKEN}",
       "domain": ".hire.kuba.dev",
       "path": "/",
       "expires": 9999999999,
