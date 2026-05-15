@@ -43,6 +43,7 @@ const initialState: IDEState = {
   activeActivityAction: "explorer",
   cursorLine: 1,
   cursorCol: 1,
+  isTestRunning: false,
 };
 
 function clampPanel(px: number): number {
@@ -164,6 +165,8 @@ export function ideReducer(state: IDEState, action: IDEAction): IDEState {
       return { ...state, activeActivityAction: action.action };
     case "SET_CURSOR":
       return { ...state, cursorLine: action.line, cursorCol: action.col };
+    case "SET_TEST_RUNNING":
+      return { ...state, isTestRunning: action.value };
     default:
       return state;
   }

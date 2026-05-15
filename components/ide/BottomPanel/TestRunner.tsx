@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { useIDE } from "@/app/ide/IDEContext";
 import { PlayIcon, StopIcon } from "@/components/ui/Icon";
 
@@ -11,9 +11,11 @@ function prefersReducedMotion(): boolean {
 
 export function TestRunner() {
   const { state, dispatch } = useIDE();
-  const [running, setRunning] = useState(false);
+  const running = state.isTestRunning;
+  const runningRef = useRef(false);
   const abortRef = useRef(false);
   const timeoutsRef = useRef<number[]>([]);
+  const stopCycleRef = useRef<() => void>(() => {});
 
   function clearTimeouts() {
     for (const id of timeoutsRef.current) clearTimeout(id);
@@ -29,13 +31,16 @@ export function TestRunner() {
   }
 
   function runCycle() {
+    if (runningRef.current) return;
+    runningRef.current = true;
+    dispatch({ type: "SET_TEST_RUNNING", value: true });
     dispatch({ type: "TEST_RESET" });
     abortRef.current = false;
-    setRunning(true);
 
     if (prefersReducedMotion()) {
       passAllImmediately();
-      setRunning(false);
+      runningRef.current = false;
+      dispatch({ type: "SET_TEST_RUNNING", value: false });
       return;
     }
 
@@ -93,7 +98,8 @@ export function TestRunner() {
 
     const doneId = window.setTimeout(() => {
       if (abortRef.current) return;
-      setRunning(false);
+      runningRef.current = false;
+      dispatch({ type: "SET_TEST_RUNNING", value: false });
       const totalSec = (totalFakeMs / 1000).toFixed(2);
       dispatch({ type: "TERMINAL_APPEND", line: { kind: "output", text: "" } });
       dispatch({
@@ -117,7 +123,8 @@ export function TestRunner() {
   function stopCycle() {
     abortRef.current = true;
     clearTimeouts();
-    setRunning(false);
+    runningRef.current = false;
+    dispatch({ type: "SET_TEST_RUNNING", value: false });
     let passedSoFar = 0;
     state.testSuites.forEach((suite, sIdx) => {
       suite.cases.forEach((c, cIdx) => {
@@ -145,11 +152,18 @@ export function TestRunner() {
   }, []);
 
   useEffect(() => {
-    function onRun() {
-      runCycle();
-    }
+    stopCycleRef.current = stopCycle;
+  });
+
+  useEffect(() => {
+    function onRun() { runCycle(); }
+    function onStop() { stopCycleRef.current(); }
     window.addEventListener("ide:run-all-tests", onRun);
-    return () => window.removeEventListener("ide:run-all-tests", onRun);
+    window.addEventListener("ide:stop-tests", onStop);
+    return () => {
+      window.removeEventListener("ide:run-all-tests", onRun);
+      window.removeEventListener("ide:stop-tests", onStop);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

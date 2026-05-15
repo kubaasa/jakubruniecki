@@ -236,7 +236,6 @@ export function RunActivityIcon(props: IconProps) {
       {...props}
     >
       <polygon points="6,4 20,12 6,20" fill="currentColor" />
-      <circle cx="18" cy="18" r="3" fill="#0d1117" />
     </svg>
   );
 }

@@ -50,6 +50,13 @@ export const fileTree: FileNode[] = [
       },
       {
         type: "folder",
+        name: "case-studies",
+        path: "case-studies",
+        defaultOpen: true,
+        children: [file(fintechRegression), file(ecommerceE2e)],
+      },
+      {
+        type: "folder",
         name: "tests",
         path: "tests",
         defaultOpen: true,
@@ -59,13 +66,6 @@ export const fileTree: FileNode[] = [
           file(availabilitySpec),
           file(hireMeSpec),
         ],
-      },
-      {
-        type: "folder",
-        name: "case-studies",
-        path: "case-studies",
-        defaultOpen: true,
-        children: [file(fintechRegression), file(ecommerceE2e)],
       },
       file(readme),
       file(envFile),

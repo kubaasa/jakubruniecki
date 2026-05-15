@@ -7,6 +7,7 @@ import {
   SearchIcon,
   GitIcon,
   RunActivityIcon,
+  StopIcon,
   ExtensionsIcon,
   SettingsIcon,
 } from "@/components/ui/Icon";
@@ -33,11 +34,14 @@ function ActivityButton({ entry }: { entry: Entry }) {
   const { state, dispatch } = useIDE();
   const { action, label, Icon } = entry;
   const active = state.activeActivityAction === action;
+  const isRunToggle = action === "run";
+  const testRunning = isRunToggle && state.isTestRunning;
+
   return (
     <button
       type="button"
-      title={label}
-      aria-label={label}
+      title={testRunning ? "Stop tests" : label}
+      aria-label={testRunning ? "Stop tests" : label}
       aria-pressed={active}
       data-action={action}
       onClick={() => {
@@ -46,7 +50,11 @@ function ActivityButton({ entry }: { entry: Entry }) {
           dispatch({ type: "TOGGLE_PALETTE", open: true });
         } else if (action === "run") {
           if (typeof window !== "undefined") {
-            window.dispatchEvent(new CustomEvent("ide:run-all-tests"));
+            window.dispatchEvent(
+              new CustomEvent(
+                state.isTestRunning ? "ide:stop-tests" : "ide:run-all-tests",
+              ),
+            );
           }
         }
       }}
@@ -60,7 +68,11 @@ function ActivityButton({ entry }: { entry: Entry }) {
           className="pointer-events-none absolute left-0 top-0 h-full w-[3px] bg-accent-green"
         />
       ) : null}
-      <Icon className="h-5 w-5" width={20} height={20} />
+      {testRunning ? (
+        <StopIcon className="h-5 w-5" width={20} height={20} />
+      ) : (
+        <Icon className="h-5 w-5" width={20} height={20} />
+      )}
     </button>
   );
 }
