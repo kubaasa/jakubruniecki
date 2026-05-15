@@ -33,6 +33,13 @@ const envPatterns: Array<{ type: TokenType; re: RegExp }> = [
   { type: "string", re: /(?<==)[^\n]+/ },
 ];
 
+const jsonPatterns: Array<{ type: TokenType; re: RegExp }> = [
+  { type: "prop", re: /"(?:\\.|[^"\\])*"(?=\s*:)/ },
+  { type: "string", re: /"(?:\\.|[^"\\])*"/ },
+  { type: "keyword", re: /\b(?:true|false|null)\b/ },
+  { type: "number", re: /-?\b\d+(?:\.\d+)?(?:[eE][+-]?\d+)?\b/ },
+];
+
 function tokenizeLine(line: string, patterns: typeof tsPatterns): Token[] {
   const tokens: Token[] = [];
   let cursor = 0;
@@ -126,6 +133,8 @@ export function SyntaxHighlight({
         let tokens: Token[];
         if (language === "ts") tokens = tokenizeLine(line, tsPatterns);
         else if (language === "env") tokens = tokenizeLine(line, envPatterns);
+        else if (language === "json") tokens = tokenizeLine(line, jsonPatterns);
+        else if (language === "txt") tokens = [{ type: "plain", text: line }];
         else tokens = tokenizeMdLine(line);
         return (
           <div key={lineIdx}>

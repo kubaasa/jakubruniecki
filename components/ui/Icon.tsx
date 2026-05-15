@@ -1,4 +1,5 @@
 import type { SVGProps } from "react";
+import type { Language } from "@/app/ide/types";
 
 type IconProps = SVGProps<SVGSVGElement> & { className?: string };
 
@@ -137,15 +138,67 @@ export function EnvIcon(props: IconProps) {
   );
 }
 
+export function JsonIcon(props: IconProps) {
+  return (
+    <svg viewBox="0 0 16 16" width={16} height={16} aria-hidden {...props}>
+      <rect x="1" y="1" width="14" height="14" rx="2" fill="#f1c40f" />
+      <text
+        x="8"
+        y="11"
+        fontSize="6"
+        fontFamily="ui-monospace, monospace"
+        fontWeight="700"
+        textAnchor="middle"
+        fill="#1f1300"
+      >
+        {"{ }"}
+      </text>
+    </svg>
+  );
+}
+
+export function TxtIcon(props: IconProps) {
+  return (
+    <svg viewBox="0 0 16 16" width={16} height={16} aria-hidden {...props}>
+      <rect x="2" y="1.5" width="12" height="13" rx="1.5" fill="#8b949e" />
+      <path
+        d="M5 5h6M5 7.5h6M5 10h4"
+        stroke="#0d1117"
+        strokeWidth={1.2}
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
+export function PngIcon(props: IconProps) {
+  return (
+    <svg viewBox="0 0 16 16" width={16} height={16} aria-hidden {...props}>
+      <rect x="1.5" y="2" width="13" height="12" rx="1.5" fill="#a371f7" />
+      <circle cx="6" cy="6.5" r="1.2" fill="#fff" />
+      <path
+        d="M2.5 12.5l3.5-4 2.5 2.5 2-1.5 3 3"
+        stroke="#fff"
+        strokeWidth={1.2}
+        fill="none"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
 export function FileIcon({
   language,
   path,
   ...rest
-}: IconProps & { language: "ts" | "md" | "env"; path?: string }) {
+}: IconProps & { language: Language; path?: string }) {
   if (path === "README.md") return <ReadmeIcon {...rest} />;
   if (path === ".env") return <EnvIcon {...rest} />;
   if (language === "env") return <EnvIcon {...rest} />;
   if (language === "md") return <MDIcon {...rest} />;
+  if (language === "json") return <JsonIcon {...rest} />;
+  if (language === "txt") return <TxtIcon {...rest} />;
+  if (language === "png") return <PngIcon {...rest} />;
   if (path && path.endsWith(".spec.ts")) return <SpecIcon {...rest} />;
   return <TSIcon {...rest} />;
 }

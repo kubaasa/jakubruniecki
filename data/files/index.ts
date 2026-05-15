@@ -1,21 +1,31 @@
-import type { FileNode } from "@/app/ide/types";
+import type { FileNode, Language } from "@/app/ide/types";
 import { readme } from "./readme";
 import { aboutTs } from "./aboutTs";
 import { skillsTs } from "./skillsTs";
 import { projectsTs } from "./projectsTs";
 import { contactTs } from "./contactTs";
 import { envFile } from "./env";
-import { candidateSpec } from "./tests/candidateSpec";
-import { softSkillsSpec } from "./tests/softSkillsSpec";
-import { availabilitySpec } from "./tests/availabilitySpec";
-import { hireMeSpec } from "./tests/hireMeSpec";
+import { authUserJson } from "./tests/auth/userJson";
+import { playwrightConfig } from "./tests/playwrightConfig";
+import { candidateSpecNew } from "./tests/specs/candidate";
+import { softSkillsSpecNew } from "./tests/specs/softSkills";
+import { visualSpec } from "./tests/specs/visual";
+import { apiSpec } from "./tests/specs/api";
+import { homePagePOM } from "./tests/pages/HomePage";
+import { contactPagePOM } from "./tests/pages/ContactPage";
+import { recruiterFixture } from "./tests/fixtures/recruiterFixture";
+import { candidateData } from "./tests/testData/candidateData";
+import { helpers } from "./tests/utils/helpers";
+import { candidateProfileChromiumSnapshot } from "./tests/visualSnapshots/candidateProfileChromium";
+import { candidateProfileDarkChromiumSnapshot } from "./tests/visualSnapshots/candidateProfileDarkChromium";
+import { candidateProfileChromiumDiffSnapshot } from "./tests/visualSnapshots/candidateProfileChromiumDiff";
 import { fintechRegression } from "./caseStudies/fintechRegression";
 import { ecommerceE2e } from "./caseStudies/ecommerceE2e";
 
 function file(stub: {
   path: string;
   name: string;
-  language: "ts" | "md" | "env";
+  language: Language;
   content: string;
 }): FileNode {
   return {
@@ -61,10 +71,65 @@ export const fileTree: FileNode[] = [
         path: "tests",
         defaultOpen: true,
         children: [
-          file(candidateSpec),
-          file(softSkillsSpec),
-          file(availabilitySpec),
-          file(hireMeSpec),
+          {
+            type: "folder",
+            name: ".auth",
+            path: "tests/.auth",
+            children: [file(authUserJson)],
+          },
+          {
+            type: "folder",
+            name: "specs",
+            path: "tests/specs",
+            children: [
+              file(candidateSpecNew),
+              file(softSkillsSpecNew),
+              file(visualSpec),
+              file(apiSpec),
+            ],
+          },
+          {
+            type: "folder",
+            name: "pages",
+            path: "tests/pages",
+            children: [file(homePagePOM), file(contactPagePOM)],
+          },
+          {
+            type: "folder",
+            name: "fixtures",
+            path: "tests/fixtures",
+            children: [file(recruiterFixture)],
+          },
+          {
+            type: "folder",
+            name: "test-data",
+            path: "tests/test-data",
+            children: [file(candidateData)],
+          },
+          {
+            type: "folder",
+            name: "utils",
+            path: "tests/utils",
+            children: [file(helpers)],
+          },
+          {
+            type: "folder",
+            name: "visual-snapshots",
+            path: "tests/visual-snapshots",
+            children: [
+              {
+                type: "folder",
+                name: "visual.spec.ts-snapshots",
+                path: "tests/visual-snapshots/visual.spec.ts-snapshots",
+                children: [
+                  file(candidateProfileChromiumSnapshot),
+                  file(candidateProfileDarkChromiumSnapshot),
+                  file(candidateProfileChromiumDiffSnapshot),
+                ],
+              },
+            ],
+          },
+          file(playwrightConfig),
         ],
       },
       file(readme),

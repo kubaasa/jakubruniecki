@@ -31,6 +31,8 @@ const initialState: IDEState = {
     jakubruniecki: true,
     portfolio: true,
     tests: true,
+    "tests/specs": true,
+    "tests/pages": true,
     "case-studies": true,
   },
   openEditorsCollapsed: false,

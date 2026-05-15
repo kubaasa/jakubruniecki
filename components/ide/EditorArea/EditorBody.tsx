@@ -5,6 +5,7 @@ import { useIDE } from "@/app/ide/IDEContext";
 import { getFileByPath } from "@/data/files";
 import { SyntaxHighlight } from "@/components/ui/SyntaxHighlight";
 import { ReadmePreview } from "./ReadmePreview";
+import { ImagePreview } from "./ImagePreview";
 
 function prefersReducedMotion(): boolean {
   if (typeof window === "undefined") return false;
@@ -24,6 +25,7 @@ export function EditorBody() {
 
   useEffect(() => {
     if (!file) return;
+    if (file.language === "png") return;
     if (timerRef.current !== null) {
       window.clearInterval(timerRef.current);
       timerRef.current = null;
@@ -68,6 +70,9 @@ export function EditorBody() {
   }
   if (file.path === "README.md") {
     return <ReadmePreview />;
+  }
+  if (file.language === "png") {
+    return <ImagePreview src={file.content} alt={file.name} />;
   }
   const lineCount = Math.max(1, typed.split("\n").length);
   return (

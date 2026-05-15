@@ -1,4 +1,4 @@
-export type Language = "ts" | "md" | "env";
+export type Language = "ts" | "md" | "env" | "json" | "txt" | "png";
 
 export type FileNode =
   | {
