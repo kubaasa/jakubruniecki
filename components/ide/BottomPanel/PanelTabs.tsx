@@ -30,7 +30,9 @@ export function PanelTabs() {
         </span>
       </div>
       <div className="font-mono text-[11px] normal-case text-fg-muted">
-        zsh — portfolio | node v20.11.0
+        {process.env.NEXT_PUBLIC_APP_NAME}@
+        {process.env.NEXT_PUBLIC_APP_VERSION} · published{" "}
+        {process.env.NEXT_PUBLIC_BUILD_DATE?.slice(0, 10)}
       </div>
     </div>
   );
