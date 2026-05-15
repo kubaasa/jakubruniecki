@@ -2,38 +2,52 @@ import type { Language } from "@/app/ide/types";
 
 const content = `import { expect, test } from "@playwright/test";
 
-test.describe("Offer pipeline (API)", { tag: ["@api"] }, () => {
-  test("should accept an offer for the candidate", async ({ request }) => {
+test.describe("Hiring API", { tag: ["@api"] }, () => {
+  test("TC01 - should return 400 when offer payload forgets the salary", async ({ request }) => {
     const res = await request.post("/api/offers", {
       data: {
         candidateId: "kuba-bruniecki",
         role: "Senior QA Automation Engineer",
-        salary: "competitive",
+        // salary intentionally omitted — recruiters, please.
       },
     });
-    expect(res.status()).toBe(201);
-    expect(await res.json()).toMatchObject({ status: "ACCEPTED" });
+
+    expect(res.status()).toBe(400);
+    // toMatchObject ignores extra fields (timestamp, traceId) — only the contract matters.
+    expect(await res.json()).toMatchObject({
+      errors: [{ field: "salary", message: /required/i }],
+    });
   });
 
-  test("should mock the offer endpoint for UI tests", async ({ page }) => {
+  test("TC02 - should fall back to tea when /api/coffee returns 503", async ({ page }) => {
     // Intercept before navigation — order matters in route mocking.
-    await page.route("**/api/offers", async (route) => {
-      await route.fulfill({
-        status: 201,
-        contentType: "application/json",
-        body: JSON.stringify({ status: "ACCEPTED", startDate: "ASAP" }),
-      });
-    });
+    await page.route("**/api/coffee", (route) => route.fulfill({ status: 503 }));
 
     await page.goto("/candidates/kuba-bruniecki");
-    await page.getByRole("button", { name: /hire me/i }).click();
+    await page.getByRole("button", { name: /brew coffee/i }).click();
 
-    await expect(page.getByRole("status")).toHaveText(/ACCEPTED/);
+    await expect(page.getByTestId("beverage-indicator")).toHaveAttribute("data-mode", "tea");
+    await expect(page.getByRole("status")).toHaveText(/tea mode engaged/i);
   });
 
-  test("should reject malformed offers gracefully", async ({ request }) => {
-    const res = await request.post("/api/offers", { data: {} });
-    expect(res.status()).toBe(400);
+  test("TC03 - should expire the offer link after 7 days", async ({ request }) => {
+    // Seed an offer that expired 8 days ago via the test-only fixture endpoint.
+    const seedRes = await request.post("/api/test/offers", {
+      data: {
+        candidateId: "kuba-bruniecki",
+        expiresAt: "2026-05-08T00:00:00Z",
+      },
+    });
+    const { id } = await seedRes.json();
+
+    const res = await request.get(\`/api/offers/\${id}\`);
+
+    // 410 Gone — it existed, but it's over. 404 would lie.
+    expect(res.status()).toBe(410);
+    expect(await res.json()).toMatchObject({
+      error: "OFFER_EXPIRED",
+      expiredAt: "2026-05-08T00:00:00Z",
+    });
   });
 });
 `;
