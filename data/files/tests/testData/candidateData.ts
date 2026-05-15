@@ -29,14 +29,26 @@ export const recruiterPersonas = [
   { style: "blunt", opener: "We have a role. Are you in?" },
   { style: "verbose", opener: faker.lorem.paragraph() },
 ];
+
+export const mentorScenarios = [
+  { topic: "async testing", slug: "async-testing" },
+  { topic: "your first flaky test", slug: "first-flaky-test" },
+  { topic: "disagreeing in code review", slug: "code-review-disagreement" },
+];
+
+export const globalTeamTimezones = [
+  { city: "Warsaw", slug: "warsaw", tz: "Europe/Warsaw" },
+  { city: "New York", slug: "new-york", tz: "America/New_York" },
+  { city: "Tokyo", slug: "tokyo", tz: "Asia/Tokyo" },
+];
 `;
 }
+
+const content = buildContent();
 
 export const candidateData = {
   path: "tests/test-data/candidate.data.ts",
   name: "candidate.data.ts",
   language: "ts" as Language,
-  get content() {
-    return buildContent();
-  },
+  content,
 };
