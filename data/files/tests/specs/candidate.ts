@@ -5,7 +5,7 @@ function buildContent(): string {
   const years = formatYears(totalYearsExperience());
   return `import { expect } from "@playwright/test";
 import { test } from "../fixtures/fixtures";
-import { candidate } from "../test-data/candidate.data";
+import { candidate, interviewQuestionBank } from "../test-data/candidate.data";
 
 test.describe("Candidate profile", { tag: ["@smoke", "@critical"] }, () => {
   test.beforeEach(async ({ authenticatedRecruiter }) => {
@@ -14,7 +14,7 @@ test.describe("Candidate profile", { tag: ["@smoke", "@critical"] }, () => {
 
   test("TC01 - should handle \"whats your biggest weakness?\" without stack overflow", { tag: ["@interview", "@critical"] }, async ({ homePage }) => {
     // classic recursive trap — answer "perfectionism" and you're in an infinite humble-brag loop
-    const answer = await homePage.askQuestion("What's your biggest weakness?");
+    const answer = await homePage.askQuestion(interviewQuestionBank.humbleBragTrap);
     expect(answer).toMatchObject({
       honest: true,
       selfAware: true,
@@ -36,15 +36,8 @@ test.describe("Candidate profile", { tag: ["@smoke", "@critical"] }, () => {
   });
 
   test("TC04 - should not throw NullPointerException on tricky interview questions", async ({ homePage }) => {
-    const trickyQuestions = [
-      "typeof null",
-      "0.1 + 0.2 === 0.3",
-      "Why are you leaving your current job?",
-      "We are like family here — thoughts?",
-    ];
-
     // each answer must clear all 3 gates: honest, diplomatic, technically correct
-    for (const question of trickyQuestions) {
+    for (const question of interviewQuestionBank.tricky) {
       await test.step(\`handles: \${question}\`, async () => {
         const answer = await homePage.askQuestion(question);
         expect(answer).toMatchObject({
