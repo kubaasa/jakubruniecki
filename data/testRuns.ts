@@ -2,35 +2,68 @@ import type { TestSuite } from "@/app/ide/types";
 
 export const initialTestSuites: TestSuite[] = [
   {
-    name: "Jakub Bruniecki — candidate",
-    file: "tests/candidate.spec.ts",
+    name: "Candidate profile",
+    file: "tests/specs/candidate.spec.ts",
     cases: [
-      { name: "has 5 years of QA experience", durMs: 12, status: "idle" },
-      { name: "writes maintainable Playwright code", durMs: 18, status: "idle" },
-      { name: "cuts regression from 3d to 4h", durMs: 11, status: "idle" },
+      {
+        name: 'TC01 - should handle "whats your biggest weakness?" without stack overflow',
+        durMs: 18,
+        status: "idle",
+      },
+      {
+        name: "TC02 - should handle 3 AM on-call page without coffee dependency",
+        durMs: 22,
+        status: "idle",
+      },
+      {
+        name: "TC03 - should load candidate profile without red flags",
+        durMs: 11,
+        status: "idle",
+      },
+      {
+        name: "TC04 - should not throw NullPointerException on tricky interview questions",
+        durMs: 28,
+        status: "idle",
+      },
     ],
   },
   {
-    name: "soft skills",
-    file: "tests/soft-skills.spec.ts",
+    name: "Soft skills",
+    file: "tests/specs/soft-skills.spec.ts",
     cases: [
-      { name: "communicates clearly", durMs: 9, status: "idle" },
-      { name: "mentors juniors", durMs: 7, status: "idle" },
-      { name: "owns the outcome", durMs: 14, status: "idle" },
+      { name: "TC05 - should mentor juniors without ego", durMs: 9, status: "idle" },
+      { name: "TC06 - should disagree without burning bridges", durMs: 10, status: "idle" },
+      { name: "TC07 - should keep cool under production fire", durMs: 15, status: "idle" },
     ],
   },
   {
-    name: "availability",
-    file: "tests/availability.spec.ts",
+    name: "Visual regression",
+    file: "tests/specs/visual.spec.ts",
     cases: [
-      { name: "is open to work", durMs: 6, status: "idle" },
-      { name: "responds within 24h", durMs: 8, status: "idle" },
-      { name: "considers remote roles", durMs: 7, status: "idle" },
+      { name: "TC08 - profile page should look hireable", durMs: 28, status: "idle" },
+      { name: "TC09 - dark mode should still look hireable", durMs: 24, status: "idle" },
+      {
+        name: "TC10 - hire-me button should scream 'click me' on hover",
+        durMs: 18,
+        status: "idle",
+      },
     ],
   },
   {
-    name: "the bottom line",
-    file: "tests/hire-me.spec.ts",
-    cases: [{ name: "hire me", durMs: 22, status: "idle" }],
+    name: "Hiring API",
+    file: "tests/specs/api.spec.ts",
+    cases: [
+      {
+        name: "TC11 - should return 400 when offer payload forgets the salary",
+        durMs: 7,
+        status: "idle",
+      },
+      {
+        name: "TC12 - should fall back to tea when /api/coffee returns 503",
+        durMs: 12,
+        status: "idle",
+      },
+      { name: "TC13 - should expire the offer link after 7 days", durMs: 10, status: "idle" },
+    ],
   },
 ];

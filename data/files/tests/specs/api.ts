@@ -4,7 +4,7 @@ const content = `import { expect } from "@playwright/test";
 import { test } from "../fixtures/fixtures";
 
 test.describe("Hiring API", { tag: ["@api"] }, () => {
-  test("TC12 - should return 400 when offer payload forgets the salary", async ({ request }) => {
+  test("TC11 - should return 400 when offer payload forgets the salary", async ({ request }) => {
     const res = await request.post("/api/offers", {
       data: {
         candidateId: "kuba-bruniecki",
@@ -20,7 +20,7 @@ test.describe("Hiring API", { tag: ["@api"] }, () => {
     });
   });
 
-  test("TC13 - should fall back to tea when /api/coffee returns 503", async ({ page }) => {
+  test("TC12 - should fall back to tea when /api/coffee returns 503", async ({ page }) => {
     // Intercept before navigation — order matters in route mocking.
     await page.route("**/api/coffee", (route) => route.fulfill({ status: 503 }));
 
@@ -31,7 +31,7 @@ test.describe("Hiring API", { tag: ["@api"] }, () => {
     await expect(page.getByRole("status")).toHaveText(/tea mode engaged/i);
   });
 
-  test("TC14 - should expire the offer link after 7 days", async ({ request }) => {
+  test("TC13 - should expire the offer link after 7 days", async ({ request }) => {
     // Seed an offer that expired 8 days ago via the test-only fixture endpoint.
     const seedRes = await request.post("/api/test/offers", {
       data: {
