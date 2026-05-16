@@ -40,7 +40,7 @@ export function SidebarSplitter({
     <div
       role="separator"
       aria-orientation="horizontal"
-      aria-label="Resize timeline"
+      aria-label="Resize bottom dock"
       onPointerDown={onPointerDown}
       onPointerMove={onPointerMove}
       onPointerUp={onPointerUp}

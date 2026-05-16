@@ -4,7 +4,7 @@ import { useRef } from "react";
 import { NewFileIcon, RefreshIcon, CollapseIcon } from "@/components/ui/Icon";
 import { OpenEditors } from "./OpenEditors";
 import { FileTree } from "./FileTree";
-import { Timeline } from "./Timeline";
+import { BottomDock } from "./BottomDock";
 import { SidebarSplitter } from "./SidebarSplitter";
 
 export function Sidebar() {
@@ -36,7 +36,7 @@ export function Sidebar() {
         <FileTree />
       </div>
       <SidebarSplitter sidebarRef={sidebarRef} />
-      <Timeline />
+      <BottomDock />
     </aside>
   );
 }
