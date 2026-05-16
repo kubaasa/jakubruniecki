@@ -38,7 +38,7 @@ const initialState: IDEState = {
   openEditorsCollapsed: false,
   filesCollapsed: false,
   panelHeightPx: 336,
-  sidebarTimelineHeightPx: 240,
+  sidebarTimelineHeightPx: 320,
   terminalLines: welcomeLines,
   testSuites: initialTestSuites,
   isPaletteOpen: false,
@@ -56,7 +56,7 @@ function clampPanel(px: number): number {
 
 function clampTimeline(px: number): number {
   if (px < 60) return 60;
-  if (px > 320) return 320;
+  if (px > 400) return 400;
   return px;
 }
 
