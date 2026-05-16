@@ -19,8 +19,8 @@ import { helpers } from "./tests/utils/helpers";
 import { candidateProfileChromiumSnapshot } from "./tests/visualSnapshots/candidateProfileChromium";
 import { candidateProfileDarkChromiumSnapshot } from "./tests/visualSnapshots/candidateProfileDarkChromium";
 import { candidateProfileChromiumDiffSnapshot } from "./tests/visualSnapshots/candidateProfileChromiumDiff";
-import { fintechRegression } from "./caseStudies/fintechRegression";
-import { ecommerceE2e } from "./caseStudies/ecommerceE2e";
+import { cyfrowyPolsatSelfcareIPBW } from "./caseStudies/cyfrowyPolsatSelfcare-IPBW";
+import { plusB2BSelfcare } from "./caseStudies/PlusB2Bselfcare";
 
 function file(stub: {
   path: string;
@@ -63,7 +63,7 @@ export const fileTree: FileNode[] = [
         name: "case-studies",
         path: "case-studies",
         defaultOpen: true,
-        children: [file(fintechRegression), file(ecommerceE2e)],
+        children: [file(cyfrowyPolsatSelfcareIPBW), file(plusB2BSelfcare)],
       },
       {
         type: "folder",
