@@ -4,41 +4,95 @@ export const projectsTs = {
   path: "portfolio/projects.ts",
   name: "projects.ts",
   language: "ts" as Language,
-  content: `// projects.ts — the work I'd point a recruiter at.
+  content: `// projects.ts — two case studies, both telecom, both real.
+// note: detailed write-ups (with screenshots) live in /case-studies — currently in-progress.
 
 export const projects = [
   {
-    type: "demo-repo",
-    title: "E-commerce E2E Test Suite",
+    type: "case-study",
+    slug: "cyfrowy-polsat-selfcare",
+    title: "Cyfrowy Polsat — Self-care Platform",
+    employer: "Asseco Poland S.A.",
+    client: "Cyfrowy Polsat S.A.",
+    industry: "Telecom",
+    role: "QA Automation Engineer",
+    duration: "2024-11 → present",
     description:
-      "Playwright + TypeScript test suite against a public e-commerce demo site. " +
-      "POM architecture, fixtures, parallel execution, CI on every push.",
-    tech: ["Playwright", "TypeScript", "GitHub Actions"],
-    githubUrl: "https://github.com/REPLACE_WITH_REAL_URL",
-    highlights: [
-      "30+ end-to-end tests",
-      "Page Object Model pattern",
-      "Parallel runs, ~2 min total",
-      "CI green badge on README",
+      "New B2C/B2B self-care web portal for one of Poland's largest TV & internet providers " +
+      "(pay invoices, modify services, track data usage, and more). Built on top of the existing " +
+      "mobile-app backend — adapted for web without regressing mobile.",
+    metrics: [
+      "Playwright + TypeScript framework from scratch (120+ E2E tests)",
+      "20+ API endpoints covered via Postman",
+      "WCAG 2.2 baked in from day one",
+      "~4-5× faster test authoring with Claude Code + Playwright MCP",
     ],
-    status: "active",
+    stack: [
+      "Playwright",
+      "TypeScript",
+      "Claude Code",
+      "Cursor",
+      "Postman",
+      "GitLab CI",
+      "ArgoCD",
+      "Playwright MCP/CLI",
+    ],
+    caseStudy: {
+      file: "case-studies/CyfrowyPolsat(TBC).md",
+      status: "in-progress 🚧",
+      willCover: [
+        "refinement & requirement gathering",
+        "documentation analysis",
+        "test scenarios + test case design",
+        "execution (manual + automation)",
+        "final reports & lessons learned",
+        "+ screenshots of each stage",
+      ],
+    },
   },
   {
     type: "case-study",
-    title: "Cutting regression cycle from 3 days to 4 hours",
-    industry: "Fintech",
-    role: "Senior QA Engineer",
-    duration: "2023–2024",
+    slug: "polkomtel-uat",
+    title: "Polkomtel (Plus) — Telecom QA across 25+ UAT releases",
+    employer: "Asseco Poland S.A.",
+    client: "Polkomtel Sp. z o.o.",
+    industry: "Telecom",
+    role: "Senior Software Tester",
+    duration: "2021-06 → 2024-11",
     description:
-      "Inherited a manual regression suite that blocked every release for three days. " +
-      "Designed and built a Playwright suite covering critical user paths; " +
-      "integrated into CI so regression ran on every PR.",
+      "Manual QA across 25+ UAT releases of interconnected self-service systems for one of " +
+      "Poland's largest mobile operators. Owned new-feature testing and verified that what " +
+      "landed on UAT matched the client's documentation — often under tight delivery pressure.",
     metrics: [
-      "3d → 4h regression cycle",
-      "150+ automated E2E tests",
-      "0 production incidents from covered paths post-launch",
+      "25+ UAT releases shipped",
+      "2500+ tickets filed before reaching production",
+      "Led own UAT project — hired and onboarded 2 testers",
+      "Scrum + waterfall, complex specs, frequent time pressure",
     ],
-    techUsed: ["Playwright", "TypeScript", "Postman", "JIRA"],
+    stack: [
+      "Manual QA",
+      "Postman",
+      "SoapUI",
+      "HP ALM QC",
+      "Chrome DevTools",
+      "Kibana",
+      "JIRA",
+      "Confluence",
+      "PostgreSQL",
+      "MongoDB",
+    ],
+    caseStudy: {
+      file: "case-studies/PlusB2BSelfcare(TBC).md",
+      status: "in-progress 🚧",
+      willCover: [
+        "refinement & requirement gathering",
+        "documentation analysis",
+        "test scenarios + test case design",
+        "different types of test execution",
+        "final reports & lessons learned",
+        "+ screenshots of each stage",
+      ],
+    },
   },
 ] as const;
 `,
