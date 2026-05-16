@@ -1,13 +1,23 @@
 import type { Language } from "@/app/ide/types";
+import {
+  AUTOMATION_START,
+  QA_START,
+  formatYears,
+  halfYearSuffixed,
+  yearsBetween,
+} from "@/lib/experience";
 
-export const readme = {
-  path: "README.md",
-  name: "README.md",
-  language: "md" as Language,
-  content: `# Jakub Bruniecki — Senior QA Engineer
+function buildContent(): string {
+  const totalYears = formatYears(yearsBetween(QA_START));
+  const manual = halfYearSuffixed(
+    yearsBetween(QA_START, AUTOMATION_START.getTime()),
+  );
+  const automation = halfYearSuffixed(yearsBetween(AUTOMATION_START));
 
-**TL;DR:** 5 years in QA — 3.5y manual, 1.5y Playwright automation.
-Fintech + e-commerce. Based in Warsaw, open to international remote roles.
+  return `# Jakub Bruniecki — Senior QA Engineer
+
+**TL;DR:** ${totalYears} years in QA — ${manual} manual, ${automation} Playwright automation.
+Fintech + e-commerce. Based in Gdańsk, open to international remote roles.
 
 ## How to read this portfolio
 
@@ -28,5 +38,14 @@ This is a working VS Code mock. Everything is interactive:
 ## Hire me
 
 If the tests pass (they will), type \`cv\` in the terminal and I'll reply within 24h.
-`,
+`;
+}
+
+export const readme = {
+  path: "README.md",
+  name: "README.md",
+  language: "md" as Language,
+  get content() {
+    return buildContent();
+  },
 };

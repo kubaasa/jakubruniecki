@@ -1,6 +1,6 @@
 import type { ContactLink } from "@/types";
 
-const EMAIL = "jakubruniecki@gmail.com";
+export const EMAIL = "jakubruniecki@gmail.com";
 const LINKEDIN_URL = "https://www.linkedin.com/in/jakub-bruniecki/";
 const GITHUB_URL = "https://github.com/kubaasa";
 const PHONE = "+48798909998";
@@ -39,7 +39,7 @@ export const contactLinks: ReadonlyArray<ContactLink> = [
 ];
 
 export const cvRequestHref = `mailto:${EMAIL}?subject=${encodeURIComponent(
-  "CV Request — [Your Company]"
+  "CV request — [your company]"
 )}&body=${encodeURIComponent(
-  "Hi Jakub,\n\nI'm [name] from [company]. We're looking for a [role]. Could you share your CV?\n\nThanks!"
+  "Hi Jakub,\n\nI'm [name] from [company]. We have an opening for a [role] and your portfolio caught our attention. Could you send over your CV?\n\nThanks,\n[name]"
 )}`;

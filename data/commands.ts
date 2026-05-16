@@ -4,14 +4,18 @@ import type {
   IDEAction,
   TerminalLine,
 } from "@/app/ide/types";
-import { allFiles } from "@/data/files";
-import { contactLinks, cvRequestHref } from "@/data/contact";
-import { projects } from "@/data/projects";
+import { contactLinks, cvRequestHref, EMAIL } from "@/data/contact";
 import {
   skills,
   SKILL_CATEGORY_ORDER,
   CATEGORY_LABEL,
 } from "@/data/skills";
+import {
+  AUTOMATION_START,
+  QA_START,
+  halfYearSuffixed,
+  yearsBetween,
+} from "@/lib/experience";
 
 export type CommandCtx = {
   files: FileNode[];
@@ -29,40 +33,19 @@ const err = (text: string): TerminalLine => ({ kind: "error", text });
 const sys = (text: string, href?: string): TerminalLine =>
   href ? { kind: "system", text, href } : { kind: "system", text };
 
-function resolveFilePath(arg: string): string | null {
-  if (allFiles.some((f) => f.path === arg)) return arg;
-  for (const prefix of ["", "portfolio/", "tests/", "case-studies/"]) {
-    const p = prefix + arg;
-    if (allFiles.some((f) => f.path === p)) return p;
-  }
-  const q = arg.toLowerCase();
-  const candidates = allFiles.filter((f) => {
-    let i = 0;
-    const lower = f.path.toLowerCase();
-    for (const ch of lower) {
-      if (ch === q[i]) i++;
-      if (i === q.length) return true;
-    }
-    return false;
-  });
-  if (candidates.length === 1) return candidates[0]!.path;
-  return null;
-}
-
 export const commands: Record<string, Command> = {
   help: {
     name: "help",
     description: "list commands",
     run: () => {
       const rows: Array<[string, string]> = [
-        ["help", "list commands"],
-        ["whoami", "short bio"],
-        ["open <file>", "open a file in the editor"],
-        ["projects", "list public projects"],
-        ["skills", "list skills by category"],
+        ["clear", "clear the terminal"],
         ["contact", "print email / linkedin / location / phone"],
         ["cv", "open CV request mailto"],
-        ["clear", "clear the terminal"],
+        ["help", "list commands"],
+        ["philosophy", "how I approach testing"],
+        ["skills", "list skills by category"],
+        ["whoami", "short bio"],
       ];
       return [
         sys("Available commands:"),
@@ -105,25 +88,6 @@ export const commands: Record<string, Command> = {
       return lines;
     },
   },
-  projects: {
-    name: "projects",
-    description: "list public projects",
-    run: () => {
-      const lines: TerminalLine[] = [];
-      for (const p of projects) {
-        if (p.type === "demo-repo") {
-          lines.push(out(`● ${p.title} — demo repo`));
-          lines.push(out(`    ${p.tech.join(" · ")}`));
-          lines.push(sys(`    ${p.githubUrl}`, p.githubUrl));
-        } else {
-          lines.push(out(`● ${p.title} — case study (${p.industry})`));
-          lines.push(out(`    ${p.metrics.join(" · ")}`));
-        }
-        lines.push(out(""));
-      }
-      return lines;
-    },
-  },
   skills: {
     name: "skills",
     description: "list skills by category",
@@ -140,18 +104,6 @@ export const commands: Record<string, Command> = {
       return lines;
     },
   },
-  open: {
-    name: "open",
-    description: "open a file in the editor",
-    run: (args, ctx) => {
-      const arg = args.join(" ").trim();
-      if (!arg) return [err("open: missing file")];
-      const path = resolveFilePath(arg);
-      if (!path) return [err(`error: no such file: ${arg}`)];
-      ctx.dispatch({ type: "OPEN_FILE", path });
-      return [out(`opened ${path}`)];
-    },
-  },
   clear: {
     name: "clear",
     description: "clear the terminal",
@@ -163,7 +115,39 @@ export const commands: Record<string, Command> = {
   whoami: {
     name: "whoami",
     description: "short bio line",
-    run: () => [out("jakubruniecki @ Warsaw · CET · open-to-work")],
+    run: () => {
+      const manual = halfYearSuffixed(
+        yearsBetween(QA_START, AUTOMATION_START.getTime()),
+      );
+      const automation = halfYearSuffixed(yearsBetween(AUTOMATION_START));
+      const sinceYear = QA_START.getFullYear();
+      return [
+        out(`Author: Jakub Bruniecki <${EMAIL}>`),
+        out("Role:   Senior Manual QA → Automation (Playwright/TS)"),
+        out(`Since:  ${sinceYear}  (${manual} manual · ${automation} automation)`),
+        out("Where:  Gdańsk, PL · CET · open-to-work"),
+      ];
+    },
+  },
+  philosophy: {
+    name: "philosophy",
+    description: "how I approach testing",
+    run: () => [
+      sys("How I work:"),
+      out("  • I show up at refinement and ask the awkward questions."),
+      out("  • Scenarios are written before the first line of code is pushed."),
+      out("  • I work embedded with developers — branches land on dev first, I verify, team merges."),
+      out("  • AI is a tool, not a shortcut. Claude Code + Playwright MCP/CLI cut test-authoring ~4–5×."),
+    ],
+  },
+  sudo: {
+    name: "sudo",
+    description: "elevate privileges",
+    run: () => [
+      out("[sudo] password for recruiter:"),
+      err("sorry, you are not in the sudoers file. this incident will be reported."),
+      sys("hint: try `cv` instead — you don't need sudo for that."),
+    ],
   },
 };
 

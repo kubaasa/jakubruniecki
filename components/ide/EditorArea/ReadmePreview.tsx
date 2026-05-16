@@ -176,10 +176,10 @@ export function ReadmePreview() {
             <FileLink path="portfolio/about.ts">about.ts</FileLink> - Who I am as an engineer,  what I focus on, how I work with teams, and what I think tests are actually for
           </li>
           <li>
-            <FileLink path="portfolio/skills.ts">skills.ts</FileLink> - Tools and techniques grouped by categories
+            <FileLink path="portfolio/skills.ts">skills.ts</FileLink> - 27 tools across 7 categories: automation, manual, API, CI/CD, debugging, test management, and the AI stack I actually use
           </li>
           <li>
-            <FileLink path="portfolio/projects.ts">projects.ts</FileLink> - tbc
+            <FileLink path="portfolio/projects.ts">projects.ts</FileLink> - Two real projects, both telecom, both via Asseco: Cyfrowy Polsat self-care (automation, ongoing) and Polkomtel/Plus (manual UAT, 25+ releases)
           </li>
           <li>
             <FileLink path="portfolio/contact.ts">contact.ts</FileLink> - Every way to reach me - email for serious chats, LinkedIn for the slow lane, CV available on request
@@ -192,8 +192,7 @@ export function ReadmePreview() {
         <p className="mb-3.5">
           Type <Code>help</Code> in the terminal below to see what it can do. A
           few favourites: <Code>cv</Code>, <Code>contact</Code>,{" "}
-          <Code>whoami</Code>, or <Code>open about.ts</Code> to jump straight to
-          a file.
+          <Code>whoami</Code>, or <Code>philosophy</Code>.
         </p>
 
         <h2 className="mb-2.5 mt-7 border-b border-border-subtle pb-1.5 font-mono text-[18px]">

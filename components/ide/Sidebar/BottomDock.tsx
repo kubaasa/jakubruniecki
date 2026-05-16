@@ -35,7 +35,7 @@ export function BottomDock() {
     { metric: "ISTQB", label: "Foundation Level certified" },
     { metric: "2", label: "enterprise clients · Polsat · Plus" },
     { metric: "0 → 1", label: "built E2E framework from scratch" },
-    { metric: "AI-fwd", label: "Cursor · Claude Code · MCP" },
+    { metric: "AI-fwd", label: "Cursor · Claude Code · Playwright MCP/CLI" },
   ];
 
   return (
