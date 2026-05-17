@@ -1,8 +1,8 @@
 import type { Language } from "@/app/ide/types";
 
 export const plusB2BSelfcare = {
-  path: "case-studies/PlusB2BSelfcare(TBC).md",
-  name: "PlusB2BSelfcare(TBC).md",
+  path: "case-studies/PlusSelfcare(soon).md",
+  name: "PlusSelfcare(soon).md",
   language: "md" as Language,
   content: `# Plus B2B Self-care (case study TBC)
 

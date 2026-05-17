@@ -21,9 +21,9 @@ type Entry = {
 const TOP_ENTRIES: Entry[] = [
   { action: "explorer", label: "Explorer", Icon: ExplorerIcon },
   { action: "search", label: "Search", Icon: SearchIcon },
-  { action: "git", label: "Source control", Icon: GitIcon },
+  { action: "git", label: "Source control (soon)", Icon: GitIcon },
   { action: "run", label: "Run tests", Icon: RunActivityIcon },
-  { action: "ext", label: "Extensions", Icon: ExtensionsIcon },
+  { action: "ext", label: "Extensions (soon)", Icon: ExtensionsIcon },
 ];
 
 const BOTTOM_ENTRIES: Entry[] = [

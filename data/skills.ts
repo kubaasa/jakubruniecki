@@ -35,8 +35,6 @@ export const skills: ReadonlyArray<Skill> = [
   { name: "Xray", level: "advanced", category: "test-management", yearsUsed: 1.5 },
 
   // debugging
-  { name: "PostgreSQL", level: "intermediate", category: "debugging", yearsUsed: 3 },
-  { name: "Oracle", level: "intermediate", category: "debugging", yearsUsed: 2 },
   { name: "Chrome DevTools", level: "senior", category: "debugging", yearsUsed: 5 },
   { name: "Kibana", level: "senior", category: "debugging", yearsUsed: 1.5 },
   { name: "ArgoCD", level: "intermediate", category: "debugging", yearsUsed: 1 },

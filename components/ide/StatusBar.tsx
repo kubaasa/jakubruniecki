@@ -3,10 +3,8 @@
 import { useEffect, useState } from "react";
 import { useIDE } from "@/app/ide/IDEContext";
 import { getFileByPath } from "@/data/files";
+import { cvRequestHref } from "@/data/contact";
 import { BranchIcon, BellIcon, ErrorDot, WarningDot } from "@/components/ui/Icon";
-
-const EMAIL = "jakubruniecki@gmail.com";
-const CV_HREF = `mailto:${EMAIL}?subject=${encodeURIComponent("CV Request")}`;
 
 function languageLabel(path: string | null): string {
   if (!path) return "Plain";
@@ -48,7 +46,7 @@ export function StatusBar() {
     >
       <div className="flex items-center gap-4">
         <a
-          href={CV_HREF}
+          href={cvRequestHref}
           className="rounded px-1 hover:bg-bg-elevated"
         >
           CV on request

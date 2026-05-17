@@ -20,13 +20,13 @@ export function Sidebar() {
           Explorer
         </span>
         <div className="flex items-center gap-1 text-fg-muted">
-          <button type="button" aria-label="New file" className="rounded p-1 hover:text-fg">
+          <button type="button" title="New file (soon)" aria-label="New file (soon)" className="rounded p-1 hover:text-fg">
             <NewFileIcon className="h-3.5 w-3.5" width={14} height={14} />
           </button>
-          <button type="button" aria-label="Refresh" className="rounded p-1 hover:text-fg">
+          <button type="button" title="Refresh (soon)" aria-label="Refresh (soon)" className="rounded p-1 hover:text-fg">
             <RefreshIcon className="h-3.5 w-3.5" width={14} height={14} />
           </button>
-          <button type="button" aria-label="Collapse all" className="rounded p-1 hover:text-fg">
+          <button type="button" title="Collapse all (soon)" aria-label="Collapse all (soon)" className="rounded p-1 hover:text-fg">
             <CollapseIcon className="h-3.5 w-3.5" width={14} height={14} />
           </button>
         </div>

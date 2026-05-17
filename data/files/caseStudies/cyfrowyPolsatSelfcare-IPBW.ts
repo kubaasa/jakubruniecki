@@ -1,8 +1,8 @@
 import type { Language } from "@/app/ide/types";
 
 export const cyfrowyPolsatSelfcareIPBW = {
-  path: "case-studies/CyfrowyPolsat(TBC).md",
-  name: "CyfrowyPolsat(TBC).md",
+  path: "case-studies/CyfrowyPolsat(soon).md",
+  name: "CyfrowyPolsat(soon).md",
   language: "md" as Language,
   content: `# Cyfrowy Polsat — Self-care (case study TBC)
 

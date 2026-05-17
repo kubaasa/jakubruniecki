@@ -38,7 +38,7 @@ export const projects = [
       "Playwright MCP/CLI",
     ],
     caseStudy: {
-      file: "case-studies/CyfrowyPolsat(TBC).md",
+      file: "case-studies/CyfrowyPolsat(soon).md",
       status: "in-progress 🚧",
       willCover: [
         "refinement & requirement gathering",
@@ -82,7 +82,7 @@ export const projects = [
       "MongoDB",
     ],
     caseStudy: {
-      file: "case-studies/PlusB2BSelfcare(TBC).md",
+      file: "case-studies/PlusSelfcare(soon).md",
       status: "in-progress 🚧",
       willCover: [
         "refinement & requirement gathering",
