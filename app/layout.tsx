@@ -18,15 +18,15 @@ const jetbrains = JetBrains_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL("https://jakubruniecki.vercel.app"),
   title: {
-    default: "Jakub Bruniecki — Senior QA Engineer",
+    default: "Jakub Bruniecki — QA Engineer",
     template: "%s · Jakub Bruniecki",
   },
   description:
-    "Senior QA Engineer · Manual leadership + Playwright automation · 5 years · Open to international remote roles.",
+    "QA Engineer · Manual leadership + Playwright automation · 5 years · Open to international remote roles.",
   openGraph: {
-    title: "Jakub Bruniecki — Senior QA Engineer",
+    title: "Jakub Bruniecki — QA Engineer",
     description:
-      "Senior QA Engineer · Manual leadership + Playwright automation · 5 years · Open to international remote roles.",
+      "QA Engineer · Manual leadership + Playwright automation · 5 years · Open to international remote roles.",
     url: "/",
     type: "profile",
     locale: "en_US",
@@ -42,9 +42,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Jakub Bruniecki — Senior QA Engineer",
+    title: "Jakub Bruniecki — QA Engineer",
     description:
-      "Senior QA Engineer · Manual leadership + Playwright automation · 5 years.",
+      "QA Engineer · Manual leadership + Playwright automation · 5 years.",
     images: ["/og-image.png"],
   },
   robots: { index: true, follow: true },
