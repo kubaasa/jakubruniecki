@@ -29,7 +29,7 @@ export const skills: ReadonlyArray<Skill> = [
 
   // test-management
   { name: "JIRA", level: "senior", category: "test-management", yearsUsed: 5 },
-  { name: "Confluence", level: "advanced", category: "test-management", yearsUsed: 5 },
+  { name: "Confluence", level: "senior", category: "test-management", yearsUsed: 5 },
   { name: "HP ALM", level: "senior", category: "test-management", yearsUsed: 2 },
   { name: "TestRail", level: "advanced", category: "test-management", yearsUsed: 3 },
   { name: "Xray", level: "advanced", category: "test-management", yearsUsed: 1.5 },

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import { RecruiterEasterEgg } from "@/components/RecruiterEasterEgg";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
 const inter = Inter({
@@ -16,7 +17,7 @@ const jetbrains = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://jakubruniecki.vercel.app"),
+  metadataBase: new URL("https://jakubruniecki.dev"),
   title: {
     default: "Jakub Bruniecki — QA Engineer",
     template: "%s · Jakub Bruniecki",
@@ -60,6 +61,7 @@ export default function RootLayout({
       <body className="bg-bg-base text-fg font-sans antialiased md:h-screen md:overflow-hidden">
         <RecruiterEasterEgg />
         {children}
+        <Analytics />
       </body>
     </html>
   );
