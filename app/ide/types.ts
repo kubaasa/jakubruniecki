@@ -66,6 +66,7 @@ export type IDEState = {
   cursorLine: number;
   cursorCol: number;
   isTestRunning: boolean;
+  sidebarHidden: boolean;
 };
 
 export type IDEAction =
@@ -91,4 +92,5 @@ export type IDEAction =
   | { type: "TOGGLE_PALETTE"; open?: boolean }
   | { type: "SET_ACTIVITY"; action: ActivityAction }
   | { type: "SET_CURSOR"; line: number; col: number }
-  | { type: "SET_TEST_RUNNING"; value: boolean };
+  | { type: "SET_TEST_RUNNING"; value: boolean }
+  | { type: "TOGGLE_SIDEBAR"; hidden?: boolean };

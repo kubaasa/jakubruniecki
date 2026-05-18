@@ -16,6 +16,9 @@ function GlobalShortcuts() {
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
         e.preventDefault();
         dispatch({ type: "TOGGLE_PALETTE" });
+      } else if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "b") {
+        e.preventDefault();
+        dispatch({ type: "TOGGLE_SIDEBAR" });
       }
     }
     document.addEventListener("keydown", onKey);

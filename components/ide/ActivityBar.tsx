@@ -43,10 +43,15 @@ function ActivityButton({ entry }: { entry: Entry }) {
       title={testRunning ? "Stop tests" : label}
       aria-label={testRunning ? "Stop tests" : label}
       aria-pressed={active}
+      aria-expanded={
+        action === "explorer" ? !state.sidebarHidden : undefined
+      }
       data-action={action}
       onClick={() => {
         dispatch({ type: "SET_ACTIVITY", action });
-        if (action === "search") {
+        if (action === "explorer") {
+          dispatch({ type: "TOGGLE_SIDEBAR" });
+        } else if (action === "search") {
           dispatch({ type: "TOGGLE_PALETTE", open: true });
         } else if (action === "run") {
           if (typeof window !== "undefined") {
