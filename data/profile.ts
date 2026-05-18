@@ -9,10 +9,10 @@ import {
 
 export const profile: Profile = {
   name: "Jakub Bruniecki",
-  role: "Senior QA Engineer",
+  role: "QA Automation Engineer",
   tagline: "Manual leadership + Playwright automation",
   bio: [
-    "I'm a QA engineer with 5 years of experience across fintech and e-commerce. Most of that time was hands-on manual testing; the last 1.5 years I've focused on building Playwright automation suites that actually pay off — fewer regressions, faster releases, predictable outcomes.",
+    "I'm a QA engineer with 5 years of experience in Telecom. Most of that time was hands-on manual testing, now extended with Playwright automation suites that actually pay off — fewer regressions, faster releases, predictable outcomes.",
     "I treat tests as a feature, not a tax. The goal isn't coverage numbers — it's catching the issues that would have shipped, and giving the team enough confidence to move faster.",
   ],
   location: "Gdańsk, Poland · Open to international remote",
@@ -28,7 +28,7 @@ export const profile: Profile = {
     return [
       `${manual} manual testing`,
       `${automation} test automation`,
-      "Fintech & E-commerce",
+      "Telecom",
     ];
   },
   cvDelivery: "on-request",
