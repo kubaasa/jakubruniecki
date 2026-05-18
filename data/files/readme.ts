@@ -14,7 +14,7 @@ function buildContent(): string {
   );
   const automation = halfYearSuffixed(yearsBetween(AUTOMATION_START));
 
-  return `# Jakub Bruniecki — QA Automation Engineer
+  return `# Jakub Bruniecki — Senior QA Engineer
 
 **TL;DR:** ${totalYears} years in QA — ${manual} manual, ${automation} Playwright automation.
 Telecom. Based in Gdańsk, open to international remote roles.

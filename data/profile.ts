@@ -9,11 +9,11 @@ import {
 
 export const profile: Profile = {
   name: "Jakub Bruniecki",
-  role: "QA Automation Engineer",
+  role: "Senior QA Engineer",
   tagline: "Manual leadership + Playwright automation",
   bio: [
-    "I'm a QA engineer with 5 years of experience in Telecom. Most of that time was hands-on manual testing, now extended with Playwright automation suites that actually pay off — fewer regressions, faster releases, predictable outcomes.",
-    "I treat tests as a feature, not a tax. The goal isn't coverage numbers — it's catching the issues that would have shipped, and giving the team enough confidence to move faster.",
+    "I'm a QA engineer with 5 years of experience in Telecom. Most of that time was hands-on manual testing, now extended with Playwright automation suites that actually pay off: fewer regressions, faster releases, predictable outcomes.",
+    "These days QA is half thinking, half tooling. AI runs alongside me through test design, debugging, and code review. One engineer with the right tools can do what a team used to.",
   ],
   location: "Gdańsk, Poland · Open to international remote",
   status: "open-to-work",
