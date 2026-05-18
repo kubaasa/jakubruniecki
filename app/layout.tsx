@@ -19,13 +19,13 @@ const jetbrains = JetBrains_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL("https://jakubruniecki.dev"),
   title: {
-    default: "Jakub Bruniecki — QA Engineer",
+    default: "Jakub Bruniecki - QA Engineer",
     template: "%s · Jakub Bruniecki",
   },
   description:
     "QA Engineer · Manual leadership + Playwright automation · 5 years · Open to international remote roles.",
   openGraph: {
-    title: "Jakub Bruniecki — QA Engineer",
+    title: "Jakub Bruniecki - QA Engineer",
     description:
       "QA Engineer · Manual leadership + Playwright automation · 5 years · Open to international remote roles.",
     url: "/",
@@ -37,13 +37,13 @@ export const metadata: Metadata = {
         width: 1200,
         height: 630,
         type: "image/png",
-        alt: "Jakub Bruniecki — Senior QA Engineer",
+        alt: "Jakub Bruniecki - Senior QA Engineer",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Jakub Bruniecki — QA Engineer",
+    title: "Jakub Bruniecki - QA Engineer",
     description:
       "QA Engineer · Manual leadership + Playwright automation · 5 years.",
     images: ["/og-image.png"],
