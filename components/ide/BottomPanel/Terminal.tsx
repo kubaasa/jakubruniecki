@@ -67,14 +67,14 @@ export function Terminal() {
 
   return (
     <div
-      className="flex h-full flex-1 flex-col bg-bg-base font-mono text-[12px] leading-[1.6]"
+      className="flex h-full min-w-0 flex-1 flex-col bg-bg-base font-mono text-[12px] leading-[1.6]"
       onClick={() => inputRef.current?.focus()}
       role="region"
       aria-label="Terminal"
     >
       <div
         ref={outputRef}
-        className="flex-1 overflow-y-auto px-3 py-2"
+        className="flex-1 overflow-auto px-3 py-2"
       >
         {state.terminalLines.map((line, i) => {
           if (line.kind === "input") {

@@ -29,7 +29,7 @@ export function PanelTabs() {
           </span>
         </span>
       </div>
-      <div className="font-mono text-[11px] normal-case text-fg-muted">
+      <div className="hidden font-mono text-[11px] normal-case text-fg-muted min-[1150px]:block">
         {process.env.NEXT_PUBLIC_APP_NAME}@
         {process.env.NEXT_PUBLIC_APP_VERSION} · published{" "}
         {process.env.NEXT_PUBLIC_BUILD_DATE?.slice(0, 10)}

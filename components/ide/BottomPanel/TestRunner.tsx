@@ -200,7 +200,7 @@ export function TestRunner() {
 
   return (
     <div
-      className="flex h-full w-1/2 flex-col border-l border-border bg-bg-base"
+      className="hidden h-full w-1/2 flex-col border-l border-border bg-bg-base min-[1150px]:flex"
       role="region"
       aria-label="Test runner"
     >
@@ -246,12 +246,12 @@ export function TestRunner() {
           {summary}
         </div>
       </div>
-      <div className="flex-1 overflow-y-auto px-3 py-2 font-mono text-[12px]">
+      <div className="flex-1 overflow-auto px-3 py-2 font-mono text-[12px]">
         {state.testSuites.map((suite) => {
           const allPass = suite.cases.every((c) => c.status === "pass");
           return (
             <div key={suite.name} className="mb-3">
-              <div className="flex items-center gap-2 text-fg">
+              <div className="flex items-center gap-2 whitespace-nowrap text-fg">
                 <span className={allPass ? "text-accent-green" : "text-fg-subtle"}>
                   {allPass ? "✓" : "○"}
                 </span>
@@ -262,7 +262,7 @@ export function TestRunner() {
               </div>
               <ul className="ml-5">
                 {suite.cases.map((c) => (
-                  <li key={c.name} className="flex items-center gap-2">
+                  <li key={c.name} className="flex items-center gap-2 whitespace-nowrap">
                     <span
                       className={
                         c.status === "pass"
