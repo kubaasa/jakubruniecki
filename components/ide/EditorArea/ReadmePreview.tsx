@@ -95,10 +95,10 @@ function FileLink({
 
 export function ReadmePreview() {
   return (
-    <div className="h-full overflow-auto bg-bg-base">
+    <div className="@container h-full overflow-auto bg-bg-base">
       <div className="mx-auto max-w-[1100px] px-14 pb-20 pt-7 font-sans text-[14.5px] leading-[1.7] text-fg">
         <div className="mb-1 flex items-start justify-between gap-8">
-          <div className="min-w-0 flex-1">
+          <div className="min-w-0 flex-1 @[900px]:pr-[110px]">
             <h1 className="mb-1 font-mono text-[26px] tracking-tight">
               Jakub Bruniecki / QA Automation Engineer
             </h1>
@@ -142,7 +142,7 @@ export function ReadmePreview() {
             width={200}
             height={200}
             priority
-            className="hidden h-[200px] w-[200px] flex-shrink-0 rounded-xl object-cover shadow-lg shadow-black/40 ring-1 ring-border md:block md:-translate-x-1/2"
+            className="hidden h-[140px] w-[140px] flex-shrink-0 rounded-xl object-cover shadow-lg shadow-black/40 ring-1 ring-border @[680px]:block @[900px]:h-[200px] @[900px]:w-[200px] @[900px]:-translate-x-1/2"
           />
         </div>
 
