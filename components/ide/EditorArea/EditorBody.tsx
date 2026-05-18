@@ -100,32 +100,34 @@ export function EditorBody() {
   }
   const lineCount = Math.max(1, typed.split("\n").length);
   return (
-    <div className="relative flex h-full overflow-auto bg-bg-base">
-      <div
-        aria-hidden
-        className="select-none border-r border-border-subtle px-3 py-3 text-right font-mono text-[13px] leading-[1.6] text-fg-subtle"
-      >
-        {Array.from({ length: lineCount }, (_, i) => (
-          <div key={i}>{i + 1}</div>
-        ))}
-      </div>
-      <pre className="min-w-0 flex-1 px-4 py-3">
-        <SyntaxHighlight content={typed} language={file.language} onCopy={handleCopy} />
-        <span
+    <div className="relative h-full">
+      <div className="flex h-full overflow-auto bg-bg-base">
+        <div
           aria-hidden
-          className="ml-0.5 inline-block w-2 bg-fg"
-          style={{
-            animation: "caret-blink 1s steps(1) infinite",
-            height: "1em",
-            verticalAlign: "-2px",
-          }}
-        />
-      </pre>
+          className="select-none border-r border-border-subtle px-3 py-3 text-right font-mono text-[13px] leading-[1.6] text-fg-subtle"
+        >
+          {Array.from({ length: lineCount }, (_, i) => (
+            <div key={i}>{i + 1}</div>
+          ))}
+        </div>
+        <pre className="min-w-0 flex-1 px-4 py-3">
+          <SyntaxHighlight content={typed} language={file.language} onCopy={handleCopy} />
+          <span
+            aria-hidden
+            className="ml-0.5 inline-block w-2 bg-fg"
+            style={{
+              animation: "caret-blink 1s steps(1) infinite",
+              height: "1em",
+              verticalAlign: "-2px",
+            }}
+          />
+        </pre>
+      </div>
       {toast && (
         <div
           role="status"
           aria-live="polite"
-          className="pointer-events-none absolute bottom-3 right-3 rounded-md border border-accent-green/40 bg-accent-green/10 px-3 py-1.5 font-mono text-[12px] text-accent-green shadow-lg"
+          className="pointer-events-none absolute bottom-3 right-3 z-10 rounded-md border border-accent-green/40 bg-bg-surface px-3 py-1.5 font-mono text-[12px] text-accent-green shadow-lg"
         >
           {toast}
         </div>

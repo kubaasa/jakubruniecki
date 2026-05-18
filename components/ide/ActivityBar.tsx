@@ -27,7 +27,7 @@ const TOP_ENTRIES: Entry[] = [
 ];
 
 const BOTTOM_ENTRIES: Entry[] = [
-  { action: "settings", label: "Settings", Icon: SettingsIcon },
+  { action: "settings", label: "Settings (soon)", Icon: SettingsIcon },
 ];
 
 function ActivityButton({ entry }: { entry: Entry }) {
