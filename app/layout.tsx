@@ -19,15 +19,15 @@ const jetbrains = JetBrains_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL("https://jakubruniecki.dev"),
   title: {
-    default: "Jakub Bruniecki - QA Engineer",
+    default: "Jakub Bruniecki - QA Automation Engineer",
     template: "%s · Jakub Bruniecki",
   },
   description:
-    "QA Engineer · Manual leadership + Playwright automation · 5 years · Open to international remote roles.",
+    "QA Automation Engineer · Manual senior. Automation builder. AI-augmented. · 5 years · Open to international remote roles.",
   openGraph: {
-    title: "Jakub Bruniecki - QA Engineer",
+    title: "Jakub Bruniecki - QA Automation Engineer",
     description:
-      "QA Engineer · Manual leadership + Playwright automation · 5 years · Open to international remote roles.",
+      "QA Automation Engineer · Manual senior. Automation builder. AI-augmented. · 5 years · Open to international remote roles.",
     url: "/",
     type: "profile",
     locale: "en_US",
@@ -37,15 +37,15 @@ export const metadata: Metadata = {
         width: 1200,
         height: 630,
         type: "image/png",
-        alt: "Jakub Bruniecki - Senior QA Engineer",
+        alt: "Jakub Bruniecki - QA Automation Engineer",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Jakub Bruniecki - QA Engineer",
+    title: "Jakub Bruniecki - QA Automation Engineer",
     description:
-      "QA Engineer · Manual leadership + Playwright automation · 5 years.",
+      "QA Automation Engineer · Manual senior. Automation builder. AI-augmented. · 5 years.",
     images: ["/og-image.png"],
   },
   robots: { index: true, follow: true },

@@ -14,10 +14,10 @@ function buildContent(): string {
   );
   const automation = halfYearSuffixed(yearsBetween(AUTOMATION_START));
 
-  return `# Jakub Bruniecki — Senior QA Engineer
+  return `# Jakub Bruniecki - QA Automation Engineer
 
-**TL;DR:** ${totalYears} years in QA — ${manual} manual, ${automation} Playwright automation.
-Telecom. Based in Gdańsk, open to international remote roles.
+**TL;DR:** ${totalYears} years in QA - ${manual} manual, ${automation} Playwright automation.
+ISTQB Foundation Level certified. Telecom. Based in Gdańsk, open to international remote roles.
 
 ## How to read this portfolio
 
@@ -31,8 +31,7 @@ This is a working VS Code mock. Everything is interactive:
 ## Start here
 
 - \`portfolio/about.ts\` — the short version.
-- \`portfolio/projects.ts\` — what I've shipped.
-- \`case-studies/fintech-regression.md\` — the 3d → 4h story.
+- \`portfolio/projects.ts\` — two real telecom case studies (Polsat, Plus).
 - \`portfolio/contact.ts\` — how to reach me.
 
 ## Hire me

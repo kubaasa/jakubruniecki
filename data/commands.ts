@@ -123,8 +123,9 @@ export const commands: Record<string, Command> = {
       const sinceYear = QA_START.getFullYear();
       return [
         out(`Author: Jakub Bruniecki <${EMAIL}>`),
-        out("Role:   Senior Manual QA → Automation (Playwright/TS)"),
+        out("Role:   QA Automation Engineer (Playwright/TS · manual senior)"),
         out(`Since:  ${sinceYear}  (${manual} manual · ${automation} automation)`),
+        out("Cert:   ISTQB Foundation Level (CTFL)"),
         out("Where:  Gdańsk, PL · CET · open-to-work"),
       ];
     },

@@ -43,6 +43,9 @@ export const about = {
   openTo: "remote, EU-friendly hours 🌍",
   status: "open-to-work 🟢",
 
+  // ─── certifications ──────────────────────────────────────────────
+  certifications: ["ISTQB Foundation Level (CTFL) 🎓"],
+
   // ─── bio ─────────────────────────────────────────────────
   bio: [
     "QA engineer who grew up inside complex telecom systems —",
