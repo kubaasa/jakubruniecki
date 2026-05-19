@@ -5,6 +5,10 @@ const content = `import type { Locator, Page } from "@playwright/test";
 export class HomePage {
   constructor(private page: Page) {}
 
+  async goto(candidateSlug: string): Promise<void> {
+    await this.page.goto(\`/candidates/\${candidateSlug}\`);
+  }
+
   get candidateName(): Locator {
     return this.page.getByTestId("candidate-name");
   }

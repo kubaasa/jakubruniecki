@@ -1,8 +1,16 @@
 import type { Language } from "@/app/ide/types";
-import { formatYears, totalYearsExperience } from "@/lib/experience";
+
+function nextFridayAt3am(now: Date = new Date()): string {
+  const d = new Date(now);
+  const daysUntilFriday = (5 - d.getDay() + 7) % 7;
+  d.setDate(d.getDate() + daysUntilFriday);
+  d.setHours(3, 0, 0, 0);
+  const pad = (n: number) => String(n).padStart(2, "0");
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+}
 
 function buildContent(): string {
-  const years = formatYears(totalYearsExperience());
+  const onCallFriday = nextFridayAt3am();
   return `import { expect } from "@playwright/test";
 import { test } from "../fixtures/fixtures";
 import { candidate, expectedStatuses, interviewQuestionBank } from "../test-data/candidate.data";
@@ -13,7 +21,7 @@ test.describe("Candidate profile", { tag: ["@smoke", "@critical"] }, () => {
   });
 
   test("TC01 - should handle \"whats your biggest weakness?\" without stack overflow", { tag: ["@interview", "@critical"] }, async ({ homePage }) => {
-    // classic recursive trap - answer "perfectionism" and you're in an infinite humble-brag loop
+    // "perfectionism" is the wrong answer - response must be honest and selfAware, no humble-brag escape hatch
     const answer = await homePage.askQuestion(interviewQuestionBank.humbleBragTrap);
     expect(answer).toMatchObject({
       honest: true,
@@ -23,8 +31,9 @@ test.describe("Candidate profile", { tag: ["@smoke", "@critical"] }, () => {
   });
 
   test("TC02 - should handle 3 AM on-call page without coffee dependency", { tag: ["@incident", "@oncall"] }, async ({ homePage, page }) => {
-    // 3 AM page lands - ack within SLA, severity stays P1, no rage-quit
-    await page.clock.setSystemTime(new Date("2026-05-15T03:00:00"));
+    // nearest Friday at 03:00 - oncall flow has to work when prod picks the worst possible moment
+    await page.clock.setSystemTime(new Date("${onCallFriday}"));
+    await expect(homePage.statusBarClock).toHaveText(/03:00/);
     await homePage.acknowledgeIncident();
     await expect(homePage.incidentBanner).toHaveAttribute("data-severity", expectedStatuses.incidentSeverity);
     await expect(homePage.oncallStatus).toHaveText(expectedStatuses.incidentAcknowledged);
@@ -32,7 +41,7 @@ test.describe("Candidate profile", { tag: ["@smoke", "@critical"] }, () => {
 
   test("TC03 - should load candidate profile without red flags", async ({ homePage }) => {
     await expect(homePage.candidateName).toHaveText(candidate.fullName);
-    await expect(homePage.yearsBadge).toContainText("${years}");
+    await expect(homePage.yearsBadge).toHaveText(\`\${candidate.yearsOfExperience} years\`);
   });
 
   test("TC04 - should not throw NullPointerException on tricky interview questions", async ({ homePage }) => {

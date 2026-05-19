@@ -17,7 +17,7 @@ test.describe("Soft skills", { tag: ["@regression"] }, () => {
 
   test("TC07 - should keep cool under production fire", { tag: ["@soft"] }, async ({ page, homePage }) => {
     await page.route("**/api/offers", (route) => route.fulfill({ status: 500 }));
-    await page.goto(candidate.profileUrl);
+    await homePage.goto(candidate.slug);
     await homePage.hireMeButton.click();
     await expect(homePage.moodIndicator).toHaveAttribute("data-status", expectedStatuses.moodCalm);
     await expect(homePage.errorAlert).toHaveText(/something failed - no panic/i);
