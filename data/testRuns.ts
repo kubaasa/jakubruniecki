@@ -40,10 +40,18 @@ export const initialTestSuites: TestSuite[] = [
     name: "Visual regression",
     file: "tests/specs/visual.spec.ts",
     cases: [
-      { name: "TC08 - profile page should look hireable", durMs: 28, status: "idle" },
-      { name: "TC09 - dark mode should still look hireable", durMs: 24, status: "idle" },
       {
-        name: "TC10 - hire-me button should scream 'click me' on hover",
+        name: "TC08 - new hire should pass team vibe check on day one",
+        durMs: 28,
+        status: "idle",
+      },
+      {
+        name: "TC09 - after-hours crew session should still render in dark mode",
+        durMs: 24,
+        status: "idle",
+      },
+      {
+        name: "TC10 - should prove the new hire survived first Friday deploy",
         durMs: 18,
         status: "idle",
       },

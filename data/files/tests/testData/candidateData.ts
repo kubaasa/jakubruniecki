@@ -5,12 +5,29 @@ function buildContent(): string {
   const years = formatYears(totalYearsExperience());
   return `import { faker } from "@faker-js/faker";
 
+// Reproducible recruiters - flaky tests are not on the menu.
+// Seed sits at the top so EVERY faker call below is deterministic.
+faker.seed(42);
+
 // The single source of truth. Updated more often than my LinkedIn.
 export const candidate = {
+  slug: "kuba-bruniecki",
   fullName: "Jakub Bruniecki",
   role: "QA Automation Engineer",
   yearsOfExperience: ${years},
   stack: ["Playwright", "TypeScript", "Claude Code", "Postman"],
+  profileUrl: "/candidates/kuba-bruniecki",
+} as const;
+
+// Expected runtime values asserted by specs. Centralised so the test names
+// and the values they check live in one place.
+export const expectedStatuses = {
+  incidentSeverity: "P1",
+  incidentAcknowledged: "Acknowledged",
+  moodCalm: "calm",
+  mentorScore: "10/10",
+  postFridayEmployment: "Still employed",
+  beverageFallback: "tea",
 } as const;
 
 // Skills the profile claims. If I lie here, CI tells on me.
@@ -31,13 +48,13 @@ export const interviewQuestionBank = {
     "typeof null",
     "0.1 + 0.2 === 0.3",
     "Why are you leaving your current job?",
-    "We are like family here — thoughts?",
+    "We are like family here - thoughts?",
   ],
 } as const;
 
 // Sentences that should make any sane candidate close the tab.
 // @todo: TC for offer-page scanner that fails the build on any match.
-export const RED_FLAGS = [
+export const redFlags = [
   "we are like family here",
   "rockstar developer wanted",
   "salary: competitive",
@@ -49,15 +66,13 @@ export const RED_FLAGS = [
 ] as const;
 
 // The opposite. Asserted indirectly by my willingness to reply within 24h.
-export const GREEN_FLAGS = [
+export const greenFlags = [
   "salary range posted upfront",
   "async-first communication",
   "written 'how we work' doc",
   "take-home capped at 2h",
   "interview process documented end-to-end",
 ] as const;
-
-faker.seed(42); // reproducible recruiters — flaky tests are not on the menu.
 
 // Three flavours of recruiter outreach. @todo: wire into softSkills TC06.
 export const recruiterPersonas = [
@@ -66,7 +81,7 @@ export const recruiterPersonas = [
   { style: "verbose", opener: faker.lorem.paragraph() },
 ];
 
-// Mentor topics for /reviews page. Still warming the bench — see softSkills TC05.
+// Mentor topics for /reviews page. Still warming the bench - see softSkills TC05.
 export const mentorScenarios = [
   { topic: "async testing", slug: "async-testing" },
   { topic: "your first flaky test", slug: "first-flaky-test" },

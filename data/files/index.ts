@@ -13,6 +13,9 @@ import { visualSpec } from "./tests/specs/visual";
 import { apiSpec } from "./tests/specs/api";
 import { homePagePOM } from "./tests/pages/HomePage";
 import { contactPagePOM } from "./tests/pages/ContactPage";
+import { reviewsPagePOM } from "./tests/pages/ReviewsPage";
+import { feedbackPagePOM } from "./tests/pages/FeedbackPage";
+import { dashboardPagePOM } from "./tests/pages/DashboardPage";
 import { recruiterFixture } from "./tests/fixtures/recruiterFixture";
 import { candidateData } from "./tests/testData/candidateData";
 import { helpers } from "./tests/utils/helpers";
@@ -92,7 +95,13 @@ export const fileTree: FileNode[] = [
             type: "folder",
             name: "pages",
             path: "tests/pages",
-            children: [file(homePagePOM), file(contactPagePOM)],
+            children: [
+              file(homePagePOM),
+              file(contactPagePOM),
+              file(reviewsPagePOM),
+              file(feedbackPagePOM),
+              file(dashboardPagePOM),
+            ],
           },
           {
             type: "folder",

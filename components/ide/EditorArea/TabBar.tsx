@@ -99,6 +99,7 @@ export function TabBar() {
             ) : null}
             <button
               type="button"
+              title={file.name}
               onClick={() =>
                 dispatch({ type: "SET_ACTIVE_TAB", path: tab.path })
               }
@@ -107,11 +108,13 @@ export function TabBar() {
               <FileIcon
                 language={file.language}
                 path={file.path}
-                className="h-3.5 w-3.5"
+                className="h-3.5 w-3.5 shrink-0"
                 width={14}
                 height={14}
               />
-              <span>{file.name}</span>
+              <span className="block max-w-[100px] truncate whitespace-nowrap sm:max-w-[160px] md:max-w-[220px] lg:max-w-none">
+                {file.name}
+              </span>
             </button>
             <button
               type="button"

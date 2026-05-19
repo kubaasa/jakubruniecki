@@ -5,15 +5,15 @@ function buildContent(): string {
   const years = formatYears(totalYearsExperience());
   return `import { expect } from "@playwright/test";
 import { test } from "../fixtures/fixtures";
-import { candidate, interviewQuestionBank } from "../test-data/candidate.data";
+import { candidate, expectedStatuses, interviewQuestionBank } from "../test-data/candidate.data";
 
 test.describe("Candidate profile", { tag: ["@smoke", "@critical"] }, () => {
   test.beforeEach(async ({ authenticatedRecruiter }) => {
-    await authenticatedRecruiter.goto("/candidates/kuba-bruniecki");
+    await authenticatedRecruiter.goto(candidate.profileUrl);
   });
 
   test("TC01 - should handle \"whats your biggest weakness?\" without stack overflow", { tag: ["@interview", "@critical"] }, async ({ homePage }) => {
-    // classic recursive trap — answer "perfectionism" and you're in an infinite humble-brag loop
+    // classic recursive trap - answer "perfectionism" and you're in an infinite humble-brag loop
     const answer = await homePage.askQuestion(interviewQuestionBank.humbleBragTrap);
     expect(answer).toMatchObject({
       honest: true,
@@ -23,11 +23,11 @@ test.describe("Candidate profile", { tag: ["@smoke", "@critical"] }, () => {
   });
 
   test("TC02 - should handle 3 AM on-call page without coffee dependency", { tag: ["@incident", "@oncall"] }, async ({ homePage, page }) => {
-    // 3 AM page lands — ack within SLA, severity stays P1, no rage-quit
+    // 3 AM page lands - ack within SLA, severity stays P1, no rage-quit
     await page.clock.setSystemTime(new Date("2026-05-15T03:00:00"));
     await homePage.acknowledgeIncident();
-    await expect(homePage.incidentBanner).toHaveAttribute("data-severity", "P1");
-    await expect(homePage.oncallStatus).toHaveText("Acknowledged");
+    await expect(homePage.incidentBanner).toHaveAttribute("data-severity", expectedStatuses.incidentSeverity);
+    await expect(homePage.oncallStatus).toHaveText(expectedStatuses.incidentAcknowledged);
   });
 
   test("TC03 - should load candidate profile without red flags", async ({ homePage }) => {

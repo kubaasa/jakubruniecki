@@ -1,8 +1,8 @@
 import type { Language } from "@/app/ide/types";
 
 export const candidateProfileChromiumSnapshot = {
-  path: "tests/visual-snapshots/visual.spec.ts-snapshots/profile-page-chromium.png",
-  name: "profile-page-chromium.png",
+  path: "tests/visual-snapshots/visual.spec.ts-snapshots/new-hire-vibe-check-passed.png",
+  name: "new-hire-vibe-check-passed.png",
   language: "png" as Language,
-  content: "/visual-snapshots/profile-page-chromium.png",
+  content: "/visual-snapshots/new-hire-vibe-check-passed.png",
 };

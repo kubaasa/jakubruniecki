@@ -50,12 +50,14 @@ export function EditorBody() {
   useEffect(() => {
     if (!file) return;
     if (file.language === "png") return;
+    // Snapshot content once - some files use a getter that recomputes on each access.
+    const content = file.content;
     if (timerRef.current !== null) {
       window.clearInterval(timerRef.current);
       timerRef.current = null;
     }
     if (typedSetRef.current.has(file.path) || prefersReducedMotion()) {
-      setTyped(file.content);
+      setTyped(content);
       typedSetRef.current.add(file.path);
       return;
     }
@@ -64,15 +66,15 @@ export function EditorBody() {
       let i = 0;
       timerRef.current = window.setInterval(() => {
         i += CHARS_PER_TICK;
-        if (i >= file.content.length) {
-          setTyped(file.content);
+        if (i >= content.length) {
+          setTyped(content);
           typedSetRef.current.add(file.path);
           if (timerRef.current !== null) {
             window.clearInterval(timerRef.current);
             timerRef.current = null;
           }
         } else {
-          setTyped(file.content.slice(0, i));
+          setTyped(content.slice(0, i));
         }
       }, TICK_MS);
     }, TYPE_DELAY_MS);

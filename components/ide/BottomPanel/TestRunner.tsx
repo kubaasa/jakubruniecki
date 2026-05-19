@@ -51,7 +51,7 @@ export function TestRunner() {
     });
     dispatch({
       type: "TERMINAL_APPEND",
-      line: { kind: "output", text: "Running tests using 4 workers..." },
+      line: { kind: "output", text: "Running tests using 1 worker..." },
     });
 
     let cumulative = 600;
