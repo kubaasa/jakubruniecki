@@ -11,10 +11,10 @@ export function Breadcrumb() {
   return (
     <nav
       aria-label="Breadcrumb"
-      className="flex h-6 items-center border-b border-border-subtle bg-bg-base px-3 font-mono text-[11px] text-fg-muted"
+      className="flex h-6 items-center overflow-x-auto whitespace-nowrap border-b border-border-subtle bg-bg-base px-3 font-mono text-[11px] text-fg-muted [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
     >
       {segments.map((seg, i) => (
-        <span key={i} className="flex items-center">
+        <span key={i} className="flex shrink-0 items-center">
           {i > 0 ? <span className="mx-1 text-fg-subtle">›</span> : null}
           {seg}
         </span>
