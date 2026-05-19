@@ -32,12 +32,13 @@ export function MobileFallback() {
         </p>
       </div>
 
-      <div className="mt-6 rounded-md border border-border bg-bg-surface p-4 font-mono text-xs text-fg-muted">
-        Open on desktop for the full IDE experience — interactive file tree,
-        terminal commands, and a live test runner.
+      <div className="mt-6 rounded-md border border-accent-green/40 bg-accent-green/10 p-4 text-center font-mono text-xs text-accent-green">
+        <span className="underline">Open on desktop</span> for the full IDE
+        experience - interactive file tree, terminal commands, and a live test
+        runner.
       </div>
 
-      <div className="mt-6 space-y-4 text-[15px] leading-relaxed">
+      <div className="mt-6 space-y-4 text-center text-[15px] leading-relaxed">
         {profile.bio.map((p, i) => (
           <p key={i}>{p}</p>
         ))}
