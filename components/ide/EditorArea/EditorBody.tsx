@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useIDE } from "@/app/ide/IDEContext";
-import { getFileByPath } from "@/data/files";
+import { allFiles, getFileByPath } from "@/data/files";
 import { SyntaxHighlight } from "@/components/ui/SyntaxHighlight";
 import { ReadmePreview } from "./ReadmePreview";
 import { ImagePreview } from "./ImagePreview";
@@ -18,13 +18,20 @@ const TICK_MS = 16;
 const TOAST_VISIBLE_MS = 1800;
 
 export function EditorBody() {
-  const { state } = useIDE();
+  const { state, dispatch } = useIDE();
   const file = state.activeTabPath ? getFileByPath(state.activeTabPath) : null;
   const [typed, setTyped] = useState<string>("");
   const [toast, setToast] = useState<string | null>(null);
   const typedSetRef = useRef<Set<string>>(new Set());
   const timerRef = useRef<number | null>(null);
   const toastTimerRef = useRef<number | null>(null);
+
+  function handleOpenPng(filename: string) {
+    const target = allFiles.find(
+      (f) => f.language === "png" && f.name === filename,
+    );
+    if (target) dispatch({ type: "OPEN_FILE", path: target.path });
+  }
 
   function handleCopy(value: string) {
     const preview =
@@ -113,7 +120,12 @@ export function EditorBody() {
           ))}
         </div>
         <pre className="min-w-0 flex-1 px-4 py-3">
-          <SyntaxHighlight content={typed} language={file.language} onCopy={handleCopy} />
+          <SyntaxHighlight
+            content={typed}
+            language={file.language}
+            onCopy={handleCopy}
+            onOpenPng={handleOpenPng}
+          />
           <span
             aria-hidden
             className="ml-0.5 inline-block w-2 bg-fg"

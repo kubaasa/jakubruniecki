@@ -134,14 +134,22 @@ function unquote(literal: string): string {
   return literal;
 }
 
+function pngFilenameFor(literal: string): string | null {
+  const value = unquote(literal);
+  if (!value.endsWith(".png")) return null;
+  return value.split("/").pop() ?? value;
+}
+
 export function SyntaxHighlight({
   content,
   language,
   onCopy,
+  onOpenPng,
 }: {
   content: string;
   language: Language;
   onCopy?: (value: string) => void;
+  onOpenPng?: (filename: string) => void;
 }) {
   const lines = content.split("\n");
   return (
@@ -157,6 +165,21 @@ export function SyntaxHighlight({
           <div key={lineIdx}>
             {tokens.length === 0 ? " " : null}
             {tokens.map((t, i) => {
+              const pngFilename =
+                t.type === "string" && onOpenPng ? pngFilenameFor(t.text) : null;
+              if (pngFilename) {
+                return (
+                  <button
+                    key={i}
+                    type="button"
+                    onClick={() => onOpenPng?.(pngFilename)}
+                    className={`${classFor[t.type]} inline cursor-pointer rounded px-0.5 hover:bg-bg-elevated hover:underline focus:bg-bg-elevated focus:outline-none focus-visible:ring-1 focus-visible:ring-accent-blue`}
+                    title="Open snapshot in a new IDE tab"
+                  >
+                    {t.text}
+                  </button>
+                );
+              }
               const isCopyable =
                 t.type === "string" && t.text.length >= COPYABLE_STRING_THRESHOLD;
               if (isCopyable) {
