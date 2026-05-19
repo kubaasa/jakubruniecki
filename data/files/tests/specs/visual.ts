@@ -39,7 +39,7 @@ test.describe("Visual regression", { tag: ["@visual"] }, () => {
   test("TC08 - new hire should pass team vibe check on day one", async ({ page, homePage }) => {
     // day one at the new gig - vibe check is the only test that matters
     await page.clock.setSystemTime(new Date("${hireDay}"));
-    await page.goto(candidate.profileUrl);
+    await homePage.goto(candidate.slug);
 
     const vibeCheck = await homePage.runTeamVibeCheck();
     expect(vibeCheck).toMatchObject({
@@ -53,7 +53,6 @@ test.describe("Visual regression", { tag: ["@visual"] }, () => {
       mask: [
         homePage.yearsBadge,
         homePage.availabilityStatus,
-        homePage.statusBarClock,
       ],
       maxDiffPixelRatio: 0.01,
     });
@@ -63,7 +62,7 @@ test.describe("Visual regression", { tag: ["@visual"] }, () => {
     // 23:00 on a thursday, second beer in - the dashboard better still render
     await page.clock.setSystemTime(new Date("${afterHoursThursday}"));
     await page.emulateMedia({ colorScheme: "dark" });
-    await page.goto(candidate.profileUrl);
+    await homePage.goto(candidate.slug);
 
     await expect(homePage.crewPresenceIndicator).toContainText(/[3-9] online/);
     await expect(homePage.afterHoursBadge).toBeVisible();
@@ -74,7 +73,7 @@ test.describe("Visual regression", { tag: ["@visual"] }, () => {
   test("TC10 - should prove the new hire survived first Friday deploy", async ({ page, homePage }) => {
     // friday 16:55 deploy - every junior's nightmare, but not for me
     await page.clock.setSystemTime(new Date("${fridayDeploy}"));
-    await page.goto(candidate.profileUrl);
+    await homePage.goto(candidate.slug);
 
     await homePage.triggerFridayDeploy();
     await expect(homePage.employmentStatus).toHaveText(expectedStatuses.postFridayEmployment);
