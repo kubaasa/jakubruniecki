@@ -25,7 +25,7 @@ test.describe("Hiring API", { tag: ["@api"] }, () => {
     // Intercept before navigation - order matters in route mocking.
     await page.route("**/api/coffee", (route) => route.fulfill({ status: 503 }));
 
-    await page.goto(candidate.profileUrl);
+    await homePage.goto(candidate.slug);
     await homePage.brewCoffeeButton.click();
 
     await expect(homePage.beverageIndicator).toHaveAttribute("data-mode", expectedStatuses.beverageFallback);
@@ -34,7 +34,7 @@ test.describe("Hiring API", { tag: ["@api"] }, () => {
 
   test("TC13 - should expire the offer link after 7 days", async ({ request }) => {
     // Seed an offer that expired 8 days ago via the test-only fixture endpoint.
-    const expiredAt = "2026-05-08T00:00:00Z";
+    const expiresAt = new Date(Date.now() - 8 * 24 * 60 * 60 * 1000).toISOString();
     const seedRes = await request.post("/api/test/offers", {
       data: {
         candidateId: candidate.slug,
@@ -49,7 +49,7 @@ test.describe("Hiring API", { tag: ["@api"] }, () => {
     expect(res.status()).toBe(410);
     expect(await res.json()).toMatchObject({
       error: "OFFER_EXPIRED",
-      expiredAt,
+      expiresAt,
     });
   });
 });
