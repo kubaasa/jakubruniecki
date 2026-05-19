@@ -122,6 +122,20 @@ const classFor: Record<TokenType, string> = {
 };
 
 const COPYABLE_STRING_THRESHOLD = 60;
+const TEST_FN_NAMES = new Set(["test", "describe", "it", "step"]);
+
+function isTestNameString(tokens: Token[], idx: number): boolean {
+  for (let k = idx - 1; k >= 0; k--) {
+    const prev = tokens[k];
+    if (!prev) return false;
+    if (prev.type === "fn" || prev.type === "prop") {
+      return TEST_FN_NAMES.has(prev.text);
+    }
+    if (prev.type === "plain" && /^[\s().,]*$/.test(prev.text)) continue;
+    return false;
+  }
+  return false;
+}
 
 function unquote(literal: string): string {
   if (literal.length >= 2) {
@@ -181,7 +195,9 @@ export function SyntaxHighlight({
                 );
               }
               const isCopyable =
-                t.type === "string" && t.text.length >= COPYABLE_STRING_THRESHOLD;
+                t.type === "string" &&
+                t.text.length >= COPYABLE_STRING_THRESHOLD &&
+                !isTestNameString(tokens, i);
               if (isCopyable) {
                 const value = unquote(t.text);
                 return (
