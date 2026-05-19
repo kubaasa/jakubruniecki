@@ -7,7 +7,8 @@ const content = `{
   "cookies": [
     {
       "name": "recruiter_token",
-      "value": "${RECRUITER_TOKEN}",
+      "value":
+        "${RECRUITER_TOKEN}",
       "domain": ".hire.kuba.dev",
       "path": "/",
       "expires": 9999999999,
