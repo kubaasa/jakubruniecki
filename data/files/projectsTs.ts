@@ -38,16 +38,7 @@ export const projects = [
       "Playwright MCP/CLI",
     ],
     caseStudy: {
-      file: "case-studies/CyfrowyPolsat(soon).md",
-      status: "in-progress 🚧",
-      willCover: [
-        "refinement & requirement gathering",
-        "documentation analysis",
-        "test scenarios + test case design",
-        "execution (manual + automation)",
-        "final reports & lessons learned",
-        "+ screenshots of each stage",
-      ],
+      file: "case-studies/iPolsatBox-IPBW.md",
     },
   },
   {
