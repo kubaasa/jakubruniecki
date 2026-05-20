@@ -13,7 +13,8 @@ Cyfrowy Polsat, one of Poland's largest TV, internet and mobile providers. It
 replaces the previous self-care portal and serves both individual (B2C) and
 business (B2B) customers across TV (DTH/OTT) and internet (DATA) services. The
 platform is aligned with WCAG 2.2 accessibility standards from day one, and
-shares its backend with the existing Cyfrowy Polsat mobile app.
+was shipped as a working MVP in under two months, with new functionality
+added in regular sprint releases.
 
 ## What customers can do on the platform
 
@@ -26,7 +27,8 @@ Polsat. The most important areas are:
   download invoices
 - **Contracts** - view current agreements, extend contracts
 - **Usage history** - browse internet usage
-- **Equipment** - manage devices linked to the account
+- **Equipment** - review and manage hardware assigned to the contract
+  (decoders, modems, routers)
 - **Services and events** - manage film services, subscriptions and event
   purchases
 - **Consents and personal data** - manage marketing consents, update personal
