@@ -11,7 +11,7 @@ export const projects = [
   {
     type: "case-study",
     slug: "cyfrowy-polsat-selfcare",
-    title: "Cyfrowy Polsat — Self-care Platform",
+    title: "iPolsatbox - Self-care Platform",
     employer: "Asseco Poland S.A.",
     client: "Cyfrowy Polsat S.A.",
     industry: "Telecom",
@@ -22,10 +22,11 @@ export const projects = [
       "(pay invoices, modify services, track data usage, and more). Built on top of the existing " +
       "mobile-app backend — adapted for web without regressing mobile.",
     metrics: [
-      "Playwright + TypeScript framework from scratch (120+ E2E tests)",
+      "Playwright + TS framework from scratch - POM + fixtures + storage-state auth (120+ E2E tests)",
       "20+ API endpoints covered via Postman",
-      "WCAG 2.2 baked in from day one",
-      "~4-5× faster test authoring with Claude Code + Playwright MCP",
+      "Claude Code + Playwright across the full QA lifecycle - docs, scenarios, tests, debugging",
+      "Solo tester on dev side - last gate before UAT",
+      "MVP delivered in under 2 months",
     ],
     stack: [
       "Playwright",
@@ -35,7 +36,6 @@ export const projects = [
       "Postman",
       "GitLab CI",
       "ArgoCD",
-      "Playwright MCP/CLI",
     ],
     caseStudy: {
       file: "case-studies/iPolsatBox-IPBW.md",
