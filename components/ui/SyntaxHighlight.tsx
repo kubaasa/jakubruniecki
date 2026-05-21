@@ -1,3 +1,4 @@
+import { useLayoutEffect, useRef, useState } from "react";
 import type { Language } from "@/app/ide/types";
 
 type TokenType =
@@ -108,6 +109,14 @@ function inlineMd(text: string): Token[] {
   return out;
 }
 
+function tokensForLine(line: string, language: Language): Token[] {
+  if (language === "ts") return tokenizeLine(line, tsPatterns);
+  if (language === "env") return tokenizeLine(line, envPatterns);
+  if (language === "json") return tokenizeLine(line, jsonPatterns);
+  if (language === "txt") return [{ type: "plain", text: line }];
+  return tokenizeMdLine(line);
+}
+
 const classFor: Record<TokenType, string> = {
   keyword: "text-sx-keyword",
   string: "text-sx-string",
@@ -123,6 +132,8 @@ const classFor: Record<TokenType, string> = {
 
 const COPYABLE_STRING_THRESHOLD = 60;
 const TEST_FN_NAMES = new Set(["test", "describe", "it", "step"]);
+// Computed from `text-[13px] leading-[1.6]` (13 * 1.6 = 20.8px per visual row).
+const LINE_HEIGHT_PX = 20.8;
 
 function isTestNameString(tokens: Token[], idx: number): boolean {
   for (let k = idx - 1; k >= 0; k--) {
@@ -154,74 +165,164 @@ function pngFilenameFor(literal: string): string | null {
   return value.split("/").pop() ?? value;
 }
 
+function renderTokens(
+  tokens: Token[],
+  onCopy?: (value: string) => void,
+  onOpenPng?: (filename: string) => void,
+) {
+  return tokens.map((t, i) => {
+    const pngFilename =
+      t.type === "string" && onOpenPng ? pngFilenameFor(t.text) : null;
+    if (pngFilename) {
+      return (
+        <button
+          key={i}
+          type="button"
+          onClick={() => onOpenPng?.(pngFilename)}
+          className={`${classFor[t.type]} inline cursor-pointer rounded px-0.5 hover:bg-bg-elevated hover:underline focus:bg-bg-elevated focus:outline-none focus-visible:ring-1 focus-visible:ring-accent-blue`}
+          title="Open snapshot in a new IDE tab"
+        >
+          {t.text}
+        </button>
+      );
+    }
+    const isCopyable =
+      t.type === "string" &&
+      t.text.length >= COPYABLE_STRING_THRESHOLD &&
+      !/\s/.test(unquote(t.text)) &&
+      !isTestNameString(tokens, i);
+    if (isCopyable) {
+      const value = unquote(t.text);
+      return (
+        <button
+          key={i}
+          type="button"
+          onClick={() => {
+            void navigator.clipboard?.writeText(value);
+            onCopy?.(value);
+          }}
+          className={`${classFor[t.type]} inline cursor-pointer whitespace-pre-wrap break-all rounded px-0.5 text-left hover:bg-bg-elevated focus:bg-bg-elevated focus:outline-none focus-visible:ring-1 focus-visible:ring-accent-blue`}
+          title="Click to copy"
+        >
+          {t.text}
+        </button>
+      );
+    }
+    return (
+      <span key={i} className={classFor[t.type]}>
+        {t.text}
+      </span>
+    );
+  });
+}
+
 export function SyntaxHighlight({
   content,
   language,
   onCopy,
   onOpenPng,
+  totalLines,
 }: {
   content: string;
   language: Language;
   onCopy?: (value: string) => void;
   onOpenPng?: (filename: string) => void;
+  // When provided, line numbers are rendered inline with each line. Each
+  // logical line gets as many sequential numbers as visual rows it occupies
+  // after wrapping, so wrapped long strings (e.g. JWTs) get their own numbers.
+  totalLines?: number;
 }) {
   const lines = content.split("\n");
+  const contentRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const [rowsPerLine, setRowsPerLine] = useState<number[]>([]);
+
+  useLayoutEffect(() => {
+    if (totalLines === undefined) return;
+    const refs = contentRefs.current;
+    const renderCount = Math.max(totalLines, lines.length);
+    const counts: number[] = [];
+    for (let i = 0; i < renderCount; i++) {
+      const el = refs[i];
+      counts[i] = el
+        ? Math.max(1, Math.round(el.getBoundingClientRect().height / LINE_HEIGHT_PX))
+        : 1;
+    }
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setRowsPerLine((prev) => {
+      if (
+        prev.length === counts.length &&
+        prev.every((v, i) => v === counts[i])
+      ) {
+        return prev;
+      }
+      return counts;
+    });
+  }, [content, totalLines, lines.length]);
+
+  if (totalLines === undefined) {
+    return (
+      <code className="block whitespace-pre font-mono text-[13px] leading-[1.6]">
+        {lines.map((line, lineIdx) => {
+          const tokens = tokensForLine(line, language);
+          return (
+            <div key={lineIdx}>
+              {tokens.length === 0 ? " " : null}
+              {renderTokens(tokens, onCopy, onOpenPng)}
+            </div>
+          );
+        })}
+      </code>
+    );
+  }
+
+  const renderCount = Math.max(totalLines, lines.length);
+  // Reserve gutter width based on the largest plausible visual-row number for
+  // this file. We over-reserve a little (totalLines + 50%) so a long wrapped
+  // JWT line doesn't push the number into a new digit-width mid-animation.
+  const reservedMaxNumber = Math.max(totalLines, Math.ceil(totalLines * 1.5));
+  const maxDigits = String(Math.max(reservedMaxNumber, 1)).length;
+  const gutterStyle: React.CSSProperties = {
+    minWidth: `calc(${maxDigits}ch + 1.5rem + 1px)`,
+  };
+  const startNums: number[] = [];
+  {
+    let offset = 0;
+    for (let i = 0; i < renderCount; i++) {
+      startNums[i] = offset + 1;
+      offset += rowsPerLine[i] ?? 1;
+    }
+  }
+
   return (
-    <code className="block whitespace-pre font-mono text-[13px] leading-[1.6]">
-      {lines.map((line, lineIdx) => {
-        let tokens: Token[];
-        if (language === "ts") tokens = tokenizeLine(line, tsPatterns);
-        else if (language === "env") tokens = tokenizeLine(line, envPatterns);
-        else if (language === "json") tokens = tokenizeLine(line, jsonPatterns);
-        else if (language === "txt") tokens = [{ type: "plain", text: line }];
-        else tokens = tokenizeMdLine(line);
+    <code className="block font-mono text-[13px] leading-[1.6]">
+      {Array.from({ length: renderCount }, (_, lineIdx) => {
+        const lineText = lineIdx < lines.length ? lines[lineIdx] ?? "" : "";
+        const tokens = tokensForLine(lineText, language);
+        const isTyped = lineIdx < lines.length;
+        const rows = rowsPerLine[lineIdx] ?? 1;
+        const startNum = startNums[lineIdx] ?? 1;
         return (
-          <div key={lineIdx}>
-            {tokens.length === 0 ? " " : null}
-            {tokens.map((t, i) => {
-              const pngFilename =
-                t.type === "string" && onOpenPng ? pngFilenameFor(t.text) : null;
-              if (pngFilename) {
-                return (
-                  <button
-                    key={i}
-                    type="button"
-                    onClick={() => onOpenPng?.(pngFilename)}
-                    className={`${classFor[t.type]} inline cursor-pointer rounded px-0.5 hover:bg-bg-elevated hover:underline focus:bg-bg-elevated focus:outline-none focus-visible:ring-1 focus-visible:ring-accent-blue`}
-                    title="Open snapshot in a new IDE tab"
-                  >
-                    {t.text}
-                  </button>
-                );
-              }
-              const isCopyable =
-                t.type === "string" &&
-                t.text.length >= COPYABLE_STRING_THRESHOLD &&
-                !/\s/.test(unquote(t.text)) &&
-                !isTestNameString(tokens, i);
-              if (isCopyable) {
-                const value = unquote(t.text);
-                return (
-                  <button
-                    key={i}
-                    type="button"
-                    onClick={() => {
-                      void navigator.clipboard?.writeText(value);
-                      onCopy?.(value);
-                    }}
-                    className={`${classFor[t.type]} inline cursor-pointer whitespace-pre-wrap break-all rounded px-0.5 text-left hover:bg-bg-elevated focus:bg-bg-elevated focus:outline-none focus-visible:ring-1 focus-visible:ring-accent-blue`}
-                    title="Click to copy"
-                  >
-                    {t.text}
-                  </button>
-                );
-              }
-              return (
-                <span key={i} className={classFor[t.type]}>
-                  {t.text}
-                </span>
-              );
-            })}
+          <div key={lineIdx} className="flex items-start">
+            <div
+              aria-hidden
+              className="flex-shrink-0 select-none border-r border-border-subtle px-3 text-right text-fg-subtle"
+              style={gutterStyle}
+            >
+              {Array.from({ length: rows }, (_, i) => (
+                <div key={i} style={{ opacity: isTyped ? 1 : 0 }}>
+                  {startNum + i}
+                </div>
+              ))}
+            </div>
+            <div
+              ref={(el) => {
+                contentRefs.current[lineIdx] = el;
+              }}
+              className="min-w-0 flex-1 whitespace-pre pl-4 pr-4"
+            >
+              {tokens.length === 0 ? " " : null}
+              {renderTokens(tokens, onCopy, onOpenPng)}
+            </div>
           </div>
         );
       })}

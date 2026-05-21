@@ -69,24 +69,34 @@ export function EditorBody() {
       return;
     }
     setTyped("");
-    const startId = window.setTimeout(() => {
-      let i = 0;
-      timerRef.current = window.setInterval(() => {
-        i += CHARS_PER_TICK;
-        if (i >= content.length) {
-          setTyped(content);
-          typedSetRef.current.add(file.path);
-          if (timerRef.current !== null) {
-            window.clearInterval(timerRef.current);
-            timerRef.current = null;
+    let cancelled = false;
+    let startId: number | null = null;
+    const fontsReady =
+      typeof document !== "undefined" && document.fonts?.ready
+        ? document.fonts.ready
+        : Promise.resolve();
+    fontsReady.then(() => {
+      if (cancelled) return;
+      startId = window.setTimeout(() => {
+        let i = 0;
+        timerRef.current = window.setInterval(() => {
+          i += CHARS_PER_TICK;
+          if (i >= content.length) {
+            setTyped(content);
+            typedSetRef.current.add(file.path);
+            if (timerRef.current !== null) {
+              window.clearInterval(timerRef.current);
+              timerRef.current = null;
+            }
+          } else {
+            setTyped(content.slice(0, i));
           }
-        } else {
-          setTyped(content.slice(0, i));
-        }
-      }, TICK_MS);
-    }, TYPE_DELAY_MS);
+        }, TICK_MS);
+      }, TYPE_DELAY_MS);
+    });
     return () => {
-      window.clearTimeout(startId);
+      cancelled = true;
+      if (startId !== null) window.clearTimeout(startId);
       if (timerRef.current !== null) {
         window.clearInterval(timerRef.current);
         timerRef.current = null;
@@ -107,24 +117,18 @@ export function EditorBody() {
   if (file.language === "png") {
     return <ImagePreview src={file.content} alt={file.name} />;
   }
-  const lineCount = Math.max(1, typed.split("\n").length);
+  const totalLineCount = Math.max(1, file.content.split("\n").length);
   return (
     <div className="relative h-full">
-      <div className="flex h-full overflow-auto bg-bg-base">
-        <div
-          aria-hidden
-          className="select-none border-r border-border-subtle px-3 py-3 text-right font-mono text-[13px] leading-[1.6] text-fg-subtle"
-        >
-          {Array.from({ length: lineCount }, (_, i) => (
-            <div key={i}>{i + 1}</div>
-          ))}
-        </div>
-        <pre className="min-w-0 flex-1 px-4 py-3">
+      <div className="flex h-full overflow-auto bg-bg-base [scrollbar-gutter:stable]">
+        <pre className="min-w-0 flex-1 py-3">
           <SyntaxHighlight
+            key={file.path}
             content={typed}
             language={file.language}
             onCopy={handleCopy}
             onOpenPng={handleOpenPng}
+            totalLines={totalLineCount}
           />
           <span
             aria-hidden
