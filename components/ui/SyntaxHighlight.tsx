@@ -197,6 +197,7 @@ export function SyntaxHighlight({
               const isCopyable =
                 t.type === "string" &&
                 t.text.length >= COPYABLE_STRING_THRESHOLD &&
+                !/\s/.test(unquote(t.text)) &&
                 !isTestNameString(tokens, i);
               if (isCopyable) {
                 const value = unquote(t.text);
