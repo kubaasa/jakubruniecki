@@ -25,14 +25,14 @@ This is a working VS Code mock. Everything is interactive:
 
 - Click any file in the **Explorer** on the left.
 - Open the **terminal** (already focused) and try \`help\`.
-- Watch the **test runner** in the bottom-right — it runs on load.
+- Watch the **test runner** in the bottom-right - it runs on load.
 - Hit **⌘K** / **Ctrl+K** for the command palette.
 
 ## Start here
 
-- \`portfolio/about.ts\` — the short version.
-- \`portfolio/projects.ts\` — two real telecom case studies (Polsat, Plus).
-- \`portfolio/contact.ts\` — how to reach me.
+- \`portfolio/about.ts\` - the short version.
+- \`portfolio/projects.ts\` - two real telecom case studies (Polsat, Plus).
+- \`portfolio/contact.ts\` - how to reach me.
 
 ## Hire me
 

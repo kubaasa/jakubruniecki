@@ -4,7 +4,7 @@ export const contactTs = {
   path: "portfolio/contact.ts",
   name: "contact.ts",
   language: "ts" as Language,
-  content: `// contact.ts — how to reach me.
+  content: `// contact.ts - how to reach me.
 
 type ContactEntry = {
   readonly label: string;
@@ -28,7 +28,7 @@ export const contact = [
     label:  "GitHub 🐙",
     value:  "github.com/kubaasa",
     href:   "https://github.com/kubaasa",
-    note:   "mostly private repos — ask if curious",
+    note:   "mostly private repos - ask if curious",
   },
   {
     label:  "Location 🌊",

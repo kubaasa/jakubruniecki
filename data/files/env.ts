@@ -4,10 +4,10 @@ export const envFile = {
   path: ".env",
   name: ".env",
   language: "env" as Language,
-  content: `# .env.production.public — sanitized snapshot for the public build.
+  content: `# .env.production.public - sanitized snapshot for the public build.
 # real secrets live in Vercel project settings → environment variables.
 NEXT_PUBLIC_SITE_URL=https://jakubruniecki.dev
-NEXT_PUBLIC_SITE_NAME=Jakub Bruniecki — QA Portfolio
+NEXT_PUBLIC_SITE_NAME=Jakub Bruniecki - QA Portfolio
 NEXT_PUBLIC_LOCALE=pl-PL
 NEXT_PUBLIC_DEFAULT_THEME=dark
 NEXT_PUBLIC_ANALYTICS_ID=G-QA5Y4SX7B1

@@ -52,7 +52,7 @@ export function IDE() {
       <ConsoleEgg />
       <div
         role="application"
-        aria-label="Jakub Bruniecki — portfolio IDE"
+        aria-label="Jakub Bruniecki - portfolio IDE"
         className="hidden h-screen flex-col bg-bg-base text-fg md:flex"
       >
         <TitleBar />

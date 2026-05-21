@@ -81,7 +81,7 @@ export const commands: Record<string, Command> = {
       const email = contactLinks.find((c) => c.icon === "email");
       if (email && typeof navigator !== "undefined" && navigator.clipboard) {
         navigator.clipboard.writeText(email.value).catch(() => {
-          /* permission denied — silent. */
+          /* permission denied - silent. */
         });
         lines.push(out(`✓ email copied: ${email.value}`));
       }
@@ -137,8 +137,8 @@ export const commands: Record<string, Command> = {
       sys("How I work:"),
       out("  • I show up at refinement and ask the awkward questions."),
       out("  • Scenarios are written before the first line of code is pushed."),
-      out("  • I work embedded with developers — branches land on dev first, I verify, team merges."),
-      out("  • AI is a tool, not a shortcut. Claude Code + Playwright MCP/CLI cut test-authoring ~4–5×."),
+      out("  • I work embedded with developers - branches land on dev first, I verify, team merges."),
+      out("  • AI is a tool, not a shortcut. Claude Code + Playwright MCP/CLI act as senior assistants in test design and triage."),
     ],
   },
   sudo: {
@@ -147,7 +147,7 @@ export const commands: Record<string, Command> = {
     run: () => [
       out("[sudo] password for recruiter:"),
       err("sorry, you are not in the sudoers file. this incident will be reported."),
-      sys("hint: try `cv` instead — you don't need sudo for that."),
+      sys("hint: try `cv` instead - you don't need sudo for that."),
     ],
   },
 };

@@ -39,7 +39,7 @@ export const contactLinks: ReadonlyArray<ContactLink> = [
 ];
 
 export const cvRequestHref = `mailto:${EMAIL}?subject=${encodeURIComponent(
-  "CV request — [your company]"
+  "CV request - [your company]"
 )}&body=${encodeURIComponent(
   "Hi Jakub,\n\nI'm [name] from [company]. We have an opening for a [role] and your portfolio caught our attention. Could you send over your CV?\n\nThanks,\n[name]"
 )}`;

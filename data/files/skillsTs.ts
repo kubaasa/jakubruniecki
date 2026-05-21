@@ -26,7 +26,7 @@ function buildContent(): string {
     return `  // ${CATEGORY_EMOJI[category]} ${category}\n  "${category}": [\n${rows}\n  ],`;
   }).join("\n\n");
 
-  return `// skills.ts — grouped by category, levelled honestly.
+  return `// skills.ts - grouped by category, levelled honestly.
 // legend:  🏆 senior   🔥 advanced   ⚡ intermediate
 
 type Level = "🏆 senior" | "🔥 advanced" | "⚡ intermediate";

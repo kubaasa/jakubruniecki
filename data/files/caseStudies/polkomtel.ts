@@ -41,9 +41,9 @@ ones, but it is not exhaustive - there were many more in between.
   discounts were calculated and applied across the portfolio
 - **Rukola** - a system that automatically registered Apple devices
   bought by B2B customers into Apple Business Manager (ABM)
-- **B2C self-care portal** - testing the consumer-facing self-service
-  portal for Plus customers
-- **B2B self-care portal** - the culmination of my time on the project,
+- **B2C self-service portal** - testing the consumer-facing portal
+  for Plus customers
+- **B2B self-service portal** - the culmination of my time on the project,
   which I led end to end as the senior QA on the team
 
 ## My journey from junior to senior
@@ -97,7 +97,7 @@ completely different signal than they do in the hands of a junior.
 
 ## Leading my own UAT project
 
-The B2B self-care portal was the project where I worked as a full QA
+The B2B self-service portal was the project where I worked as a full QA
 Project Lead. The client needed a dedicated UAT team for it, and I
 owned that team end to end: I recruited two additional testers
 (reviewing CVs and running interviews), onboarded them onto Plus and

@@ -16,7 +16,7 @@ function buildContent(): string {
     yearsBetween(QA_START, AUTOMATION_START.getTime()),
   );
 
-  return `// about.ts — who I am, in code.
+  return `// about.ts - who I am, in code.
 
 type Profile = {
   readonly name: string;

@@ -7,7 +7,7 @@ export function SEOContent() {
   return (
     <div id="seo-content" className="sr-only">
       <h1>
-        {profile.name} — {profile.role}
+        {profile.name} - {profile.role}
       </h1>
       <p>{profile.tagline}</p>
 
@@ -28,7 +28,7 @@ export function SEOContent() {
         <ul>
           {skills.map((s) => (
             <li key={s.name}>
-              {s.name} — {s.level} ({CATEGORY_LABEL[s.category]})
+              {s.name} - {s.level} ({CATEGORY_LABEL[s.category]})
             </li>
           ))}
         </ul>

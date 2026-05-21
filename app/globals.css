@@ -74,7 +74,7 @@
     }
   }
 
-  /* IDE-themed scrollbars — applied globally so every scroll surface matches. */
+  /* IDE-themed scrollbars - applied globally so every scroll surface matches. */
   *::-webkit-scrollbar {
     width: 8px;
     height: 8px;

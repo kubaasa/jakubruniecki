@@ -176,10 +176,10 @@ export function ReadmePreview() {
             <FileLink path="portfolio/about.ts">about.ts</FileLink> - Who I am as an engineer,  what I focus on, how I work with teams, and what I think tests are actually for
           </li>
           <li>
-            <FileLink path="portfolio/skills.ts">skills.ts</FileLink> - 27 tools across 7 categories: automation, manual, API, CI/CD, debugging, test management, and the AI stack I actually use
+            <FileLink path="portfolio/skills.ts">skills.ts</FileLink> - 23 tools across 7 categories: automation, manual, API, CI/CD, debugging, test management, and the AI stack I actually use
           </li>
           <li>
-            <FileLink path="portfolio/projects.ts">projects.ts</FileLink> - Two real projects, both telecom, both via Asseco: Cyfrowy Polsat self-care (automation, ongoing) and Polkomtel/Plus (manual UAT, 25+ releases)
+            <FileLink path="portfolio/projects.ts">projects.ts</FileLink> - Two real projects, both telecom, both via Asseco: Cyfrowy Polsat self-service (automation, ongoing) and Polkomtel/Plus (manual UAT, 25+ releases)
           </li>
           <li>
             <FileLink path="portfolio/contact.ts">contact.ts</FileLink> - Every way to reach me - email for serious chats, LinkedIn for the slow lane, CV available on request

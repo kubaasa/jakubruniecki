@@ -4,13 +4,13 @@ export const iPolsatBox = {
   path: "case-studies/iPolsatBox.md",
   name: "iPolsatBox.md",
   language: "md" as Language,
-  content: `# iPolsatBox (IPBW) - Self-care platform for Cyfrowy Polsat
+  content: `# iPolsatBox (IPBW) - Self-service platform for Cyfrowy Polsat
 
 ## About the project
 
-iPolsatBox (IPBW) is a new self-care web platform built by Asseco Poland for
+iPolsatBox (IPBW) is a new self-service web platform built by Asseco Poland for
 Cyfrowy Polsat, one of Poland's largest TV, internet and mobile providers. It
-replaces the previous self-care portal and serves both individual (B2C) and
+replaces the previous self-service portal and serves both individual (B2C) and
 business (B2B) customers across TV (DTH/OTT) and internet (DATA) services. The
 platform is aligned with WCAG 2.2 accessibility standards from day one, and
 was shipped as a working MVP in under two months, with new functionality
@@ -68,7 +68,7 @@ questions covering ambiguities, edge cases and potential conflicts with the
 existing system. I came to every meeting fully prepared and was consistently
 the most active person in the room.
 
-To shape requirements properly, I also analysed the previous self-care
+To shape requirements properly, I also analysed the previous self-service
 system. By signing in under different user types I could map out the
 behaviour customers were used to and verify whether the new portal would
 preserve, change or break those expectations. Several times this analysis

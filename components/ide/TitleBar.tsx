@@ -13,7 +13,7 @@ export function TitleBar() {
       </div>
       <div className="flex flex-1 items-center justify-center gap-2 font-mono text-xs text-fg-muted">
         <span className="h-2 w-2 rounded-full bg-accent-green" aria-hidden />
-        jakubruniecki — portfolio.code
+        jakubruniecki - portfolio.code
       </div>
       <div className="w-16" aria-hidden />
     </header>
