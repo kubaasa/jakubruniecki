@@ -298,7 +298,6 @@ export function SyntaxHighlight({
       {Array.from({ length: renderCount }, (_, lineIdx) => {
         const lineText = lineIdx < lines.length ? lines[lineIdx] ?? "" : "";
         const tokens = tokensForLine(lineText, language);
-        const isTyped = lineIdx < lines.length;
         const rows = rowsPerLine[lineIdx] ?? 1;
         const startNum = startNums[lineIdx] ?? 1;
         return (
@@ -309,9 +308,7 @@ export function SyntaxHighlight({
               style={gutterStyle}
             >
               {Array.from({ length: rows }, (_, i) => (
-                <div key={i} style={{ opacity: isTyped ? 1 : 0 }}>
-                  {startNum + i}
-                </div>
+                <div key={i}>{startNum + i}</div>
               ))}
             </div>
             <div

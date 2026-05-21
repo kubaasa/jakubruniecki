@@ -25,6 +25,8 @@ export function EditorBody() {
   const typedSetRef = useRef<Set<string>>(new Set());
   const timerRef = useRef<number | null>(null);
   const toastTimerRef = useRef<number | null>(null);
+  const scrollContainerRef = useRef<HTMLDivElement | null>(null);
+  const scrollPositionsRef = useRef<Map<string, number>>(new Map());
 
   function handleOpenPng(filename: string) {
     const target = allFiles.find(
@@ -53,6 +55,20 @@ export function EditorBody() {
       }
     };
   }, []);
+
+  // VS Code-like per-file scroll memory: restore on file open, save on switch.
+  useEffect(() => {
+    if (!file) return;
+    const container = scrollContainerRef.current;
+    if (!container) return;
+    const path = file.path;
+    const positions = scrollPositionsRef.current;
+    const saved = positions.get(path) ?? 0;
+    container.scrollTop = saved;
+    return () => {
+      positions.set(path, container.scrollTop);
+    };
+  }, [file]);
 
   useEffect(() => {
     if (!file) return;
@@ -120,7 +136,10 @@ export function EditorBody() {
   const totalLineCount = Math.max(1, file.content.split("\n").length);
   return (
     <div className="relative h-full">
-      <div className="flex h-full overflow-auto bg-bg-base [scrollbar-gutter:stable]">
+      <div
+        ref={scrollContainerRef}
+        className="flex h-full overflow-auto bg-bg-base [scrollbar-gutter:stable]"
+      >
         <pre className="min-w-0 flex-1 py-3">
           <SyntaxHighlight
             key={file.path}
