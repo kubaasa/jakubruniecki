@@ -1,8 +1,8 @@
 import type { Language } from "@/app/ide/types";
 
-export const cyfrowyPolsatSelfcareIPBW = {
-  path: "case-studies/iPolsatBox-IPBW.md",
-  name: "iPolsatBox-IPBW.md",
+export const iPolsatBox = {
+  path: "case-studies/iPolsatBox.md",
+  name: "iPolsatBox.md",
   language: "md" as Language,
   content: `# iPolsatBox (IPBW) - Self-care platform for Cyfrowy Polsat
 

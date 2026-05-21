@@ -38,7 +38,7 @@ export const projects = [
       "ArgoCD",
     ],
     caseStudy: {
-      file: "case-studies/iPolsatBox-IPBW.md",
+      file: "case-studies/iPolsatBox.md",
     },
   },
   {
@@ -73,16 +73,7 @@ export const projects = [
       "MongoDB",
     ],
     caseStudy: {
-      file: "case-studies/PlusSelfcare(soon).md",
-      status: "in-progress 🚧",
-      willCover: [
-        "refinement & requirement gathering",
-        "documentation analysis",
-        "test scenarios + test case design",
-        "different types of test execution",
-        "final reports & lessons learned",
-        "+ screenshots of each stage",
-      ],
+      file: "case-studies/Polkomtel.md",
     },
   },
 ] as const;

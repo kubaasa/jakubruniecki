@@ -22,8 +22,8 @@ import { helpers } from "./tests/utils/helpers";
 import { candidateProfileChromiumSnapshot } from "./tests/visualSnapshots/candidateProfileChromium";
 import { candidateProfileDarkChromiumSnapshot } from "./tests/visualSnapshots/candidateProfileDarkChromium";
 import { candidateProfileChromiumDiffSnapshot } from "./tests/visualSnapshots/candidateProfileChromiumDiff";
-import { cyfrowyPolsatSelfcareIPBW } from "./caseStudies/cyfrowyPolsatSelfcare-IPBW";
-import { plusB2BSelfcare } from "./caseStudies/PlusB2Bselfcare";
+import { iPolsatBox } from "./caseStudies/iPolsatBox";
+import { polkomtel } from "./caseStudies/polkomtel";
 
 function file(stub: {
   path: string;
@@ -66,7 +66,7 @@ export const fileTree: FileNode[] = [
         name: "case-studies",
         path: "case-studies",
         defaultOpen: true,
-        children: [file(cyfrowyPolsatSelfcareIPBW), file(plusB2BSelfcare)],
+        children: [file(iPolsatBox), file(polkomtel)],
       },
       {
         type: "folder",
