@@ -129,26 +129,26 @@ a developer to explain it.
 
 ## Lessons learned
 
-**Telecom is a long domain onboarding, and the business pays for you
-from day one.** The Plus domain takes months to internalise, but
-nobody on the project will hold your hand through it. The chaos you
-feel for the first six months becomes a coherent mental map in the
-second year, but only if you invest your own time into learning it.
+**Telecom is a long domain onboarding, and the business pays for you from day one.**
+The Plus domain takes months to internalise, but nobody on the project
+will hold your hand through it. The chaos you feel for the first six
+months becomes a coherent mental map in the second year, but only if
+you invest your own time into learning it.
 
-**Documentation lies, implementation is the truth, and the tester is
-the judge.** Specs from the client were detailed but frequently
-drifted from what was actually delivered. A tester is not just an
-executor of test cases, they are the arbiter between what the
-business ordered and what was built. Escalating those gaps is
-uncomfortable but non-negotiable senior-grade work.
+**Documentation lies, implementation is the truth, and the tester is the judge.**
+Specs from the client were detailed but frequently drifted from what
+was actually delivered. A tester is not just an executor of test
+cases, they are the arbiter between what the business ordered and
+what was built. Escalating those gaps is uncomfortable but
+non-negotiable senior-grade work.
 
-**Under a 30-day UAT deadline, prioritisation beats coverage.** You
-will never test everything deeply. A senior knows where to invest
+**Under a 30-day UAT deadline, prioritisation beats coverage.**
+You will never test everything deeply. A senior knows where to invest
 depth (high business risk, regulatory, cross-system flows) and where
 smoke is enough. A junior tries to do everything and drowns.
 
-**Cross-system flows live in your head, not on a checklist.** A
-"customer acquisition" process touches four or five applications. A
+**Cross-system flows live in your head, not on a checklist.**
+A "customer acquisition" process touches four or five applications. A
 senior holds the end-to-end flow in their head and can predict which
 link will fail. A junior tests an application; a senior tests a
 process.

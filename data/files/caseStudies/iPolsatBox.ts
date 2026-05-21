@@ -138,28 +138,30 @@ direct daily contact with the people building the product.
 
 ## Lessons learned
 
-**Early QA involvement saves the client money.** The questions I prepared
-for refinement and the analysis of the previous system caught things that
-could not have been ported 1:1. Catching them before development started
-saved the team time and protected the client's budget. QA has its biggest
-leverage before the first line of code is written.
+**Early QA involvement saves the client money.**
+The questions I prepared for refinement and the analysis of the previous
+system caught things that could not have been ported 1:1. Catching them
+before development started saved the team time and protected the client's
+budget. QA has its biggest leverage before the first line of code is
+written.
 
-**Direct contact with developers beats QA silos.** Moving from the
-client-side QA team to sitting inside the dev team showed me that quality
-grows exponentially when the tester is next to the developers, not behind
-a wall. When a tester sits inside the dev team, defects get caught before
-they ever leave a branch.
+**Direct contact with developers beats QA silos.**
+Moving from the client-side QA team to sitting inside the dev team showed
+me that quality grows exponentially when the tester is next to the
+developers, not behind a wall. When a tester sits inside the dev team,
+defects get caught before they ever leave a branch.
 
-**Selective automation: not everything is worth automating.** Each feature
-added a layer of confidence in the areas where the business had the most
-to lose, not "automate everything because we can". ROI in QA always wins
-over coverage for coverage's sake.
+**Selective automation: not everything is worth automating.**
+Each feature added a layer of confidence in the areas where the business
+had the most to lose, not "automate everything because we can". ROI in
+QA always wins over coverage for coverage's sake.
 
-**AI is a personal team on demand.** As the only tester on the dev side, I
-use Claude Code as an assistant across the full QA lifecycle: documentation
-analysis, scenario design, writing tests, code review and debugging flaky
-tests. It is like having a second senior QA available full time, one I
-consult for input while the final judgement and responsibility stay with
-me. A solo tester with well-orchestrated AI delivers like a small QA team.
+**AI is a personal team on demand.**
+As the only tester on the dev side, I use Claude Code as an assistant
+across the full QA lifecycle: documentation analysis, scenario design,
+writing tests, code review and debugging flaky tests. It is like having
+a second senior QA available full time, one I consult for input while
+the final judgement and responsibility stay with me. A solo tester with
+well-orchestrated AI delivers like a small QA team.
 `,
 };
