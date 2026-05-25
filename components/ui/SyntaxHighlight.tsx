@@ -23,6 +23,7 @@ const tsKeywords =
 const tsPatterns: Array<{ type: TokenType; re: RegExp }> = [
   { type: "comment", re: /\/\/[^\n]*|\/\*[\s\S]*?\*\// },
   { type: "string", re: /`(?:\\.|[^`\\])*`?|"(?:\\.|[^"\\])*"?|'(?:\\.|[^'\\])*'?/ },
+  { type: "prop", re: /[a-zA-Z_$][\w$]*(?=\s*:)/ },
   { type: "keyword", re: tsKeywords },
   { type: "number", re: /\b\d+(?:\.\d+)?\b/ },
   { type: "const", re: /\b[A-Z][A-Z0-9_]{2,}\b/ },
