@@ -123,7 +123,7 @@ export function EditorBody() {
   if (!file) {
     return (
       <div className="flex h-full items-center justify-center font-mono text-sm text-fg-muted">
-        No file open. Use the explorer or run <code className="mx-1">open &lt;file&gt;</code> in the terminal.
+        No file open. Pick a file from the Explorer, or press <code className="mx-1">⌘K</code> to search.
       </div>
     );
   }

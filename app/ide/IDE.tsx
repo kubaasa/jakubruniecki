@@ -27,6 +27,18 @@ function GlobalShortcuts() {
   return null;
 }
 
+function BootTestRun() {
+  useEffect(() => {
+    // README promises the suite runs on load - keep that promise.
+    const t = setTimeout(
+      () => window.dispatchEvent(new Event("ide:run-all-tests")),
+      800,
+    );
+    return () => clearTimeout(t);
+  }, []);
+  return null;
+}
+
 function ConsoleEgg() {
   useEffect(() => {
     if (typeof window === "undefined" || !window.console) return;
@@ -49,6 +61,7 @@ export function IDE() {
         Skip to readable content
       </a>
       <GlobalShortcuts />
+      <BootTestRun />
       <ConsoleEgg />
       <div
         role="application"
