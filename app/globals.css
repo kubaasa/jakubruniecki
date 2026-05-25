@@ -25,6 +25,8 @@
   --color-accent-blue-dim: #1f6feb;
   --color-accent-red: #f85149;
   --color-accent-yellow: #d29922;
+  /* Signature brand accent - identity only, never test pass/fail semantics. */
+  --color-accent-brand: #e3a008;
 
   /* Syntax */
   --color-sx-comment: #7d8590;
@@ -99,6 +101,24 @@
     scrollbar-width: thin;
     scrollbar-color: rgba(110, 118, 129, 0.25) transparent;
   }
+}
+
+@keyframes boot-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Staggered workspace boot-up. `backwards` fill hides the panel during its delay
+   yet leaves no lingering transform afterwards (avoids post-animation reflow/containing-block).
+   prefers-reduced-motion override below neutralizes it. */
+.boot-reveal {
+  animation: boot-reveal 320ms cubic-bezier(0.22, 1, 0.36, 1) backwards;
 }
 
 @keyframes live-pulse {

@@ -82,7 +82,7 @@ export function TabBar() {
             {active ? (
               <span
                 aria-hidden
-                className="pointer-events-none absolute inset-x-0 top-0 h-px bg-accent-blue"
+                className="pointer-events-none absolute inset-x-0 top-0 h-px bg-accent-brand"
               />
             ) : null}
             {showBefore ? (

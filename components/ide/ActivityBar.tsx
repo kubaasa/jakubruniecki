@@ -86,7 +86,8 @@ export function ActivityBar() {
   return (
     <nav
       aria-label="Activity bar"
-      className="flex w-[var(--ide-activitybar-w)] flex-col items-center border-r border-border bg-bg-deeper py-2"
+      style={{ animationDelay: "60ms" }}
+      className="boot-reveal flex w-[var(--ide-activitybar-w)] flex-col items-center border-r border-border bg-bg-deeper py-2"
     >
       <div className="flex flex-col items-center gap-1">
         {TOP_ENTRIES.map((entry) => (

@@ -17,8 +17,8 @@ export function Sidebar() {
       ref={sidebarRef}
       aria-label="Explorer"
       aria-hidden={hidden}
-      style={{ width: hidden ? 0 : "var(--ide-sidebar-w)" }}
-      className="flex flex-col overflow-hidden border-r border-border bg-bg-surface transition-[width] duration-200 ease-out"
+      style={{ width: hidden ? 0 : "var(--ide-sidebar-w)", animationDelay: "120ms" }}
+      className="boot-reveal flex flex-col overflow-hidden border-r border-border bg-bg-surface transition-[width] duration-200 ease-out"
     >
       <div
         style={{ width: "var(--ide-sidebar-w)", opacity: hidden ? 0 : 1 }}

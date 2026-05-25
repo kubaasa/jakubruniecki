@@ -3,7 +3,7 @@
 export function TitleBar() {
   return (
     <header
-      className="flex h-[var(--ide-titlebar-h)] items-center border-b border-border bg-bg-surface px-3"
+      className="boot-reveal flex h-[var(--ide-titlebar-h)] items-center border-b border-border bg-bg-surface px-3"
       role="banner"
     >
       <div className="flex items-center gap-2" aria-hidden>

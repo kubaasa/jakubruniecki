@@ -10,7 +10,8 @@ export function EditorArea() {
   return (
     <section
       aria-label="Editor"
-      className="flex min-w-0 flex-1 flex-col bg-bg-base"
+      style={{ animationDelay: "180ms" }}
+      className="boot-reveal flex min-w-0 flex-1 flex-col bg-bg-base"
     >
       <TabBar />
       <Breadcrumb />

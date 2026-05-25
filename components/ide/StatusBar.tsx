@@ -42,7 +42,8 @@ export function StatusBar() {
     <footer
       role="contentinfo"
       aria-label="Status bar"
-      className="flex h-[var(--ide-statusbar-h)] items-center justify-between border-t border-border bg-accent-blue-dim/30 px-3 font-mono text-[11px] text-fg"
+      style={{ animationDelay: "240ms" }}
+      className="boot-reveal flex h-[var(--ide-statusbar-h)] items-center justify-between border-t border-border bg-accent-blue-dim/30 px-3 font-mono text-[11px] text-fg"
     >
       <div className="flex items-center gap-4">
         <a
