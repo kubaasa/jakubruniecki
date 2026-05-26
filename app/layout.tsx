@@ -31,22 +31,12 @@ export const metadata: Metadata = {
     url: "/",
     type: "profile",
     locale: "en_US",
-    images: [
-      {
-        url: "/og-image.png",
-        width: 1200,
-        height: 630,
-        type: "image/png",
-        alt: "Jakub Bruniecki - QA Automation Engineer",
-      },
-    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Jakub Bruniecki - QA Automation Engineer",
     description:
       "QA Automation Engineer · Manual senior. Automation builder. AI-augmented. · 5 years.",
-    images: ["/og-image.png"],
   },
   robots: { index: true, follow: true },
 };
