@@ -24,6 +24,7 @@ export function EditorBody() {
   const [toast, setToast] = useState<string | null>(null);
   const typedSetRef = useRef<Set<string>>(new Set());
   const timerRef = useRef<number | null>(null);
+  const startTimerRef = useRef<number | null>(null);
   const toastTimerRef = useRef<number | null>(null);
   const scrollContainerRef = useRef<HTMLDivElement | null>(null);
   const scrollPositionsRef = useRef<Map<string, number>>(new Map());
@@ -46,6 +47,22 @@ export function EditorBody() {
       setToast(null);
       toastTimerRef.current = null;
     }, TOAST_VISIBLE_MS);
+  }
+
+  // Click anywhere in the editor body to finish the typing animation instantly.
+  function skipTyping() {
+    if (!file || file.language === "png") return;
+    if (typedSetRef.current.has(file.path)) return;
+    if (startTimerRef.current !== null) {
+      window.clearTimeout(startTimerRef.current);
+      startTimerRef.current = null;
+    }
+    if (timerRef.current !== null) {
+      window.clearInterval(timerRef.current);
+      timerRef.current = null;
+    }
+    setTyped(file.content);
+    typedSetRef.current.add(file.path);
   }
 
   useEffect(() => {
@@ -79,6 +96,10 @@ export function EditorBody() {
       window.clearInterval(timerRef.current);
       timerRef.current = null;
     }
+    if (startTimerRef.current !== null) {
+      window.clearTimeout(startTimerRef.current);
+      startTimerRef.current = null;
+    }
     if (typedSetRef.current.has(file.path) || prefersReducedMotion()) {
       setTyped(content);
       typedSetRef.current.add(file.path);
@@ -86,14 +107,13 @@ export function EditorBody() {
     }
     setTyped("");
     let cancelled = false;
-    let startId: number | null = null;
     const fontsReady =
       typeof document !== "undefined" && document.fonts?.ready
         ? document.fonts.ready
         : Promise.resolve();
     fontsReady.then(() => {
       if (cancelled) return;
-      startId = window.setTimeout(() => {
+      startTimerRef.current = window.setTimeout(() => {
         let i = 0;
         timerRef.current = window.setInterval(() => {
           i += CHARS_PER_TICK;
@@ -112,7 +132,10 @@ export function EditorBody() {
     });
     return () => {
       cancelled = true;
-      if (startId !== null) window.clearTimeout(startId);
+      if (startTimerRef.current !== null) {
+        window.clearTimeout(startTimerRef.current);
+        startTimerRef.current = null;
+      }
       if (timerRef.current !== null) {
         window.clearInterval(timerRef.current);
         timerRef.current = null;
@@ -138,6 +161,7 @@ export function EditorBody() {
     <div className="relative h-full">
       <div
         ref={scrollContainerRef}
+        onClick={skipTyping}
         className="flex h-full overflow-auto bg-bg-base [scrollbar-gutter:stable]"
       >
         <pre className="min-w-0 flex-1 py-3">
