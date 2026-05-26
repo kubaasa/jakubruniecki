@@ -31,7 +31,7 @@ This is a working VS Code mock. Everything is interactive:
 ## Start here
 
 - \`portfolio/about.ts\` - the short version.
-- \`portfolio/projects.ts\` - two real telecom case studies (Polsat, Plus).
+- \`portfolio/projects.ts\` - two telecom chapters at Asseco: Plus (manual UAT, 25+ releases) and Polsat self-service (automation).
 - \`portfolio/contact.ts\` - how to reach me.
 
 ## Hire me

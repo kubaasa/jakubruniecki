@@ -13,6 +13,10 @@ import {
 } from "@/components/icons";
 import { TSIcon } from "@/components/ui/Icon";
 import { profile } from "@/data/profile";
+import { skills } from "@/data/skills";
+
+const SKILL_COUNT = skills.length;
+const CATEGORY_COUNT = new Set(skills.map((s) => s.category)).size;
 
 type Tone = "default" | "green" | "blue";
 
@@ -176,13 +180,30 @@ export function ReadmePreview() {
             <FileLink path="portfolio/about.ts">about.ts</FileLink> - Who I am as an engineer,  what I focus on, how I work with teams, and what I think tests are actually for
           </li>
           <li>
-            <FileLink path="portfolio/skills.ts">skills.ts</FileLink> - 23 tools across 7 categories: automation, manual, API, CI/CD, debugging, test management, and the AI stack I actually use
+            <FileLink path="portfolio/skills.ts">skills.ts</FileLink> - {SKILL_COUNT} tools across {CATEGORY_COUNT} categories: automation, manual, API, CI/CD, debugging, test management, and the AI stack I actually use
           </li>
           <li>
-            <FileLink path="portfolio/projects.ts">projects.ts</FileLink> - Two real projects, both telecom, both via Asseco: Cyfrowy Polsat self-service (automation, ongoing) and Polkomtel/Plus (manual UAT, 25+ releases)
+            <FileLink path="portfolio/projects.ts">projects.ts</FileLink> - Two telecom chapters, both via Asseco: a dozen-plus Polkomtel/Plus subprojects shipped through manual UAT <br />(25+ releases), then Cyfrowy Polsat self-service built in automation (ongoing)
           </li>
           <li>
             <FileLink path="portfolio/contact.ts">contact.ts</FileLink> - Every way to reach me - email for serious chats, LinkedIn for the slow lane, CV available on request
+          </li>
+        </ul>
+
+        <h2 className="mb-2.5 mt-7 border-b border-border-subtle pb-1.5 font-mono text-[18px]">
+          Case studies
+        </h2>
+        <p className="mb-2.5">
+          The long-form story behind{" "}
+          <FileLink path="portfolio/projects.ts">projects.ts</FileLink> - what I
+          actually did, what broke, and what it taught me.
+        </p>
+        <ul className="ml-5 list-disc space-y-1">
+          <li>
+            <FileLink path="case-studies/iPolsatBox.md">iPolsatBox.md</FileLink> - The full story of the Cyfrowy Polsat self-service build: solo tester on the dev side, a Playwright framework from scratch, MVP shipped in under two months
+          </li>
+          <li>
+            <FileLink path="case-studies/Polkomtel.md">Polkomtel.md</FileLink> - Three and a half years across Plus&apos;s ~150-app portfolio: junior to senior, a dozen-plus subprojects, 25+ UAT releases, ending as lead of my own UAT team
           </li>
         </ul>
 
